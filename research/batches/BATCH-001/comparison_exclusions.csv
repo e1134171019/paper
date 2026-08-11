@@ -1,0 +1,9 @@
+exclusion_id,left_item,right_item,requested_comparison,decision,reason,allowed_use
+EXCL-001,CLM-0011-02,all_efficiency_claims,flat_numeric_ranking,PROHIBITED,"99.92% is modeling accuracy, not conversion efficiency",model-performance context only
+EXCL-002,CLM-0003-01,CLM-0001-01,direct_efficiency_ranking,PROHIBITED,"Partial-power global/system efficiency includes a bypass path; CLLC value is converter/DCX efficiency",mechanism context only
+EXCL-003,CLM-0004-01,CLM-0007-01,direct_efficiency_ranking,PROHIBITED,"Series partial-power charging-system efficiency and DAB converter efficiency have different system boundaries",mechanism context only
+EXCL-004,CLM-0004-01,CLM-0004-02,single_collapsed_efficiency,PROHIBITED,"Charging and discharging are direction-specific measurements",bidirectional direction comparison with values kept separate
+EXCL-005,CLM-0002-02,CLM-0010-02,direct_power_density_ranking,PROHIBITED,"Units can be converted but compatible included-volume definitions are not established",contextual density reference only
+EXCL-006,CLM-0009-01,PC-CAND-0009:design_target_voltage,measured_equals_target,PROHIBITED,"300 V is a design target while one cited hardware waveform is about 290 V",report target and measured values separately
+EXCL-007,PC-CAND-0013,verified_numeric_claims,abstract_numeric_promotion,PROHIBITED,"Legal/readable full-text locator gate is unresolved",metadata/abstract discovery context only
+EXCL-008,PC-CAND-0001,PC-CAND-0010,direct_DCX_efficiency_ranking,PROHIBITED,"Different topology, voltage class, switching frequency, and measurement boundary prevent direct ranking",bounded high-power DCX context only
