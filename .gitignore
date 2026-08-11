@@ -1,0 +1,16 @@
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.env
+*.log
+logs/
+temp/
+tests/output/
+data/*.sqlite
+data/*.sqlite-*
+data/papers/
+data/parsed/
+data/cache/
