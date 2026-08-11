@@ -1,0 +1,6 @@
+record_id,title,source,reason_code,notes
+PC-REJ-0001,The 2018 GaN power electronics roadmap,Sider Scholar,review_only,"Roadmap/review, useful as citation source but not experimental evidence."
+PC-REJ-0002,"High Frequency, High Efficiency, and High Power Density GaN-Based LLC Resonant Converter: State-of-the-Art and Perspectives",Tavily,review_only,Review article; retain for backward citation mining only.
+PC-REJ-0003,"A High Efficiency, Large Voltage Range Bidirectional DC-DC Converter Based on Partial Power Processing and Solid State Transformer Architecture for Battery Charging Applications",Exa,simulation_only,CPES nugget states hardware verification is future/current focus; not admitted to experimental evidence set.
+PC-REJ-0004,Interleaved Switched-Inductor-Based SIPO Partial Power Converter Module for Battery Management Systems,Exa,conference,APEC 2025 conference paper; excluded by journal-only hard gate despite 2.4 kW prototype.
+PC-REJ-0005,GaN-based High Efficiency Bidirectional DC-DC Converter for Energy Storage and EV Applications,Tavily,non_journal_or_thesis_source,Retrieved via thesis/conference context; do not treat as journal evidence without canonical journal resolution.
