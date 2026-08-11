@@ -40,6 +40,11 @@ Search-tool output is never treated as evidence by itself.
 - `evidence_audit.csv` — per-paper audit state, full-text source, experiment locator, numerical locator and evidence level.
 - `evidence_claims.csv` — numerical claims that passed the BATCH-001 audit with explicit metric boundaries and locators.
 - `unresolved.csv` — unresolved full-text or metric issues that block further promotion.
+- `comparison_sets.csv` — instantiated comparison questions, gates, blocking reasons and targeted acquisition requirements under Power Converter Comparison Contract v0.1.
+- `comparison_exclusions.csv` — direct comparisons explicitly prohibited because their metrics or boundaries are incompatible.
+
+Reusable contract:
+- `../../contracts/power_converter_comparison_contract_v0.1.md`
 
 ## Status semantics
 
@@ -47,7 +52,7 @@ Search-tool output is never treated as evidence by itself.
 - `L2_PDF_VERIFIED`: a legal/readable full text is resolved but experimental evidence has not yet been located.
 - `L3_EXPERIMENT_LOCATED`: hardware and experimental section/figure/table locators are established.
 - `L4_NUMERICALLY_VERIFIED`: one or more numerical claims have explicit metric definitions, operating conditions and locators.
-- `L5_COMPARISON_READY`: claims additionally satisfy a cross-paper comparison contract.
+- `L5_COMPARISON_READY`: claims additionally satisfy an instantiated cross-paper comparison contract containing at least two independent papers.
 
 No record becomes `comparison_ready` or `gap_ready` merely because it appears in this folder.
 
@@ -62,7 +67,29 @@ BATCH-001 contains 13 journal candidates. The first evidence audit resolved all 
 
 The two L1 records are retained because their DOI/publisher metadata is valid but a legal/readable public full text was not resolved. They are not rejected.
 
-The audit also confirmed that a flat efficiency leaderboard would be invalid. In particular, full-power converter efficiency, partial-power system efficiency, calorimetric converter efficiency, and model-prediction accuracy are different metrics/boundaries. The next formal step is a comparison contract and bounded comparison sets before any Research Gap conclusion.
+The audit also confirmed that a flat efficiency leaderboard would be invalid. In particular, full-power converter efficiency, partial-power system efficiency, calorimetric converter efficiency, and model-prediction accuracy are different metrics/boundaries.
+
+## Comparison Contract Application 2026-08-12
+
+Power Converter Comparison Contract v0.1 was applied to the existing 13-paper evidence pool.
+
+Instantiated sets:
+
+- `COMP-PP-001` — processed-power fraction versus total partial-power system efficiency.
+- `COMP-DAB-001` — DAB modulation trade-off among RMS current, ZVS range and measured efficiency.
+- `COMP-DCX-001` — high-power isolated DC-transformer efficiency/power-density trade-off.
+- `COMP-HG-001` — non-isolated high-gain gain/stress/soft-switching/efficiency trade-off.
+- `COMP-OBC-PPP-001` — variable-turns-ratio partial-power OBC soft-switching/system-efficiency trade-off.
+
+Result:
+
+- L5 promotions: **0**
+- blocked comparison sets: **4**
+- context-only sets: **1**
+
+This is an expected evidence-first outcome. The existing papers are strong enough to define targeted acquisition requirements, but not yet strong enough to justify a direct cross-paper efficiency leaderboard.
+
+The next evidence-acquisition targets are now bounded by the comparison contract rather than broad topical search. A missing comparator or missing field is an acquisition requirement, not a Research Gap.
 
 ## SSOT boundary
 
