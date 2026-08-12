@@ -1,0 +1,7 @@
+yield_id,target,prior_status,new_status,direct_scale_signal,independent_family_effect,frontier_effect,stopping_effect
+TSIR-Y01,10.1049/iet-pel.2015.0923,MISSING_MEASURED_DIODE_STRESS,STILL_UNRESOLVED,"25->400 V / 200 W / 88 kHz",none,"no new scalar",NO_CLOSURE
+TSIR-Y02,10.1155/etep/9317966,MISSING_MEASURED_DIODE_STRESS,STILL_UNRESOLVED,"48->400 V / 200 W / 100 kHz",none,"canonical primary record strengthened; no max measured diode scalar",NO_CLOSURE
+TSIR-Y03,10.1109/TPEL.2023.3344719,NOT_IN_FRONTIER,NEW_L4_DIRECT_CANDIDATE,"20->400 V / 200 W / 50 kHz; measured switch waveform; ZVS; hardware efficiency","potential new independent family if later L5-admitted","positive different-author direct-scale yield",KEEP_TARGETED_SEARCH_OPEN
+TSIR-Y04,10.1109/ACCESS.2025.3573936,NOT_IN_FRONTIER,CANONICAL_DIRECT_TARGET,"40->400 V / 200 W / 100 kHz; main switch~120 V; wide soft switching; full-load efficiency","likely related to existing Adib program; requires dedup","positive direct-scale related yield",KEEP_TARGETED_SEARCH_OPEN
+TSIR-Y05,independent_packet_review,NOT_COMPLETE,NOT_COMPLETE,"neutral packet expanded",none,"Firecrawl failed for insufficient credits",INDEPENDENCE_GATE_OPEN
+TSIR-Y06,broad_keyword_search,OPEN_PREVIOUSLY,STOPPED,"targeted-only strategy active",none,"avoids repeated lineage saturation",DO_NOT_RESUME_BROAD_SEARCH
