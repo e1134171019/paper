@@ -1,0 +1,5 @@
+candidate_id,lawful_fulltext,hardware_prototype,exact_locator,operating_point_locked,metric_boundary_locked,structure_locked,measurement_method_locked,auxiliary_thermal_boundary,family_independent,quality_status,admissible_role,blockers
+PC-CAND-0024,pass,pass,pass,pass,pass,partial,blocked,blocked,pass,B_PLUS,"L5 bounded electrical/stress member","common-ground; measurement instruments; auxiliary/cooling boundary; duty not text-locked"
+PC-CAND-0027,pass,pass,pass,pass,pass,pass,blocked,blocked,pass,B_PLUS,"L5 bounded electrical/stress/complexity member","measurement instruments; input-current behavior; auxiliary/cooling boundary"
+PC-CAND-0028,pass,pass,pass,pass,pass,pass,pass,blocked,pass,A_MINUS,"L5 bounded electrical/stress/complexity member","common-ground; auxiliary/cooling boundary; measurement uncertainty not reported"
+PC-CAND-0030,partial,pass,pass,pass,pass,blocked,blocked,blocked,pass,B_MINUS,"L5 bounded electrical/stress member only","complete lawful structural text; component counts; duty/turns ratio; source-current/common-ground; instruments; auxiliary/cooling boundary"
