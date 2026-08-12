@@ -1,0 +1,7 @@
+review_item,reviewer_lane_1,reviewer_lane_2,agreement_state,adjudication,gate_effect
+current_direction,"multi-assistant literature-map: continue evidence-first bounded comparison","source-grounded review: current contract valid but incomplete",agree,"continue; expand fields",pass
+research_gap_now,"methodology reviewer: do not authorize gap","counter-search: new relevant counterexamples continue to appear",agree,"Research Gap Candidate blocked",block_gap
+stress_bound_handling,"existing comparison contract: keep bounds interval-valued","v0.2 normalization: preserve <0.25 and <0.225",agree,"no scalar conversion",pass
+soft_switching_causes_efficiency,"existing contract prohibits causal inference","counter-search and heterogeneous boundaries prevent attribution",agree,"causal claim rejected",pass
+complexity_tradeoff,"review literature: complexity is important","counter-search: no universal active-device penalty",partial_disagreement,"narrow to burden-redistribution candidate, not universal component-count law",requires_more_evidence
+claim_critical_numeric_double_extraction,"prior evidence extraction exists","independent duplicate extraction of all four core L5 records not yet completed",not_completed,"second extractor required before Research Gap Candidate",block_gap
