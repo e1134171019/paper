@@ -1,0 +1,13 @@
+gate_item,prior_status,round2_status,evidence,impact,next_action
+bounded_L5_records,11,11,"Khan not L5; Tran not L2+; Li registered only as new stopping candidate",UNCHANGED,"no promotion without contract-complete evidence"
+independent_L5_families,6,6,"Khan and Tran remain candidate programs without L5 admission; Li is not yet family-audited at L5",UNCHANGED,"family credit only after L5 admission"
+Khan_full_vector,L3_EXPERIMENT_LOCATED,L4_DIRECT_VECTOR_PARTIAL_WITH_STRESS_GAP,"full text + structural/IO/efficiency audit; switch theory Vo/2; measured switch/diode maxima unresolved",PARTIAL_PROGRESS,"obtain measured semiconductor stress locators if source supports them"
+Khan_internal_consistency,not_formalized,OPEN_CONTRADICTION,"simulation Table 1 lists 100-ohm load while section states 150 W and regulates 380 V; 380^2/100=1444 W",QUALITY_CAUTION,"preserve contradiction; do not silently correct"
+Tran_fulltext,L1_METADATA_VERIFIED,L1_ACCESS_BLOCKED,"IOP accepted-manuscript page/abstract verified; full manuscript not legally readable under current access state",BLOCKED,"recheck only through legal readable access"
+Tran_vector,not_extracted,UNRESOLVED,"abstract verifies 2 synchronized switches; input inductor; three-winding CI; 24->400 V 200 W; efficiency; exact stress/count/locators unavailable",BLOCKS_PROMOTION,"do not infer from abstract"
+round2_new_yield,not_run,POSITIVE,"10.1007/s43236-022-00564-1 publisher abstract: 20->400 V 200 W different-author experimental program; not located in repo exact DOI/title search or BATCH-004 candidate register",BLOCKS_SATURATION,"full-vector audit Li/He/Luo 2023"
+targeted_search_saturation,NOT_MET,NOT_MET,"new direct-scale program still emerges from targeted search",BLOCKS_FORMAL_FRONTIER,"continue targeted only; broad search remains stopped"
+independent_review,NOT_COMPLETE,NOT_COMPLETE,"Firecrawl blocked by insufficient credits; no genuinely independent interpretation returned",BLOCKS_FORMAL_PARETO_AND_GAP,"retry only when functioning independent route exists"
+formal_all_objective_Pareto,NOT_AUTHORIZED_YET,NOT_AUTHORIZED_YET,"saturation and independent-review gates remain open; important measured stress vectors incomplete",LOCKED,"wait for gate closure"
+Research_Gap_Candidate,NOT_AUTHORIZED,NOT_AUTHORIZED,"search frontier not stable and independence missing",LOCKED,"do not promote burden-redistribution hypothesis to formal gap"
+overall_stopping_rule,NOT_MET,NOT_MET,"positive new yield + missing independence + unresolved vectors",CONTINUE_TARGETED_ONLY,"Li full-vector audit / stopping round 3"
