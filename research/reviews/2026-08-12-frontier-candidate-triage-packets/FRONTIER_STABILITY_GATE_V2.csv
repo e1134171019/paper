@@ -1,0 +1,11 @@
+gate_id,gate,status,evidence,consequence
+FSG2-01,current_l5_record_snapshot,STABLE_WITH_KNOWN_UNKNOWNS,"Six bounded L5 records are typed with exact/approx/upper_bound/unresolved semantics","Snapshot may be preserved but does not imply search saturation"
+FSG2-02,independent_family_dedup,CLOSED,"Six L5 records map to four independent-family credits under role-weighted policy","Do not treat six papers as six independent validations"
+FSG2-03,pc_cand_0029_condition_lock,CLOSED,"Version-of-record prototype table text locks 200 W / 25 V / 400 V / 50 kHz and experimental stress locators","0029 may enter bounded L5 set"
+FSG2-04,independent_source_acquisition,NOT_COMPLETE,"Prior independent reviewer paths could not acquire all publisher sources","Formal high-impact frontier review remains blocked"
+FSG2-05,curated_packet_independent_interpretation,NOT_COMPLETE,"Firecrawl packet-only reviewer failed to start for insufficient credits","No independent packet-review credit"
+FSG2-06,missing_diode_stress,NOT_CLOSED,"PC-CAND-0024 and 10.1155/etep/9317966 still lack text-locked maximum measured diode-stress scalar","All-objective frontier remains incomplete for those records"
+FSG2-07,recent_candidate_triage,PARTIAL,"IEEE 11159317 remains unaudited; SR-50184 remains conflict; additional recent direct-scale hardware surfaced","Search frontier not frozen"
+FSG2-08,search_saturation,NOT_MET,"Marginal yield remains positive in 2025-2026 direct-scale literature","Stopping rule remains open"
+FSG2-09,formal_interval_aware_pareto,NOT_AUTHORIZED_YET,"Independent review + search saturation + missing-objective gates remain open","Exploratory screening only; no formal Pareto-optimal labels"
+FSG2-10,research_gap_candidate,NOT_AUTHORIZED,"Upstream stopping and independent-review gates are open","No Research Gap claim"
