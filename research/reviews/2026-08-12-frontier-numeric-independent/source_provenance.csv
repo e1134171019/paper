@@ -1,0 +1,14 @@
+source_id,record_id,source_role,source_location,claim_scope,status
+SRC-NI-001,PC-CAND-0024,primary_publisher_fulltext,DOI:10.1049/iet-pel.2015.0923,"component counts; prototype Vin/Vout/Pout/fs; magnetic implementation; efficiency descriptor",VERIFIED_FOR_RECOUNT
+SRC-NI-002,PC-CAND-0027,primary_publisher_fulltext,DOI:10.1038/s41598-024-78739-y,"one switch; eight diodes; eight capacitors; one coupled-inductor core; stress/efficiency context",VERIFIED_FOR_RECOUNT
+SRC-NI-003,PC-CAND-0028,primary_publisher_fulltext,DOI:10.1038/s41598-025-17301-w,"one switch; four diodes; five capacitors; input inductor + TWCI; measured stress; measured efficiency",VERIFIED_FOR_RECOUNT
+SRC-NI-004,PC-CAND-0030,prior_publisher_fulltext_closure,DOI:10.1049/iet-pel.2015.0870,"BATCH-004 structural closure: 2 controlled switches; 4 diodes; 5 capacitors; one 2-winding core; stress/efficiency",RETAINED_VERIFIED
+SRC-NI-005,B004-CAND-0002,primary_publisher_fulltext,DOI:10.1049/pel2.70039,"experiment narrative 40 V; table/conclusion 30 V; switch/diode stress; 96.5 experimental vs 97.8 PSpice; topology component names",VERIFIED_WITH_SOURCE_CONFLICT
+SRC-NI-006,B004-CAND-0003,primary_publisher_fulltext,DOI:10.1155/etep/9317966,"48→400 V; 200 W; 100 kHz; D=.52; component-count basis; common ground; input current; main-switch stress; efficiency",VERIFIED_EXCEPT_MAX_DIODE_SCALAR
+SRC-NI-007,B004-CAND-0003,primary_publisher_waveform_context,"Figure 11(b-h), DOI:10.1155/etep/9317966","diode measured waveforms and ZCS context",SCALAR_NOT_TEXT_LOCKED
+SRC-NI-008,REVIEWER,independent_model_source_packet,Firecrawl job 019ff3f4-2356-73ec-9704-b9d7231df84a,"duplicate extraction of DOI 10.1049/pel2.70039 and 10.1155/etep/9317966",PARTIAL_INDEPENDENT_AGREEMENT_JOB_FAILED_AFTER_OUTPUT
+SRC-NI-009,COVERAGE,scholarly_discovery,Sider Scholar/OpenAlex query 2025+,"new direct-scale literature yield",SATURATION_NOT_REACHED
+SRC-NI-010,COVERAGE,primary_publisher_followup,DOI:10.1038/s41598-026-64796-y,"2026-08-02 direct-scale 25→400 V / 200 W hardware candidate",NEW_YIELD_NOT_YET_AUDITED
+SRC-NI-011,COVERAGE,primary_publisher_followup,DOI:10.1038/s41598-025-90093-1,"25→400 V / 200 W / 50 kHz direct-scale hardware candidate",NEW_YIELD_NOT_YET_AUDITED
+SRC-NI-012,TOOL_FAILURE,Firecrawl_scrape,DOI:10.1155/etep/9317966,"requested exact source extraction",BLOCKED_INSUFFICIENT_CREDITS
+SRC-NI-013,TOOL_FAILURE,Exa_livecrawl,DOI:10.1155/etep/9317966,"direct page/PDF fetch",BLOCKED_TIMEOUT_TAVILY_FALLBACK_USED
