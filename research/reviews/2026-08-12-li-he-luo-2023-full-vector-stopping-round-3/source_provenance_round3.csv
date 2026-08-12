@@ -1,0 +1,11 @@
+source_id,record_or_scope,source_kind,locator_or_job,evidence_role,status,notes
+R3-SRC-001,LI-HE-LUO-2023,ResearchGate_author_public_fulltext,"public full-text author content; article Sections 1-6; Tables 1-2; Figs. 2-17",primary_experiment,VERIFIED_READABLE_TEXT,"Author-uploaded public full text matched DOI/bibliography; binary PDF fetch cache-missed; no PDF committed"
+R3-SRC-002,LI-HE-LUO-2023,Journal_of_Power_Electronics_metadata,"DOI 10.1007/s43236-022-00564-1; Vol.23 No.4 555-567",canonical_metadata,VERIFIED,"Publisher/journal metadata identity cross-check"
+R3-SRC-003,LI-HE-LUO-2023,KoreaScience_metadata,"DOI/title/authors/publication dates/abstract",canonical_metadata,VERIFIED,"Secondary scholarly index used only to corroborate bibliographic identity and prototype abstract"
+R3-SRC-004,round3_contract,GitHub_project_contract,"research/contracts/power_converter_comparison_contract_v0.1.md; Pareto protocol; stress-vector policy",governance_contract,VERIFIED,"Existing frozen project rules applied; not replaced"
+R3-SRC-005,R3-CAND-0001,Scientific_Reports_primary_page,"DOI 10.1038/s41598-026-51505-y",targeted_discovery,VERIFIED_PRIMARY_PAGE_UNEDITED,"20->400 V / 200 W direct-scale new yield; current publisher page marked unedited; no L5 credit in this node"
+R3-SRC-006,R3-CAND-0002,Wiley_Journal_of_Engineering_primary_fulltext,"DOI 10.1155/je/5145061",targeted_discovery,VERIFIED_PRIMARY_FULLTEXT_DISCOVERED,"20->400 V / 200 W / 50 kHz direct-scale new yield; full-vector extraction deferred to next node"
+R3-SRC-007,R3-CAND-0003,Elsevier_Results_in_Engineering_primary_page,"DOI 10.1016/j.rineng.2025.104050",targeted_discovery,VERIFIED_BOUNDARY,"20->400 V / 100 W; outside frozen 150-300 W direct Pareto power window but inside broader COMP-HG acquisition band"
+R3-SRC-008,independent_review_tavily,Tavily_Research,"neutral independent audit request",independent_review,BLOCKED,"status 432; plan set usage limit exceeded; no independent output"
+R3-SRC-009,independent_review_firecrawl,Firecrawl_Agent,"neutral independent audit fallback",independent_review,BLOCKED,"insufficient credits; no independent output"
+R3-SRC-010,round3_repository_dedup,GitHub_exact_DOI_search,"new candidate exact DOI searches",dedup_verification,VERIFIED,"No indexed repository matches found for three Round-3 candidate DOIs at search time"
