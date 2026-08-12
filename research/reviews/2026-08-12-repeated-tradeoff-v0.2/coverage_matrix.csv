@@ -1,0 +1,12 @@
+coverage_item,status,evidence_or_scope,impact_on_gap_gate,next_action
+existing_batches,complete,"BATCH-001/002/003 and comparison contracts reviewed",none,"retain provenance"
+publisher_fulltext_core,partial,"0024 Wiley; 0027/0028 Nature available; 0030 complete lawful structural text not recovered",blocks_structure_pattern,"resolve 0030 lawful full text or institutional manuscript"
+scholar_openalex,complete_for_direction_check,"used for literature-map and metadata cross-check; broad queries showed noise",none,"do not treat misses as absence"
+exa_source_grounded,complete_for_current_pass,"primary/institutional pages used for 0024/0027/0028 and falsification evidence",none,"preserve query/source log"
+firecrawl_counter_search,complete_first_family,"searched recent hardware for low stress + low component count + common ground + continuous input",none,"run a second substantially different falsification query family"
+backward_citation_snowball,not_complete,"core L5 references have not all been traversed",blocks_research_gap_candidate,"snowball 0024/0027/0028/0030 plus counterexample seed"
+forward_citation_snowball,not_complete,"citers not systematically screened",blocks_research_gap_candidate,"screen forward citers by inclusion contract"
+independent_double_extraction,partial,"multi-assistant direction review exists but claim-critical four-paper numeric extraction was not independently duplicated",blocks_research_gap_candidate,"second independent extraction + disagreement log"
+marginal_yield_saturation,not_reached,"new counterexamples still appeared during this pass",blocks_research_gap_candidate,"continue targeted search until predefined marginal-yield threshold is met"
+quality_appraisal,complete_first_pass,"per-record structured gates created",partial,"resolve record blockers before claim-critical use"
+overall_stopping_rule,NOT_MET,"snowballing + independent extraction + saturation still incomplete",blocks_research_gap_candidate,"do not authorize formal gap claim"
