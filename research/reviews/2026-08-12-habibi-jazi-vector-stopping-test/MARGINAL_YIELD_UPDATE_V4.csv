@@ -1,0 +1,6 @@
+round_id,search_scope,new_direct_scale_candidates,new_l5_promotions,new_independent_l5_families,objective_closures,unresolved_blockers,marginal_yield,stopping_implication
+TSIR_PREV,"targeted different-family / unresolved-objective search",2,0,0,"Habibi canonicalization; Jazi canonicalization","Habibi full measured vector; Jazi full vector; independent review",POSITIVE,"continue targeted only"
+HJST_01,"Habibi exact vector closure",0,0,0,"Habibi theory-at-recalculated-prototype stress vector completed","measured Sc exact scalar; measured max diode scalar",PARTIAL_POSITIVE,"does not satisfy stopping because measurement blockers remain"
+HJST_02,"Jazi full-vector audit",0,0,0,"common count basis; measured S1=120 V; soft-switching roles; common ground; full-load efficiency","exact measured SA maximum; exact measured max diode; nA/n1",PARTIAL_POSITIVE,"does not satisfy stopping"
+HJST_03,"different-author direct-scale stopping search",2,0,0,"canonical direct-scale identities 10.3390/pr11041087 and 10.1088/2631-8695/ae8f9a","both require full common-schema extraction",POSITIVE,"SEARCH_SATURATION_NOT_MET"
+HJST_04,"independent packet retry",0,0,0,none,"Firecrawl insufficient credits; independence_missing=true",BLOCKED,"cannot satisfy independent-review gate"
