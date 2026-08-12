@@ -45,9 +45,13 @@ A shared non-leading coauthor alone is not enough to collapse families: PC-CAND-
 
 ## 4. Independent-review gate remains open
 
-A neutral all-five Firecrawl reviewer failed because the reviewer could not access publisher sources. A Wiley-only split could not start because of insufficient Firecrawl credits. A Nature-only split had not reached a terminal state at adjudication time.
+Independent review was attempted through three paths:
 
-No failed or non-terminal agent is counted as independent evidence.
+- all-five neutral Firecrawl reviewer: `FAILED_SOURCE_AUTH`;
+- Nature-only split (0027/0028/FEXP-0001): terminal `FAILED_MAX_CREDITS`, `creditsUsed=0`, no extraction returned;
+- Wiley-only split (0024/0030): `FAILED_TO_START_INSUFFICIENT_CREDITS`.
+
+No failed agent is counted as independent evidence. Cross-source retrieval by the same GPT through Exa/Tavily/Sider is useful corroboration but is not a separate reviewer.
 
 ## 5. Search saturation is false
 
