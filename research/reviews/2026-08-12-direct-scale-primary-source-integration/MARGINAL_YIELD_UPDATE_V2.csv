@@ -1,0 +1,11 @@
+yield_id,identifier_or_title,year,direct_scale_signal,triage_status,frontier_impact
+DPSI-Y01,10.1109/OJPEL.2024.3432628,2024,"20→400 V; 240 W; 50 kHz; complete measured switch/diode stress vector",PROMOTED_TO_L5,"New bounded L5 record and new independent-family credit; strong positive marginal yield"
+DPSI-Y02,10.1109/TPEL.2023.3298683,2023,"40→400 V; 200 W; 500 kHz; hardware ZVS/ZCS; measured stress scalars incomplete",PROMOTED_TO_L5_BOUNDED,"New bounded L5 record and new independent-family credit; positive marginal yield"
+DPSI-Y03,10.1109/TPEL.2025.3608899,2026,"25→400 V; 200 W; 50 kHz; measured switch and diode stress",PROMOTED_TO_L5,"Closes former direct-scale unaudited blocker; no new family credit"
+DPSI-Y04,10.1109/OJPEL.2023.3275651,2023,"25→400 V; 200 W; 50 kHz; measured switch stress; theoretical diode stress",PROMOTED_TO_L5_BOUNDED,"Direct-scale lineage record; no new family credit"
+DPSI-Y05,10.1109/TPEL.2025.3552015,2025,"25→400 V; 200 W; 50 kHz; measured switch stress; theoretical diode stress",PROMOTED_TO_L5_BOUNDED,"Direct-scale lineage record; no new family credit"
+DPSI-Y06,10.1109/JESTIE.2024.3386555,2024,"14/22/32→300 V; 180 W; measured stress",L4_CONTEXT,"Neighbor-scale architecture evidence; no direct L5 yield"
+DPSI-Y07,10.1109/TPEL.2025.3534272,2025,"36-48→380 V; 500 W rated with 300 W test point",L4_NEIGHBOR_CONTEXT,"Useful power-scaling evidence; no direct L5 yield under frozen rated-power contract"
+DPSI-Y08,10.1109/TIA.2026.3680371,2026,"36→650 V; 500 W; accepted-author-version source",L4_CONTEXT,"Cubic/common-ground context; no direct L5 yield"
+DPSI-Y09,10.1109/JESTPE.2025.3598046,2025,"40-50→1 kV; 500 W; 200 kHz",L4_CONTEXT,"Current-fed VM context; no direct L5 yield"
+DPSI-Y10,six_pdf_acquisition_batch,2023-2026,"2/6 newly supplied PDFs are direct-scale; 2 are neighbor-scale; 2 high-voltage/high-power context",POSITIVE_DIRECT_YIELD,"Broad keyword search should stop, but formal saturation is not met because the batch still added two independent direct-scale L5 families"
