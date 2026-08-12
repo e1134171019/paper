@@ -1,0 +1,5 @@
+yield_id,identifier_or_title,year,direct_scale_signal,triage_status,frontier_impact
+FTRIAGE-Y01,10.1038/s41598-026-47061-0,2026,"25→400 V; 200 W; 50 kHz; measured switch and diode stress; full-load efficiency",PROMOTED_TO_L5,"Existing L4 record now becomes sixth bounded L5 member; no new independent-family credit"
+FTRIAGE-Y02,10.1109/TPEL.2025.3608899,2026,"25→400 V; 200 W; 50 kHz; experimental prototype in primary IEEE metadata",DIRECT_SCALE_UNAUDITED,"Full-text numerical audit still required; positive marginal yield"
+FTRIAGE-Y03,10.1038/s41598-026-50184-z,2026,"48→~400 V; 200 W experiment; low stress; efficiency",CONTEXT_SOURCE_CONFLICT,"Independent family candidate exists but operating-condition conflict blocks promotion"
+FTRIAGE-Y04,"recent Scientific Reports direct-scale candidates",2025-2026,"additional ~150-400 W high-step-up hardware with measured stress continues to surface",UNTRIAGED_RECENT_YIELD,"Search saturation remains false"
