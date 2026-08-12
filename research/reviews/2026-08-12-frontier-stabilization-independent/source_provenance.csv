@@ -6,7 +6,7 @@ FSTAB-SRC-004,PC-CAND-0028,Scientific_Reports_HTML,"author information/contribut
 FSTAB-SRC-005,FEXP-CAND-0001,Scientific_Reports_HTML,"author information/contributions",family_dedup,VERIFIED,"Hosseini + Hasanpour methodology; Hasanpour corresponding"
 FSTAB-SRC-006,BATCH-003,GitHub,"research/batches/BATCH-003/evidence_families.csv",prior_family_policy,VERIFIED,"existing 0024/0027/0028/0030 independent-family mapping"
 FSTAB-SRC-007,all_five_L5,Firecrawl_spark1pro,"job 019ff47d-e3f0-71ee-b1f9-0bab3cf275ed",independent_review,FAILED_SOURCE_AUTH,"all five publisher URLs inaccessible to independent agent; zero-credit failure; no extraction claimed"
-FSTAB-SRC-008,Nature_three_L5,Firecrawl_spark1pro,"job 019ff47f-716b-7151-be28-859babd290a8",independent_review,PROCESSING_AT_CAPTURE,"0027/0028/FEXP-0001 neutral review; final status must be checked before adjudication"
+FSTAB-SRC-008,Nature_three_L5,Firecrawl_spark1pro,"job 019ff47f-716b-7151-be28-859babd290a8",independent_review,FAILED_MAX_CREDITS,"0027/0028/FEXP-0001 neutral review reached terminal failed state; creditsUsed=0; no extraction returned"
 FSTAB-SRC-009,Wiley_two_L5,Firecrawl_spark1pro,"neutral two-paper reviewer request",independent_review,FAILED_INSUFFICIENT_CREDITS,"0024/0030 review could not start"
 FSTAB-SRC-010,recent_2025plus,Sider_OpenAlex,"query: high step-up 400 V 200 W DC-DC converter; from 2025",coverage_search,POSITIVE_YIELD,"returned additional frontier-relevant records; saturation false"
 FSTAB-SRC-011,recent_direct_scale,IEEE_Xplore,"document 11159317",coverage_search,PRIMARY_METADATA_VERIFIED,"Sara Hasanpour and Tohid Nouri; abstract states 200 W, 25→400 V, 50 kHz prototype"
