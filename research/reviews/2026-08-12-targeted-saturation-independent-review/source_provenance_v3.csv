@@ -1,0 +1,13 @@
+source_id,record_or_scope,source_kind,locator_or_job,evidence_role,status,notes
+TSIR-SRC-001,governance,Google_Drive,"GLOBAL + Research Evidence Pipeline + Energy Conversion Evidence Schema + 00-A + 00-B",governance,VERIFIED,"Formal node routed under current governance"
+TSIR-SRC-002,PC-CAND-0024,Wiley_primary_text,"DOI 10.1049/iet-pel.2015.0923; Fig.10 experimental discussion",primary_experiment,VERIFIED_NO_SCALAR,"Switch <100 V and ZCS reconfirmed; no exact max measured diode scalar surfaced"
+TSIR-SRC-003,PC-CAND-0024,Sider_Scholar,"DOI lookup",targeted_acquisition,FAILED_LOOKUP,"No PDF/full record returned"
+TSIR-SRC-004,PC-CAND-0024,Firecrawl,"targeted search",targeted_acquisition,BLOCKED_CREDITS,"HTTP 402"
+TSIR-SRC-005,B004-CAND-0003,Wiley_primary_record,"DOI 10.1155/etep/9317966; prototype table + experimental-waveform references",primary_experiment,VERIFIED_NO_MAX_DIODE_SCALAR,"Canonical identity and 48->400 V /200 W /100 kHz verified; scalar remains unresolved"
+TSIR-SRC-006,B004-CAND-0003,Sider_Scholar,"DOI lookup",targeted_acquisition,FAILED_LOOKUP,"No PDF/full record returned"
+TSIR-SRC-007,B004-CAND-0003,Exa,"Wiley full-page fetch",targeted_acquisition,FETCH_TIMEOUT,"No scalar inferred"
+TSIR-SRC-008,TSIR-HABIBI-2024,Scholars_Mine_author_hosted,"author-hosted full text; definitive DOI 10.1109/TPEL.2023.3344719; experimental Figs.11-15",primary_experiment,VERIFIED,"20->400 V /200 W /50 kHz; counts; S1~45 V; both switches ZVS; diode max measured scalar unresolved"
+TSIR-SRC-009,TSIR-JAZI-2025,IEEE_Xplore_plus_institutional_metadata,"document 11015738; DOI 10.1109/ACCESS.2025.3573936",primary_or_canonical_metadata,VERIFIED_TARGET,"40->400 V /200 W /100 kHz direct experiment; full stress vector audit pending"
+TSIR-SRC-010,targeted_family_search,Exa,"2024-2026 different-author direct-scale query",coverage_search,POSITIVE_YIELD,"Surfaced Habibi direct program and Jazi direct target; saturation false"
+TSIR-SRC-011,expanded_neutral_packet,Firecrawl_agent,"independent interpretation request",independent_review,FAILED_TO_START_INSUFFICIENT_CREDITS,"No independent result; zero review credit"
+TSIR-SRC-012,prior_frontier,GitHub,"typed_frontier_v6 + gate v3 + neutral packets",working_evidence,VERIFIED,"Previous append-only snapshot preserved as baseline"
