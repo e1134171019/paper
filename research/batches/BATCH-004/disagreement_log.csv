@@ -1,0 +1,8 @@
+disagreement_id,candidate_id,field,v02_state,batch004_state,classification,adjudication
+B004-DIS-001,PC-CAND-0030,component_structure,"unknown/incomplete","1 main + 1 auxiliary switch; 4 diodes; 5 capacitors; 1 coupled-inductor core",RESOLVED,"Use BATCH-004 publisher-fulltext extraction for future structural comparisons."
+B004-DIS-002,PC-CAND-0030,turns_ratio,"not_text_locked","Ns/Np=2",RESOLVED,"Promote as text-locked structural condition."
+B004-DIS-003,PC-CAND-0030,duty,"not_text_locked","~0.5",RESOLVED_APPROX,"Retain approximate qualifier."
+B004-DIS-004,PC-CAND-0030,max_diode_stress,"not_text_locked","~Vout/2 ≈200 V; normalized ~0.5",RESOLVED_APPROX,"Admit as approximate diode-stress context; do not present as exact metrology."
+B004-DIS-005,PC-CAND-0030,common_ground,"not_text_locked","not_text_locked",NO_CHANGE,"Do not infer from schematic."
+B004-DIS-006,PC-CAND-0030,input_current_ripple,"not_text_locked","qualitative reduced/low-ripple claim only",PARTIAL,"No numeric ripple claim authorized."
+B004-DIS-007,ALL_CORE,independence,"independent duplicate numeric extraction incomplete","same-model re-read completed",GATE_STILL_OPEN,"Consistency re-read is useful but does not satisfy independent-review requirement."
