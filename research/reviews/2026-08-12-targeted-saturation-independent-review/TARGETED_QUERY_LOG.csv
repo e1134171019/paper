@@ -1,0 +1,11 @@
+query_id,target,tool,query_class,outcome,evidence_change,marginal_yield,notes
+TSQ-001,10.1049/iet-pel.2015.0923,Sider_Scholar,legacy_missing_measured_diode,FAILED_LOOKUP,"none",zero,"OpenAlex lookup returned error/no PDF"
+TSQ-002,10.1155/etep/9317966,Sider_Scholar,legacy_missing_measured_diode,FAILED_LOOKUP,"none",zero,"OpenAlex lookup returned error/no PDF"
+TSQ-003,10.1049/iet-pel.2015.0923,Firecrawl,legacy_missing_measured_diode,BLOCKED_CREDITS,"none",zero,"HTTP 402; no independent extraction credit"
+TSQ-004,10.1049/iet-pel.2015.0923,Exa,official_fulltext_targeted_search,PRIMARY_WILEY_TEXT_FOUND,"experimental prose rechecked; max measured diode scalar still not text-locked",zero,"Fig.10 diode waveforms reported consistent with equations; no exact maximum measured diode scalar surfaced"
+TSQ-005,10.1155/etep/9317966,web/Wiley,canonical_primary_resolution,PRIMARY_RECORD_VERIFIED,"canonical title/authors/prototype table verified; diode-waveform figure located; max measured diode scalar still unresolved",zero,"Official Wiley record; page content later returned 403 for direct open"
+TSQ-006,10.1155/etep/9317966,Exa,official_fulltext_fetch,FETCH_TIMEOUT,"none",zero,"Wiley live fetch timed out; no scalar inferred"
+TSQ-007,different-author direct-scale 2024-2026,Exa,targeted_family_search,POSITIVE_YIELD,"Habibi/Rahimi/Ferdowsi/Shamsi direct-scale candidate; Jazi/Adib-related direct-scale candidate surfaced",positive,"Search constrained to ~20-48 V -> ~380-400 V, ~150-300 W experimental hardware"
+TSQ-008,10.1109/TPEL.2023.3344719,Exa,canonicalization_and_fulltext,AUTHOR_HOSTED_FULLTEXT_VERIFIED,"20->400 V / 200 W / 50 kHz; 2SW/3D/5C; S1~45 V; both switches ZVS; diode max measured scalar unresolved",positive,"Missouri S&T Scholars' Mine author-hosted copy provides definitive DOI and primary text"
+TSQ-009,10.1109/ACCESS.2025.3573936,Exa,canonicalization,IEEE_IDENTITY_VERIFIED,"40->400 V / 200 W / 100 kHz; main switch ~120 V; soft switching; full-load ~96.5%; full vector not yet closed",positive,"IEEE document 11015738; Ehsan Adib overlap means family independence requires lineage review"
+TSQ-010,expanded neutral packet,Firecrawl,independent_packet_review,BLOCKED_INSUFFICIENT_CREDITS,"no independent interpretation returned",zero,"independence_missing=true"
