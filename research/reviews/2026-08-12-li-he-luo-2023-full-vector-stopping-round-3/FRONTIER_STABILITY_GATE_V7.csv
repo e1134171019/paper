@@ -1,0 +1,12 @@
+coverage_item,pre_round3_status,round3_status,evidence,impact_on_frontier,next_action
+bounded_l5_records,11,12,"Li 2023 admitted L5_COMPARISON_READY under bounded trade-off contract",frontier_set_expanded,"retain typed limitations; do not infer saturation"
+independent_l5_families,6,7,"LI_HE_LUO_GDOU_QUADRATIC_CI_VM admitted as distinct evidence family",family_diversity_increased,"dedup later same-core Li/He/Luo papers into program unless role/topology evidence proves otherwise"
+li_full_vector,DIRECT_NEW_CANDIDATE,L5_PROMOTED,"20->400 V; 200 W; 50 kHz; 1 switch; 6 diodes; 5 capacitors; 2 magnetic cores; continuous input; common ground",comparison_ready_bounded_member,"retain full-vector artifact"
+li_measured_switch_stress,uncaptured,LOCKED,"measured Vds=117 V at rated conditions; normalized 0.2925 Vout",closes_required_measured_semiconductor_locator,"preserve measured type"
+li_measured_diode_max,uncaptured,UNRESOLVED,"diode waveforms exist but readable text does not lock exact measured peak scalar; theory max ~234.39 V / 0.5860 Vout",does_not_block_current_bounded_L5_but_blocks_exact_measured_diode_frontier,"obtain figure-readable lawful source if later needed; never substitute theory"
+li_operating_boundary_conflict,unknown,RETAINED_CONFLICT,"Section 5 reports Io=0.2 A with 400 V while Table 2 reports 200 W rated; 400*0.2=80 W",isolated_from_comparison_defining_full_load_point,"do not repair; use separately source-locked 20-200 W efficiency sweep for full-load semantics"
+round3_direct_new_yield,unknown,POSITIVE,"10.1038/s41598-026-51505-y and 10.1155/je/5145061 are materially new direct-scale journal programs; 10.1016/j.rineng.2025.104050 is boundary yield",blocks_saturation,"full-vector audit first two targets"
+targeted_search_saturation,NOT_MET,NOT_MET,"multiple new different-program direct-scale records surfaced in narrow Round 3",blocks_final_frontier_closure,"run Round 4 only after direct new yields are captured"
+independent_review,NOT_COMPLETE,NOT_COMPLETE,"Tavily Research blocked by plan usage limit; Firecrawl Agent blocked by insufficient credits",blocks_independent_gate,"retry only via functioning independent route"
+formal_all_objective_pareto,NOT_AUTHORIZED,NOT_AUTHORIZED,"positive marginal yield + independence missing + unresolved measured-diode fields/boundaries",blocks_formal_pareto_claim,"continue targeted coverage closure"
+research_gap_candidate,NOT_AUTHORIZED,NOT_AUTHORIZED,"stopping and independent-review gates remain open",blocks_gap_claim,"no gap authorization"
