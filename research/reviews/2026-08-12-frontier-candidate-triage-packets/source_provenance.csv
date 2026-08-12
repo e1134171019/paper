@@ -1,0 +1,10 @@
+source_id,record_or_scope,source_kind,locator_or_job,evidence_role,status,notes
+FTRP-SRC-001,PC-CAND-0029,Scientific_Reports_HTML,"version-of-record article / experimental results / efficiency",primary_experiment,VERIFIED,"Confirms 200 W 25→400 V prototype, ZCS, measured stress context and 94.9% full-load efficiency"
+FTRP-SRC-002,PC-CAND-0029,Scientific_Reports_PDF,"Table 4 p.17; experimental section p.18",primary_experiment,PDF_TEXT_VERIFIED_SCREENSHOT_BLOCKED,"Locks fs=50 kHz prototype; switch ~50 V; diode stresses ~50/180/300/300 V; relevant page screenshot requests failed from source cache"
+FTRP-SRC-003,FTRIAGE-IEEE-11159317,IEEE_Xplore,"document 11159317 metadata/abstract",primary_metadata,VERIFIED_METADATA_ONLY,"Locks authors/title and 200 W 25→400 V 50 kHz experimental prototype; no measured stress/efficiency locator acquired"
+FTRP-SRC-004,FTRIAGE-CTA-70585,Wiley_index,"10.1002/cta.70585 lookup",canonical_resolution,BLOCKED,"Wiley live fetch timeout and scholarly DOI lookup error; no canonical primary record accepted"
+FTRP-SRC-005,FTRIAGE-SR-50184,Scientific_Reports_HTML,"abstract/conclusion/experimental discussion",primary_experiment,VERIFIED_WITH_CONTRADICTION,"48→~400 V /200 W experiment and ~134 V switch stress coexist with design-procedure text stating 48→200 V /200 W /100 kHz"
+FTRP-SRC-006,current_six_packets,GitHub,"CURATED_EVIDENCE_PACKETS.md",independent_review_input,CREATED,"Neutral packet intentionally omits L5/family/ranking/Gap conclusions"
+FTRP-SRC-007,current_six_packets,Firecrawl_agent,"packet-only independent interpretation request",independent_review,FAILED_TO_START_INSUFFICIENT_CREDITS,"No independent extraction returned; zero review credit"
+FTRP-SRC-008,existing_core_claims,GitHub,"BATCH-002/evidence_claims.csv; BATCH-003/evidence_claims.csv; prior direct-scale reviews",working_evidence,VERIFIED,"Supplies existing locators for 0024/0027/0028/0030 and previous normalized records"
+FTRP-SRC-009,recent_frontier_search,Exa_Tavily_Sider,"2025-2026 high-step-up direct-scale search",coverage_search,POSITIVE_YIELD,"Additional direct-scale hardware continues to surface; search saturation false"
