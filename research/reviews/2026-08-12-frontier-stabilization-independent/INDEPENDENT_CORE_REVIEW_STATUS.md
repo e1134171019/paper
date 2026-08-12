@@ -24,7 +24,9 @@ Job: `019ff47f-716b-7151-be28-859babd290a8`
 
 Scope: PC-CAND-0027, PC-CAND-0028, FEXP-CAND-0001.
 
-At adjudication capture the job remained `processing` and had not produced a terminal result. A non-terminal job is not evidence and receives no review credit in this packet.
+Result: `FAILED_MAX_CREDITS` (`creditsUsed=0`).
+
+The job reached a terminal failed state before returning an extraction. No independent review credit is granted.
 
 ## Attempt 3 — Wiley-only split
 
