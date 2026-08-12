@@ -1,0 +1,4 @@
+yield_id,source,identifier_or_title,year,direct_scale_signal,status,impact
+FSTAB-Y01,Sider_OpenAlex,"A Low Switch Stress and High-Gain DC-DC Converter for Renewable Energy Applications",2026,"search result is high-gain/low-stress and exposes a publisher PDF path; direct operating-point audit not yet completed",UNAUDITED_CANDIDATE,"positive marginal yield; do not declare saturation"
+FSTAB-Y02,primary_IEEE_search,"New Soft-Switched Three-Winding Built-In Transformer Step-Up DC/DC Converter With Low Voltage Stresses / IEEE Xplore document 11159317",2026,"abstract reports 200 W, 25→400 V, 50 kHz experimental prototype",DIRECT_SCALE_UNAUDITED,"materially frontier-relevant; must be audited before freeze"
+FSTAB-Y03,Sider_OpenAlex,"10.1038/s41598-026-64796-y",2026,"25→400 V direct-scale but source Pout conflict",KNOWN_CONTEXT_CONFLICT,"does not add L5 but confirms fast-moving literature"

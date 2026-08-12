@@ -1,0 +1,8 @@
+gate_id,gate_name,status,evidence,consequence
+FSTAB-G01,final_edited_version_check,NOT_MET,"10.1038/s41598-026-64796-y remains unedited early-access; 200|250 W conflict persists","record remains L3_CONTEXT and excluded"
+FSTAB-G02,evidence_family_dedup,CLOSED,"role-weighted author-group + topology-lineage audit completed","5 bounded L5 records map to 4 independent L5 families"
+FSTAB-G03,independent_core_review,NOT_COMPLETE,"all-five neutral agent failed source authentication; Nature-only reviewer pending; Wiley-only reviewer could not start due credits","formal high-impact frontier freeze prohibited"
+FSTAB-G04,recent_search_stability,NOT_MET,"2025+ direct-scale query still returns new frontier-relevant 2026 hardware","marginal_yield remains positive"
+FSTAB-G05,missing_stress_closure,NOT_MET,"PC-CAND-0024 and 10.1155/etep/9317966 still lack text-locked measured max diode stress","all-objective interval frontier incomplete"
+FSTAB-G06,formal_pareto_authorization,NOT_AUTHORIZED,"G03/G04/G05 remain open","do not claim all-record Pareto optimality"
+FSTAB-G07,research_gap_candidate,NOT_AUTHORIZED,"stopping and independent-review gates remain open","continue evidence closure; no Gap claim"
