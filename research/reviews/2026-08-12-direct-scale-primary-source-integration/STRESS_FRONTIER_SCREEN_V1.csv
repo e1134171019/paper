@@ -1,0 +1,12 @@
+record_id,max_switch_stress_vout,switch_value_type,max_diode_stress_vout,diode_value_type,exploratory_pair_screen_status,reason
+PC-CAND-0024,"<0.25",upper_bound,unresolved,unresolved,INDETERMINATE_MISSING_DIODE,"No two-objective certificate possible"
+PC-CAND-0027,0.155,approx_measured,0.275,approx_measured,ROBUST_TRADEOFF_CANDIDATE,"Lower measured diode burden than the 0.125-switch-stress cluster but higher switch stress"
+PC-CAND-0028,0.1375,approx_measured,0.60,approx_measured,STRICTLY_STRESS_DOMINATED_IN_2D_BY_IEEE11159317,"11159317 has lower measured max switch and lower measured max diode stress; this statement is stress-pair only"
+PC-CAND-0029,0.125,approx_measured,0.75,approx_measured,STRICTLY_STRESS_DOMINATED_IN_2D_BY_IEEE11159317,"Equal measured max switch stress and higher measured max diode stress"
+PC-CAND-0030,"<0.225",upper_bound,0.50,approx_measured,INDETERMINATE_SWITCH_UPPER_BOUND,"Switch upper bound can include values below 0.125; strict dominance cannot be certified"
+FEXP-CAND-0001,0.275,approx_measured,0.5875,approx_measured,STRICTLY_STRESS_DOMINATED_IN_2D_BY_IEEE11159317,"11159317 has lower measured stress on both axes"
+DPSI-HASANPOUR-2023,0.125,approx_measured,0.875,theory_at_prototype,LIKELY_STRESS_DOMINATED_BOUNDARY_MISMATCH,"Diode value is theoretical while the comparator's 0.45 diode value is measured; no formal certificate across boundaries"
+DPSI-HASANPOUR-2025,0.125,approx_measured,0.4342,theory_at_prototype,LOW_THEORETICAL_DIODE_STRESS_BOUNDARY_MISMATCH,"Theoretical diode stress is slightly below 11159317 measured 0.45, but measurement/theory boundaries differ"
+FTRIAGE-IEEE-11159317,0.125,recalculated_from_measured,0.45,recalculated_from_measured,ROBUST_TRADEOFF_CANDIDATE,"Measured low switch stress and measured diode stress; trades against PC-CAND-0027 which has lower diode stress but higher switch stress"
+DPSI-ABBASI-2024,0.255,recalculated_from_measured,0.9975,recalculated_from_measured,STRICTLY_STRESS_DOMINATED_IN_2D_BY_IEEE11159317,"Direct primary PDF gives a complete measured stress vector; both axes are higher"
+DPSI-YAO-2023,0.20,theory_at_prototype,0.72,theory_at_prototype,LIKELY_STRESS_DOMINATED_BOUNDARY_MISMATCH,"Prototype is direct-scale but exact measured stress scalars are not text-locked"
