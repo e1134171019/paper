@@ -1,0 +1,6 @@
+stage,query_mode,new_confirmed_l5,new_independent_l5_families,new_direct_scale_l4,new_unresolved_near_boundary,marginal_yield,stopping_status,reason
+pre_node,targeted,0,0,2,0,positive,NOT_MET,"Habibi and Jazi remained open direct-scale candidates"
+habibi_closure,targeted,0,0,0,0,zero_for_record,UNCHANGED,"theory vector closed but measured Sc and max diode remain unresolved"
+jazi_closure,targeted,0,0,0,0,zero_for_record,UNCHANGED,"direct-scale structure closed; auxiliary switch and measured max diode remain unresolved; no new family credit"
+stopping_check,targeted,0,0,0,1,positive_unresolved,NOT_MET,"Salehi/Varjani 2026 provides 24->400 V hardware and measured stress evidence but rated Pout remains unresolved"
+node_total,targeted,0,0,0,1,positive_unresolved,NOT_MET,"one precise unresolved-power candidate can still alter the frozen direct-scale frontier"
