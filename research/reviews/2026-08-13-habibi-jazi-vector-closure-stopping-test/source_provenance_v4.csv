@@ -1,0 +1,5 @@
+record_id,doi,source_role,source_type,access_path,verification_scope,status
+TSIR-HABIBI-2024,10.1109/TPEL.2023.3344719,primary_experiment,author_hosted_manuscript,"Missouri S&T Scholars' Mine copy identifying the IEEE DOI","20->400 V/200 W/50 kHz; Eq7-9; Fig11-14; S1 stress; ZVS; efficiency",VERIFIED_WITH_VECTOR_GAPS
+HJVC-JAZI-2025,10.1109/ACCESS.2025.3573936,primary_experiment,open_access_repository,"UPCommons direct open-access copy","40->400 V/200 W/100 kHz; Eq31-36; Table2; Fig8-9; S1 stress; soft switching; common ground; efficiency",VERIFIED_WITH_VECTOR_GAPS
+HJVC-SALEHI-2026,10.1038/s41598-026-40326-8,primary_experiment,publisher_html,"Scientific Reports version of record","24->400 V hardware; measured switch and diode stresses; full-load efficiency; rated power watts unresolved",EXPERIMENT_LOCATED_POWER_BOUNDARY_UNRESOLVED
+PC-CAND-0030,10.1049/iet-pel.2015.0870,lineage_reference,canonical_metadata,"canonical DOI identity","Molavi / Adib / Farzanehfard identity used for lineage adjudication",IDENTITY_VERIFIED
