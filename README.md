@@ -4,6 +4,14 @@ Evidence-oriented academic paper collection core for power-conversion research.
 
 Collector Core v0.1 is intentionally small. It establishes the data pipeline that later powers the Research Explorer, full-text evidence extraction, and RAG layers.
 
+## Research state
+
+The current working memory for the low-voltage high-current DC↔AC loss/topology study is maintained in:
+
+- [`research/RESEARCH_STATE.md`](research/RESEARCH_STATE.md)
+
+This document is a working research state, not a final novelty claim. Candidate gaps remain provisional until closest-prior-art closure is complete.
+
 ## What v0.1 does
 
 - Searches OpenAlex and Crossref through a provider-neutral connector interface.
