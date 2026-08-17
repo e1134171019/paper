@@ -10,7 +10,18 @@ The current working memory for the low-voltage high-current DC↔AC loss/topolog
 
 - [`research/RESEARCH_STATE.md`](research/RESEARCH_STATE.md)
 
-This document is a working research state, not a final novelty claim. Candidate gaps remain provisional until closest-prior-art closure is complete.
+Detailed reasoning is split into focused working documents:
+
+- [`research/01_SCOPE.md`](research/01_SCOPE.md) — operating envelope and research question.
+- [`research/02_TOPOLOGY_TAXONOMY.md`](research/02_TOPOLOGY_TAXONOMY.md) — current topology-family map.
+- [`research/03_LOSS_PHYSICS.md`](research/03_LOSS_PHYSICS.md) — RMS, `I²R`, 2ω and loss migration.
+- [`research/04_PRIOR_ART_CLOSURE.md`](research/04_PRIOR_ART_CLOSURE.md) — prior-art closure and novelty boundary.
+- [`research/05_RESEARCH_HYPOTHESIS.md`](research/05_RESEARCH_HYPOTHESIS.md) — current energy-routing hypothesis.
+- [`research/06_VALIDATION_PLAN.md`](research/06_VALIDATION_PLAN.md) — analytical, PLECS, LTspice, Maxwell/Q3D and hardware gates.
+- [`research/07_BENCHMARKS.md`](research/07_BENCHMARKS.md) — benchmark architectures and comparison rules.
+- [`research/08_DECISION_LOG.md`](research/08_DECISION_LOG.md) — dated research decisions.
+
+These documents are working research state, not final novelty claims. Candidate gaps remain provisional until closest-prior-art closure is complete.
 
 ## What v0.1 does
 
