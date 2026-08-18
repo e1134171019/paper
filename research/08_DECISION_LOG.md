@@ -127,12 +127,6 @@ NOVELTY_NOT_ESTABLISHED
 
 ## 2026-08-17 — Research envelope generalized
 
-Previous working state centered on:
-
-```text
-12 V / 1–2 kW
-```
-
 Updated general envelope:
 
 ```text
@@ -159,10 +153,6 @@ Decision:
 
 Use nine working main power-path families.
 
-Important correction:
-
-The Xi'an high-frequency-link work is not “a ninth topology invented by Xi'an.” Direct high-frequency-link DC–AC was already present in the previous taxonomy. The updated nine-family map is a cleaner decomposition of main power paths.
-
 Treat the following as orthogonal design dimensions rather than automatic new numbered families:
 
 ```text
@@ -174,6 +164,8 @@ active buffer
 partial power
 soft switching
 ```
+
+The Xi'an high-frequency-link work is a #09 direct-HFL benchmark, not the historical origin of a “ninth topology.”
 
 ---
 
@@ -216,8 +208,6 @@ Loss mechanism
 → topology candidate
 ```
 
-Not a claimed established topology name and not itself a novelty contribution.
-
 Rule:
 
 > Every added branch/component must identify which loss it reduces and prove that saved loss exceeds added loss.
@@ -233,10 +223,6 @@ PLECS first
 LTspice second
 Maxwell/Q3D third
 ```
-
-Reason:
-
-First question is system-level energy routing and RMS/loss benefit, not semiconductor transient detail.
 
 Initial PLECS gate:
 
@@ -259,23 +245,212 @@ Only after the mechanism passes should the transformation block be replaced by a
 
 ---
 
+## 2026-08-19 — Current working architecture retained
+
+Decision:
+
+```text
+KEEP current working architecture
+```
+
+Working structure:
+
+```text
+12 V source
+→ very-short / very-low-R common LV path
+→ local bulk + HF decoupling
+→ early distributed branch power cells
+→ branch switching + X1
+→ reduced-current domain
+→ [optional active X2 2ω buffer]
+→ X3
+→ 220 Vac
+```
+
+Important correction:
+
+```text
+X1 / X2 / X3 are functional coordinates,
+not automatically three added converter stages.
+```
+
+Status by region:
+
+```text
+very-short common path      = KEEP / physical requirement
+local decoupling            = KEEP / engineering requirement
+early fan-out               = KEEP AS HYPOTHESIS
+branch switching + X1       = CORE RESEARCH REGION
+reduced-current node        = KEEP AS FUNCTIONAL CONCEPT
+active X2 buffer            = OPTIONAL / NOT YET PROVEN
+X3 after X1                 = KEEP / structural requirement
+```
+
+Reason:
+
+The ordering is retained because it attempts to place each necessary RMS / energy component in a less expensive voltage-current domain, while preserving the rule:
+
+```text
+P_saved > P_added
+```
+
+Detailed added-loss audit:
+
+```text
+research/11_WORKING_ARCHITECTURE_LOSS_AUDIT.md
+```
+
+---
+
+## 2026-08-19 — ASP-2000 R52 promoted from abstract #02 to A0 product baseline
+
+Decision:
+
+```text
+ASP-2000 R52 = A0 REAL-PRODUCT BENCHMARK
+```
+
+Direct component/stage extraction from the user-supplied Altium schematic establishes:
+
+```text
+2 × PQ5050 HFT modules
+4 × low-side switch banks
+5 parallel LV MOS devices per bank
+20 LV main MOS positions total
+8 high-current input fuse positions
+2 groups of LV bulk capacitance
+4 HV rectifier devices
+HV DC-link capacitor region
+separate HV AC-synthesis stage
+```
+
+Research consequence:
+
+```text
+parallel MOS
+current sharing
+multiple HFT paths
+early current distribution
+```
+
+are already present in the real product and therefore cannot be credited as candidate novelty or automatic loss advantage.
+
+Detailed baseline:
+
+```text
+research/10_ASP2000_PRODUCT_BASELINE.md
+```
+
+---
+
+## 2026-08-19 — Magnetic benchmark split into A0 and A1
+
+Decision:
+
+```text
+A0 = actual ASP-2000 product abstraction
+A1 = fair optimized modular-HFT benchmark
+```
+
+A1 must be allowed the same current-distribution freedom as any new N-branch candidate:
+
+```text
+12 V short bus
+→ N-way fan-out
+→ N × [switching + HFT X1]
+→ HV combine / rectification
+→ reduced-current node
+→ X3
+```
+
+Rejected comparison:
+
+```text
+new modular candidate
+vs
+artificially monolithic HFT benchmark
+```
+
+Reason:
+
+A topology claim is only meaningful if the alternative X1 mechanism still produces a benefit after magnetic conversion is optimized under a matched structural boundary.
+
+---
+
+## 2026-08-19 — Early fan-out benefit is no longer assumed
+
+Decision:
+
+```text
+early fan-out = design hypothesis, not efficiency conclusion
+```
+
+Reason:
+
+Splitting current into N branches does not automatically reduce total copper loss if total conductor cross-section is unchanged, and additional branches increase gate-drive, Coss/Qoss, parasitic mismatch, control, and possible circulating-current burden.
+
+Required gate:
+
+```text
+P_common + ΣP_branch + P_gate/Coss/parasitic
+must be lower than the matched baseline
+```
+
+---
+
+## 2026-08-19 — Active X2 remains optional
+
+Decision:
+
+```text
+active post-X1 2ω buffer = OPTIONAL / MUST PASS ABLATION
+```
+
+Do not add it merely because post-X1 placement is physically attractive.
+
+Required comparison:
+
+```text
+Buffer OFF
+vs
+Buffer ON
+```
+
+Go condition:
+
+```text
+P_LV,saved > P_X2,added
+```
+
+If the existing passive HV DC-link already suppresses source 2ω sufficiently, the active X2 must be rejected or restructured.
+
+---
+
 ## Current next decision
 
-Pending result:
+Pending results:
 
 ```text
-Does local HV-side / post-X1 2ω buffering produce a positive net loss benefit
-across 12–24 V and 1–3 kW after declared buffer losses?
+1. Where is A0 ASP loss actually concentrated from battery to X1?
+2. Does early current distribution reduce total loss versus A0 and fair A1?
+3. Which X1 class gives the lowest total matched loss?
+4. Does post-X1 active 2ω buffering produce positive net loss benefit?
 ```
 
-If yes:
+Current comparison classes:
 
 ```text
-proceed to candidate topology synthesis
+A0 — actual ASP-2000 R52 product
+A1 — optimized modular HFT
+B  — Direct HFL
+C  — non-isolated current-distribution / high-gain
+D  — working candidate architecture
 ```
 
-If no:
+If candidate changes do not satisfy:
 
 ```text
-reframe the research around the actual dominant low-voltage loss/stress boundary
+P_saved > P_added
 ```
+
+stop or reframe rather than preserving the preferred architecture by assumption.
