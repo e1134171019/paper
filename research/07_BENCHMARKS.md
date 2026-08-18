@@ -3,13 +3,11 @@
 Status date: 2026-08-19  
 Purpose: define fair reference architectures before claiming improvement
 
-## 1. Benchmark 原則
+## 1. Benchmark rule
 
-Benchmark 不是「找一個比較差的舊電路來贏」。
+Benchmark is not selected to make the candidate look better.
 
-任何比較必須遵守 `research/contracts/power_converter_comparison_contract_v0.1.md` 的 boundary / operating-point / metric-definition 規則。
-
-至少固定：
+All comparisons must obey the declared boundary / operating-point / metric-definition contract and at minimum match or explicitly bound:
 
 ```text
 Vin
@@ -25,7 +23,7 @@ auxiliary-loss policy
 measurement basis
 ```
 
-不同 paper 的 peak efficiency 不得直接當排行榜。
+Unmatched peak efficiencies from different papers/products are not a ranking.
 
 ---
 
@@ -37,134 +35,128 @@ Working family:
 #02 High-Frequency Magnetic-Isolated Two-Stage
 ```
 
-抽象功率路徑：
+Generic path:
 
 ```text
 LV DC
-→ LV MOS HF switching
+→ LV HF switching
 → HFT
-→ HV rectifier
+→ HV rectification
 → HV DC bus
-→ VSI / H-Bridge SPWM
-→ LC filter
+→ VSI
 → AC
 ```
-
-A 類現在必須分成兩層，避免把新 modular candidate 跟人工簡化的單體磁性基準比較。
 
 ### A0 — ASP-2000 R52 real-product baseline
 
-Direct schematic extraction from the user-supplied ASP-2000 MAIN R52 source establishes:
+Direct net reconstruction of the user-supplied schematic now establishes a more specific structure than the earlier component-only abstraction:
 
 ```text
-2 × PQ5050 HFT modules
-4 × low-side MOS banks
-5 parallel LV MOS devices per bank
-20 LV main MOS positions total
-8 high-current input fuse positions
-2 groups of low-voltage bulk capacitance
-4 HV rectifier devices
-4 × 680 uF / 315 V HV capacitor positions
-separate post-bus HV AC-synthesis stage
+BAT+
+├─ F2/F3/F5/F6 → local LV bulk → T1 center tap B
+└─ F7/F8/F9/F10 → local LV bulk → T2 center tap B
+
+T1 A = T2 A → shared paralleled low-MOS switching node
+T1 C = T2 C → shared paralleled low-MOS switching node
+
+T1/T2 HFT magnetic transformation                 ← X1
+↓
+T1/T2 secondary series/collective connection
+↓
+D1/D5 + D2/D6 HV rectifier bridge
+↓
+BUS+ / BUS- + HV DC-link                          ← passive X2-capable node
+↓
+post-bus HV inverter                              ← X3
+↓
+AC
 ```
 
-Research abstraction:
+Important correction:
 
 ```text
-Battery / LV input
-→ fuse / LV distribution
-→ local LV bulk
-→ paralleled LV switch banks
-→ T1 / T2 HFT                         ← X1
-→ HV rectification
-→ HV DC-link / BUS                    ← passive X2-capable node
-→ HV inverter                         ← X3
-→ output filter
-→ AC
+the visible four spatial groups of five MOS positions
+are not four electrically independent converter branches.
 ```
 
-Detailed evidence boundary is recorded in:
+The two transformer A ends share one switched drain node and the two C ends share the other.
+
+Low-side MOS status:
+
+```text
+20 annotated positions total
+19 expected power connections directly reconstructed
+Q19 drain = schematic anomaly / requires PCB-BOM-assembly verification
+```
+
+A0 details and evidence boundary:
 
 ```text
 research/10_ASP2000_PRODUCT_BASELINE.md
+research/12_ASP2000_A0_POWER_PATH_AND_LOSS_BUDGET.md
 ```
 
-A0 的用途：
+A0 is used for real-product loss localization; it is not assumed inefficient.
+
+### A1 — fair optimized magnetic benchmark
+
+Any new architecture using early distribution / multicell must also beat a magnetic architecture allowed the same engineering freedom:
 
 ```text
-measurement-grounded real product baseline
-```
-
-不是預設它一定效率差。
-
-### A1 — fair optimized modular-HFT baseline
-
-任何候選若使用 early fan-out / multicell，都必須允許 magnetic benchmark 使用同樣的 current-distribution freedom：
-
-```text
-12 V short bus
-→ N-way fan-out
-→ N × [switching + HFT X1]
-→ HV combine / rectification
-→ reduced-current energy node
+12 V short / low-R bus
+→ optimized current distribution
+→ optimized switching + magnetic X1
+→ collective HV formation / rectification
+→ reduced-current node
 → X3
-→ AC
 ```
 
-因此禁止以下不公平比較：
+Forbidden comparison:
 
 ```text
 new modular candidate
 vs
-artificially monolithic HFT benchmark
+artificially monolithic magnetic baseline
 ```
 
-A1 主要用於回答：
+A1 answers:
+
+> If the same layout, current-sharing and packaging improvements are applied to magnetic conversion, what candidate advantage remains?
+
+### A-class loss map
 
 ```text
-如果只把現有 magnetic X1 做到同樣好的 current distribution / packaging，
-候選機制還剩多少真正的 loss advantage？
-```
-
-### A 類 loss map
-
-至少拆解：
-
-```text
-battery / fuse / connector
-→ common LV interconnect I²R
-→ LV bulk ESR / ripple
+battery/source
+→ common LV interconnect
+→ fuse distribution
+→ local LV bulk ESR/ripple
 → LV MOS conduction
-→ LV MOS switching / Coss / gate
-→ HFT primary copper
-→ HFT core
+→ LV MOS switching/Coss/gate/commutation
+→ HFT primary copper/core
 → HFT secondary copper
-→ leakage / clamp / snubber / commutation
+→ leakage/clamp/snubber
 → HV rectifier
 → HV bus capacitor
 → HV inverter
-→ output filter
-→ interconnect / terminal
+→ output filter/interconnect
 ```
 
-### A 類需要實測 / 建模的量
+Required A0/A1 quantities:
 
 ```text
-source Iavg / IRMS
-100/120 Hz component
-HF ripple
-per-bank current
-T1 primary IRMS
-T2 primary IRMS
-LV path Rdc/Rac
+I_source,avg / RMS / 100-120Hz / HF
+T1/T2 center-feed current
+A-side / C-side switching-node current
+fuse-path resistance/current
+common LV Rdc/Rac
 MOS conduction/switching loss
-transformer copper/core loss
+T1/T2 primary Rac + core loss
 rectifier loss
-HV DC-link ripple / capacitor RMS
+HV DC-link ripple/capacitor RMS
 HV inverter loss
 ```
 
-若實測發現 ASP 低壓 source 幾乎沒有 100/120 Hz 分量，則「2ω buffer 可大量降低 LV RMS」不能直接成立，必須重新定位主要 loss lever。
+If A0 already suppresses source 2ω strongly, active-X2 value must be reframed.
 
 ---
 
@@ -176,52 +168,29 @@ Working family:
 #09 Direct High-Frequency-Link DC–AC
 ```
 
-典型路徑：
+Typical path:
 
 ```text
 LV DC
 → HF bridge
 → HFT / HF link
-→ bidirectional matrix / cycloconverter stage
+→ bidirectional matrix / cycloconverter
 → AC
 ```
 
-相較 A0/A1，省略完整：
+Relative to A0/A1 it avoids the complete conventional chain:
 
 ```text
-Rectifier → HV DC Bus → VSI
+HV rectifier → full HV DC bus → VSI
 ```
 
-這是不能忽略的 modern benchmark。若候選 topology 只比傳統兩級式好，reviewer 仍可要求與 direct-HFL 方法比較。
+This is a required modern benchmark. A candidate that only improves on conventional two-stage conversion is insufficient.
 
-### Xi'an line 的定位
-
-目前追蹤的西安交大工作屬 Benchmark B 的重要近鄰：
-
-```text
-48 Vdc
-→ HF inverter
-→ HFT
-→ differential cycloconverter / direct AC stage
-→ 220 Vac
-```
-
-並在 AC side 利用 differential/common-mode capacitor-voltage freedom 做 double-line-frequency power decoupling。
-
-研究含義：
-
-```text
-「讓 2ω 能量不必完整穿回 low-voltage / HF source path」
-已存在 magnetic/HFT-based strong prior art.
-```
-
-因此未來若採 electric-field，不可把這個 energy-routing idea 本身當成新穎性。
-
-正式數值、prototype 規格、DOI 與 successor 狀態仍需由 evidence pipeline 鎖定後引用。
+Existing direct-HFL + AC-side power-decoupling prior art also means that keeping 2ω energy from fully returning to the LV source is not itself novel.
 
 ---
 
-## 4. Benchmark C — Non-Isolated Current-Distribution / High-Gain class
+## 4. Benchmark C — Non-Isolated Current-Distribution / High-Gain
 
 Working family:
 
@@ -229,37 +198,35 @@ Working family:
 #04 Non-Isolated High-Gain DC/DC + VSI
 ```
 
-對目前 extreme-LV 問題，公平版本不是單一 175 A high-gain cell，而是允許：
+Fair extreme-LV form:
 
 ```text
 12 V short bus
 → N-way current distribution
 → N × [switching + high-gain / coupled-L X1]
-→ HV collective combine
-→ HV energy node
+→ collective HV combine
+→ HV node
 → X3
 ```
 
-主要比較量：
+Compare:
 
 ```text
 common-path R_eq
 branch IRMS
-MOS conduction / switching
-inductor / coupled-inductor copper + core
-leakage / clamp
-rectifier / diode loss
-capacitor ESR / charge redistribution
-internal circulating current
+MOS conduction/switching
+inductor/coupled-inductor copper/core
+leakage/clamp
+rectifier/diode loss
+capacitor ESR/charge redistribution
+internal circulation
 ```
 
-Direct 12 V / 2 kW / ~400 V non-isolated high-gain hardware remains `OPEN_INTERSECTION / NOT DIRECT-SCALE VERIFIED` unless separately locked by evidence.
+Direct 12 V / 2 kW / ~400 V hardware intersection remains not directly established by the current evidence set.
 
 ---
 
 ## 5. Candidate D — Working loss-routing architecture
-
-Current working architecture is preserved as a hypothesis:
 
 ```text
 12–24 Vdc
@@ -267,100 +234,75 @@ Current working architecture is preserved as a hypothesis:
 → local bulk + HF decoupling
 → early distributed branch power cells
 → branch switching + candidate X1
-→ reduced-current energy node
-→ [optional active X2 2ω buffer]
+→ reduced-current domain
+→ [optional active X2]
 → X3
 → 220 Vac / 1φ
 ```
 
-Detailed block-by-block added-loss audit is recorded in:
+Status:
 
 ```text
-research/11_WORKING_ARCHITECTURE_LOSS_AUDIT.md
+working architecture = KEEP
+candidate superiority = NOT ASSUMED
+active X2 = OPTIONAL / MUST PASS ABLATION
 ```
 
-Candidate D is **not** assumed superior.
-
-### Required ablations
+Required ablation:
 
 ```text
-D0 — active X2 Buffer OFF
-D1 — active X2 Buffer ON
+D0 — Buffer OFF
+D1 — Buffer ON
 ```
 
-If D1 only lowers source/DC-link ripple but:
+Go condition:
 
 ```text
-P_buffer,loss + P_extra_circulation > P_LV,saved
+P_LV,saved > P_buffer,loss + P_extra,circulation
 ```
 
-then active X2 fails and must be removed or restructured.
-
-If an electric-field version only removes HFT loss but:
-
-```text
-P_cap + P_circulating + P_extra_switch > P_HFT,saved
-```
-
-then the electric-field route fails or must be restructured.
+If electric-field conversion is used, it must similarly prove that removed magnetic/rectifier/LV loss exceeds capacitor/reactive/circulating/extra-switch loss.
 
 ---
 
 ## 6. Fair comparison matrix
 
-Final comparison must at minimum include:
-
 ```text
-                    A0: ASP real   A1: modular HFT   B: Direct HFL   C: Non-iso HG   D: Candidate
-Vin                 matched        matched           matched         matched         matched
-Pout                matched        matched           matched         matched         matched
-Vout                matched        matched           matched         matched         matched
-Isolation           explicit       explicit          explicit        explicit        explicit
-Semiconductor       documented     comparable        comparable      comparable      comparable
-I_common,RMS        measured/model model              model           model           measured/model
-I_branch,RMS        measured/model model              model           model           measured/model
-I_2ω                measured/model model              reported/model  model           measured/model
-I_circulating       measured/model model              reported/model  model           measured/model
-P_cond              decomposed     decomposed         decomposed      decomposed      decomposed
-P_sw                decomposed     decomposed         decomposed      decomposed      decomposed
-P_mag               decomposed     decomposed         decomposed      decomposed      N/A or remaining
-P_cap               decomposed     decomposed         decomposed      decomposed      decomposed
-P_rectifier         decomposed     decomposed         as applicable   decomposed      as applicable
-P_buffer            if present     if present         if present      if present      decomposed
-P_total             same boundary  same boundary      same boundary   same boundary   same boundary
+                    A0 ASP       A1 Opt HFT    B Direct HFL   C Non-iso HG   D Candidate
+Vin                 matched      matched       matched         matched        matched
+Pout                matched      matched       matched         matched        matched
+Vout                matched      matched       matched         matched        matched
+Isolation           explicit     explicit      explicit        explicit       explicit
+I_common,RMS        measure/model model         model/report    model          measure/model
+I_branch,RMS        measure/model model         model/report    model          measure/model
+I_2ω                measure/model model         model/report    model          measure/model
+I_circulating       measure/model model         model/report    model          measure/model
+P_cond              decomposed   decomposed    decomposed      decomposed     decomposed
+P_sw                decomposed   decomposed    decomposed      decomposed     decomposed
+P_mag               decomposed   decomposed    decomposed      decomposed     N/A/remaining
+P_cap               decomposed   decomposed    decomposed      decomposed     decomposed
+P_rectifier         decomposed   decomposed    as applicable   decomposed     as applicable
+P_buffer            if present   if present    if present      if present     decomposed
+P_total             same bound   same bound    same bound      same bound     same bound
 ```
 
-若 boundary 無法匹配，該 paper / product datum 只能進：
-
-```text
-CONTEXT_ONLY
-或
-BOUNDED_TRADEOFF
-```
-
-不可做 direct scalar ranking。
+If boundaries cannot be matched, evidence is `CONTEXT_ONLY` or `BOUNDED_TRADEOFF`, not a scalar ranking.
 
 ---
 
-## 7. Current benchmark rule
+## 7. Current benchmark gate
 
-A proposed candidate must no longer pass only this test:
-
-```text
-Candidate < old generic #02 loss
-```
-
-It must eventually survive:
+A proposed topology must eventually survive:
 
 ```text
 Candidate
 vs A0 actual ASP
-vs A1 fair optimized magnetic benchmark
+vs A1 fair optimized magnetic HFT
 vs Direct HFL
-vs matched non-isolated high-gain benchmark when applicable
+vs matched non-isolated high-gain when applicable
 ```
 
-Core rule remains:
+Core rule:
 
 ```text
 P_saved > P_added
