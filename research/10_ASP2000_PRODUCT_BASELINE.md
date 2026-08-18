@@ -2,482 +2,441 @@
 
 Status date: 2026-08-19  
 Role: `A0 REAL-PRODUCT BENCHMARK`  
-Evidence status: `DIRECT_SCHEMATIC_EXTRACTION / PARTIAL_CONNECTIVITY_RECONSTRUCTION`  
+Evidence status: `DIRECT_SCHEMATIC_NET_RECONSTRUCTION / PCB-R NOT YET QUANTIFIED`  
 Novelty relevance: `NONE — benchmark evidence only`
 
 ## 1. Purpose
 
-This document records the product-level reality check derived from the user-supplied ASP-2000 MAIN R52 Altium source artifacts.
-
-Source artifacts used in this analysis:
+This document records the product-level baseline derived from the user-supplied ASP-2000 MAIN R52 Altium source artifacts:
 
 ```text
 PB-2200-0038-D_ASP-2000-MAIN-R52.SchDoc
 PB-2200-0038-D_ASP-2000-MAIN-R52.PcbDoc
 ```
 
-The raw product files are **not committed to this repository**. This document stores only the research-relevant structural abstraction and explicitly separates verified extraction from inference.
+The raw company/product files are **not committed to this public repository**.
 
-The purpose is to prevent an unfair comparison in which a new candidate is credited for current sharing or modularization that the real product already uses.
+A0 exists to prevent unfair comparison. Any candidate must be compared with the real product structure rather than a simplified fictional single-transformer / single-switch path.
+
+Detailed pin/net reconstruction and the first loss-budget gate are in:
+
+```text
+research/12_ASP2000_A0_POWER_PATH_AND_LOSS_BUDGET.md
+```
 
 ---
 
-## 2. Verified product-level findings
+## 2. Verified low-voltage power structure
 
-The schematic source directly exposes the following power-stage structure.
-
-### 2.1 Two high-frequency magnetic transformation modules
+### 2.1 Two PQ5050 HFT modules
 
 ```text
 T1 = PQ5050
 T2 = PQ5050
 ```
 
-Therefore the real product is not represented accurately by a single monolithic low-voltage transformer abstraction.
-
-### 2.2 Low-voltage switching is already strongly paralleled
-
-The 12 V / 24 V low-side power stage contains 20 main MOSFET positions annotated:
+Both transformer primary symbols expose:
 
 ```text
-CSD18542KCS @12V
-CSD19533KCS @24V
+pin 9 = A
+pin 8 = B
+pin 7 = C
 ```
 
-They are arranged around the two HFT modules as four local switch banks of five parallel devices:
+with `B` used as the separately supplied center-tap node.
+
+### 2.2 BAT+ is split into two four-fuse center-tap feeds
+
+Direct net reconstruction establishes:
 
 ```text
-T1 region:
-Bank A1 = Q3, Q4, Q5, Q6, Q33
-Bank B1 = Q11, Q12, Q13, Q14, Q36
-
-T2 region:
-Bank A2 = Q18, Q19, Q20, Q21, Q37
-Bank B2 = Q24, Q25, Q26, Q27, Q38
+BAT+
+├─ F2 / F3 / F5 / F6 ─→ T1 pin B + local LV bulk
+└─ F7 / F8 / F9 / F10 → T2 pin B + local LV bulk
 ```
 
-Research interpretation:
+Main fuse annotation:
 
 ```text
-one HFT module
-← two local low-side switching banks
-← five parallel MOS devices per bank
+40 A / 32 V @12 V
+20 A / 32 V @24 V
 ```
 
-Do not interpret this as proof of an exact push-pull/current-fed/full-bridge operating mode until full net connectivity and switching timing are independently reconstructed.
+`F15 = 0603L020YR` is an auxiliary/sense-path polyfuse and is not a main high-current fuse.
 
-### 2.3 Input current distribution hardware is already present
+`F1 = 2 A / 300 V` is also outside the main BAT+ four-fuse banks.
 
-Eight input fuse positions are grouped around the two low-voltage power sections:
+### 2.3 Local LV bulk exists at both transformer feeds
+
+T1 feed includes visible capacitor positions:
 
 ```text
-F2, F3, F5, F6
-F7, F8, F9, F10
+C2 C3 C4 C5 C6
++ C97 C98 C99 auxiliary/optional positions
 ```
 
-with schematic annotations:
+T2 feed includes:
 
 ```text
-40 A / 32 V @12V
-20 A / 32 V @24V
+C28 C29 C30 C31 C32
 ```
 
-This is direct product evidence that the low-voltage source current is not treated as a single-device current path.
-
-### 2.4 Low-voltage local energy storage is already substantial
-
-Ten low-voltage bulk-capacitor positions are annotated for the voltage variants:
+Main LV capacitor annotation includes:
 
 ```text
-2700 uF / 25 V @12V
-1500 uF / 35 V @24V
+2700 uF / 25 V @12 V
+1500 uF / 35 V @24 V
 ```
 
-The schematic notes show two groups of five capacitors associated with the low-voltage power regions.
+The annotation contains population shorthand that must not be converted into an exact assembly count without BOM/variant data.
 
-This supports the engineering interpretation:
+### 2.4 T1/T2 primary ends share the switching nodes
+
+Important correction to the earlier component-level abstraction:
 
 ```text
-battery / common LV path
-→ local bulk energy support
-→ paralleled switching banks
-→ HFT
+T1 A = T2 A = shared A-side switched drain net
+T1 C = T2 C = shared C-side switched drain net
 ```
 
-It does **not** prove that all switching-frequency current is fully localized; that requires waveform and impedance measurement.
+Therefore the four spatial groups of MOS positions are **not four electrically independent five-MOS converter branches**.
 
-### 2.5 High-voltage rectification stage is explicit
-
-The schematic contains four KSU60D60N high-voltage rectifier devices:
+C-side shared node directly contains ten MOS positions:
 
 ```text
-D1, D2
-D5, D6
+Q11 Q12 Q13 Q14 Q36
+Q24 Q25 Q26 Q27 Q38
 ```
 
-Their placement separates naturally into the T1 and T2 conversion regions.
-
-Therefore the product-level front end is consistent with the working family:
+A-side shared node directly reconstructs nine expected connected positions:
 
 ```text
-#02 HFT + Rectifier + HV DC Bus + VSI
+Q3 Q4 Q5 Q6 Q33
+Q18 Q20 Q21 Q37
 ```
 
-### 2.6 High-voltage energy node / DC-link is explicit
+`Q19` is annotated as the same low-side MOS type but its drain appears isolated in the extracted SchDoc graph.
 
-The schematic contains:
+Status:
 
 ```text
-C8, C11, C89, C90
-= 680 uF / 315 V
+20 low-side MOS positions annotated
+19 expected power connections directly reconstructed
+Q19 drain = SCHEMATIC_ANOMALY / VERIFY PCB-BOM-ASSEMBLY
 ```
 
-and power-net labels including:
+### 2.5 Low-side MOS device variants
+
+Schematic annotation:
 
 ```text
-BUS+
-BUS-
-VBUS-class internal naming
+CSD18542KCS @12 V
+CSD19533KCS @24 V
 ```
 
-Research interpretation:
+The product clearly uses heavy semiconductor paralleling, but exact current sharing and hot effective RDS(on) remain measurement/model quantities.
+
+### 2.6 Operating-mode wording
+
+The graph verifies:
 
 ```text
-HFT
-→ HV rectification
-→ HV energy-storage / DC-link region
+separately fed center-tapped primaries
++ shared A/C low-side switched nodes
 ```
 
-This region is the product-level physical reference for the research coordinate `X2`, but the existing passive DC-link must **not** be confused with an active bidirectional 2ω buffer.
+This is consistent with push-pull-like operation.
 
-### 2.7 A distinct high-voltage AC-synthesis stage exists
-
-The schematic contains a separate high-voltage switching region with designators:
+However:
 
 ```text
-Q1, Q2, Q9, Q10,
-Q31, Q32, Q34, Q35
+exact gate timing / duty / dead time / modulation = NOT YET VERIFIED
 ```
 
-and alternative device annotations for 110 V / 220 V variants:
-
-```text
-NGTB50N65FL2W @110V
-IRG7PH35UDPBF @220V
-```
-
-The same region is associated with AC/output labels such as:
-
-```text
-ACL
-ACN
-ACL1
-ACN1
-```
-
-This is sufficient to classify a distinct post-DC-link AC-synthesis stage as the product reference for `X3`.
-
-Exact population/parallelization under each 110 V / 220 V production variant remains `NOT YET VERIFIED` without the matching BOM/variant configuration.
+So `push-pull-like` remains an inference rather than a fully verified operating-mode label.
 
 ---
 
-## 3. Product power-path abstraction
+## 3. Verified X1-to-HV connectivity
 
-The verified source evidence supports the following A0 abstraction:
+### 3.1 The two secondaries include a direct series junction
+
+Direct reconstruction establishes:
 
 ```text
-Battery / LV input
-        ↓
-input fuses / common LV distribution
-        ↓
-local LV bulk capacitors
-        ↓
-parallel low-side MOS banks
-        ↓
-T1 + T2 PQ5050 HFT modules          ← X1 region
-        ↓
-D1/D2 + D5/D6 HV rectification
-        ↓
-HV DC-link / BUS+/BUS-              ← passive X2-capable energy node
-        ↓
-high-voltage inverter stage         ← X3
-        ↓
-output filtering / AC terminals
-        ↓
-AC output
+T1 pin 5 ── T2 pin 2
+```
+
+The outer secondary nodes feed two rectifier legs:
+
+```text
+T1 pin 2 → D1/D5 AC-side leg
+T2 pin 5 → RL1 path → D2/D6 AC-side leg
+```
+
+The exact control/configuration purpose of `RL1` remains open.
+
+### 3.2 HV rectifier bridge
+
+Verified:
+
+```text
+D1 pin 2 → BUS+
+D2 pin 2 → BUS+
+D5 pin 1 → BUS-
+D6 pin 1 → BUS-
+```
+
+Thus:
+
+```text
+D1/D5 = one rectifier leg
+D2/D6 = the other rectifier leg
+```
+
+### 3.3 HV DC-link / energy node
+
+Four capacitor positions are annotated:
+
+```text
+C8 C11 C89 C90
+= 680 uF / 315 V
+```
+
+and are located in the `BUS+ / BUS-` HV energy-storage region.
+
+The symbols use four terminals; exact footprint-terminal semantics and series/parallel assembly must be checked before claiming an exact capacitor topology.
+
+Safe conclusion:
+
+```text
+HV DC-link region = VERIFIED
+exact capacitor assembly topology = NOT YET VERIFIED
+```
+
+### 3.4 X3 exists after the HV bus
+
+A distinct high-voltage switching region is connected to the BUS and AC/output nets.
+
+Relevant designators include:
+
+```text
+Q1 Q2 Q9 Q10
+Q31 Q32 Q34 Q35
+```
+
+with variant annotations:
+
+```text
+NGTB50N65FL2W @110 V
+IRG7PH35UDPBF @220 V
+```
+
+This remains the product reference for `X3`.
+
+---
+
+## 4. Revised A0 power-path abstraction
+
+```text
+BAT+
+│
+├─ 4× fuse bank → local bulk → T1 center tap B ─┐
+│                                               │
+└─ 4× fuse bank → local bulk → T2 center tap B ─┤
+                                                │
+T1/T2 A ends ─→ shared paralleled MOS node ─────┤
+T1/T2 C ends ─→ shared paralleled MOS node ─────┤
+                                                ↓
+                                      common LV return
+                                                │
+                                     T1 + T2 HFT         ← X1
+                                                ↓
+                              series/collective secondary path
+                                                ↓
+                                    D1/D5 + D2/D6
+                                                ↓
+                                         BUS+ / BUS-
+                                                ↓
+                                      HV DC-link region  ← passive X2-capable node
+                                                ↓
+                                      HV inverter        ← X3
+                                                ↓
+                                             AC
 ```
 
 Classification:
 
 ```text
-A0 = #02 real-product benchmark
+A0 = #02 real-product magnetic HFT benchmark
 ```
 
 ---
 
-## 4. X1 / X2 / X3 mapping
+## 5. X1 / X2 / X3 mapping
 
-### X1 — first major impedance transformation
-
-Product reference:
+### X1
 
 ```text
-low-side MOS switching banks
-→ T1 / T2 PQ5050
+low-side switched center-tapped T1/T2 magnetic transformation region
 ```
 
-The HFT modules are the first clearly identified major voltage/current-domain transformation.
+The MOS devices enable HF excitation; the major impedance/current-domain transformation is magnetic.
 
-### X2 — local energy-storage / 2ω placement coordinate
-
-Product reference:
+### X2 reference
 
 ```text
 post-rectification HV DC-link / BUS region
 ```
 
-Important distinction:
+Important:
 
 ```text
 existing passive DC-link ≠ proposed active bidirectional 2ω buffer
 ```
 
-Whether an added active X2 produces net benefit remains a `HYPOTHESIS` and must pass Buffer OFF/ON loss comparison.
-
-### X3 — AC synthesis
-
-Product reference:
+### X3
 
 ```text
-post-BUS high-voltage inverter stage
+post-BUS high-voltage inverter / AC-synthesis region
 ```
 
-Therefore the product already follows the structurally favorable ordering:
+A0 therefore already follows:
 
 ```text
-X1 → HV energy node → X3
+X1 → HV/reduced-current energy node → X3
 ```
-
-rather than synthesizing the complete low-frequency AC waveform in the 12 V hundred-ampere domain.
 
 ---
 
-## 5. A0 loss map
+## 6. A0 loss map
 
-The product benchmark must be decomposed at least as:
+Minimum decomposition:
 
 ```text
-Battery / source impedance
-↓
-Fuse + connector + common LV interconnect I²R
-↓
-LV bulk-capacitor ESR / ripple loss
-↓
-LV MOS-bank conduction
-↓
-LV MOS switching / Coss / gate-drive / commutation
-↓
-T1/T2 primary copper
-↓
-T1/T2 core
-↓
-T1/T2 secondary copper
-↓
-leakage / clamp / snubber / commutation
-↓
-D1/D2/D5/D6 rectifier conduction / recovery
-↓
-HV DC-link capacitor ESR / dielectric / ripple
-↓
-HV inverter conduction / switching
-↓
-output-filter copper / core / capacitor loss
-↓
-output interconnect / terminal
+battery/source impedance
+→ BAT+ common interconnect
+→ 2 × four-fuse banks
+→ local LV interconnect + bulk ESR/ripple
+→ A/C MOS-bank conduction
+→ MOS switching / Coss / gate / commutation
+→ T1/T2 primary copper
+→ T1/T2 core
+→ T1/T2 secondary copper
+→ leakage / clamp / snubber
+→ D1/D2/D5/D6 rectifier
+→ HV DC-link ESR/dielectric/ripple
+→ HV inverter
+→ output filter / terminal
 ```
 
-This is now the minimum real-product boundary for any claimed improvement.
+The first formal quantitative gate is now `BAT+ → X1` loss localization; see `research/12_ASP2000_A0_POWER_PATH_AND_LOSS_BUDGET.md`.
 
 ---
 
-## 6. Critical research correction caused by the product evidence
+## 7. Critical research consequences
 
-Previous candidate language emphasized:
+The real A0 already contains:
 
 ```text
-early distribute the hundred-ampere current
+parallel low-side MOS
+multiple HFT magnetic paths
+separate fused current feeds
+local LV energy support
+collective/series secondary voltage formation
+HV DC-link before X3
 ```
 
-The real product proves that this principle already exists in A0.
-
-Therefore the candidate **cannot** claim advantage merely because it uses:
+Therefore none of the following can be credited as candidate novelty or automatic loss advantage:
 
 ```text
 parallel MOS
 multiple current paths
-two or more power cells
-early current sharing
-modular HFT
+multiple transformers
+current sharing
+early distribution
+secondary voltage combination
+HV bus before AC synthesis
 ```
 
-A fair comparison must instead ask:
+A candidate must instead demonstrate a matched benefit in quantities such as:
 
 ```text
-Does the candidate reduce:
-- common-path R_eq before X1?
-- LV full-current physical exposure?
-- MOS-bank I_RMS²R?
-- HFT primary copper / magnetic loss?
-- leakage / clamp / commutation loss?
-- rectifier loss?
-- 2ω component reflected to the LV source?
+R_common before X1
+I_common,RMS
+MOS-bank I_RMS²R
+switching / commutation loss
+primary copper/core loss
+leakage/clamp loss
+rectifier loss
+source 2ω RMS
+P_total
+```
 
-while keeping:
-P_saved > P_added ?
+under the rule:
+
+```text
+P_saved > P_added
 ```
 
 ---
 
-## 7. Required matched magnetic benchmark
+## 8. Required magnetic comparison
 
-The magnetic baseline is now split into two levels.
+### A0 — actual product
 
-### A0 — actual ASP-2000 R52 product abstraction
+Use this reconstructed ASP-2000 structure for measurement-grounded loss localization.
 
-```text
-real low-side parallel MOS banks
-→ T1/T2 HFT
-→ real rectifier stage
-→ real HV DC-link
-→ real HV inverter stage
-```
+### A1 — fair optimized magnetic architecture
 
-Use A0 for measurement-grounded loss localization.
-
-### A1 — optimized matched modular-HFT benchmark
-
-A new candidate using N branches must also be compared against a fair magnetic architecture allowed to use the same current-distribution freedom:
+A new candidate using N branches must also beat an HFT architecture allowed to use equivalent current-distribution freedom:
 
 ```text
 12 V short bus
-→ N-way fan-out
-→ N × [switching + HFT X1]
-→ HV combine / rectification
-→ HV node
+→ optimized distribution
+→ switching + magnetic X1
+→ collective HV formation / rectification
+→ reduced-current node
 → X3
 ```
 
-This prevents an invalid comparison of:
-
-```text
-new modular candidate
-vs
-artificially monolithic magnetic benchmark
-```
-
----
-
-## 8. Candidate architecture status after product reality check
-
-Keep the current working architecture:
-
-```text
-12 V source
-↓
-very-short / very-low-R common path
-↓
-local bulk + HF decoupling
-↓
-early distributed branch power cells
-↓
-branch switching + X1
-↓
-reduced-current domain
-↓
-[X2 active 2ω buffer — optional / must prove benefit]
-↓
-X3
-↓
-220 Vac
-```
-
-Status by block:
-
-```text
-very-short common LV path      = KEEP / PHYSICAL REQUIREMENT
-local decoupling               = KEEP / ENGINEERING REQUIREMENT
-early current distribution     = KEEP AS HYPOTHESIS, not novelty
-branch switching + X1          = CORE RESEARCH REGION
-reduced-current node           = KEEP AS FUNCTIONAL CONCEPT
-active X2 buffer               = OPTIONAL / NOT YET PROVEN
-X3 after X1                    = KEEP / STRUCTURAL REQUIREMENT
-```
-
-The product evidence strengthens the need for a **matched** benchmark; it does not establish that the candidate is superior.
+Do not compare a new modular candidate with an artificially monolithic HFT baseline.
 
 ---
 
 ## 9. What remains unverified
 
-Do not infer the following from the partial binary extraction:
-
 ```text
+Q19 intended/assembled drain connection
 exact T1/T2 turns ratio
-exact switching frequency
-exact low-side modulation / bridge class
-exact per-device current sharing
-exact transformer primary / secondary RMS current
-exact PCB copper Rdc/Rac
-exact leakage inductance
-exact clamp/snubber processed power
-exact DC-link 100/120 Hz ripple
-exact source 100/120 Hz current
-exact 110 V / 220 V population variants
-measured stage efficiencies
-thermal distribution
+exact switching frequency / timing / duty
+exact T1/T2 current balance
+exact fuse current sharing
+exact MOS current sharing
+PCB copper Rdc/Rac
+transformer winding Rac / core loss
+leakage/clamp processed power
+RL1 operating role
+exact four-terminal HV capacitor implementation
+source 100/120 Hz current
+HV DC-link ripple
+110 V / 220 V BOM population
+stage efficiencies / thermal map
 ```
-
-These require source-net reconstruction, BOM/variant data, simulation, or hardware measurement.
 
 ---
 
-## 10. Next A0 validation actions
-
-Before claiming candidate benefit, obtain or model:
+## 10. Formal status
 
 ```text
-1. I_source,avg / RMS / 2ω / HF ripple
-2. each low-side MOS-bank current
-3. T1 primary current
-4. T2 primary current
-5. R_common from battery/fuse/bus to switching banks
-6. effective MOS-bank RDS(on) at operating temperature
-7. T1/T2 copper + core loss
-8. rectifier loss
-9. HV DC-link ripple and capacitor RMS
-10. HV inverter loss
-```
-
-The first candidate comparison should then use:
-
-```text
-A0 actual ASP product
-A1 optimized matched modular HFT
-B  non-isolated current-distribution / high-gain candidate
-C  direct-HFL candidate
-```
-
-with identical declared comparison boundaries.
-
----
-
-## 11. Formal status
-
-```text
-ASP-2000 R52 structural baseline = VERIFIED AT COMPONENT / STAGE LEVEL
-full net-by-net reconstruction    = NOT YET COMPLETE
-A0 benchmark                      = ESTABLISHED
-candidate superiority             = NOT ESTABLISHED
-active X2 benefit                 = NOT ESTABLISHED
-novelty                           = NOT ESTABLISHED
+ASP A0 main power graph            = SUBSTANTIALLY RECONSTRUCTED
+center-tap/fuse grouping           = VERIFIED
+shared A/C switching nodes         = VERIFIED
+secondary series/rectifier graph   = VERIFIED
+A0 numerical BAT→X1 loss budget    = OPEN
+PCB resistance extraction          = OPEN
+A0 benchmark                       = ESTABLISHED
+candidate superiority              = NOT ESTABLISHED
+active X2 benefit                  = NOT ESTABLISHED
+novelty                            = NOT ESTABLISHED
 ```
