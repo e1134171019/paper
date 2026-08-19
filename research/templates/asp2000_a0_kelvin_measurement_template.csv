@@ -1,0 +1,11 @@
+run_id,operating_point,vin_v,vout_v,pout_w,i_source_a,i_t1_a,i_t2_a,segment_id,segment_name,v_start,v_end,delta_v_mv,r_eq_mohm,p_loss_w,temp_start_c,temp_end_c,measurement_method,evidence_status,notes
+,OP0,,,,,,,M0_T1,BAT+ distribution to T1 fuse inputs,,,,,,,,Kelvin_mV,MEASURED,
+,OP0,,,,,,,M0_T2,BAT+ distribution to T2 fuse inputs,,,,,,,,Kelvin_mV,MEASURED,
+,OP0,,,,,,,M1_T1,T1 fuse bank F2-F3-F5-F6,,,,,,,,Kelvin_mV,MEASURED,
+,OP0,,,,,,,M2_T1,T1 fuse output to T1 center tap,,,,,,,,Kelvin_mV,MEASURED,
+,OP0,,,,,,,M1_T2,T2 fuse bank F7-F8-F9-F10,,,,,,,,Kelvin_mV,MEASURED,
+,OP0,,,,,,,M3A_T2,T2 fuse output to J8 upstream,,,,,,,,Kelvin_mV,MEASURED,
+,OP0,,,,,,,M3B_J8,J8 external high-current link,,,,,,,,Kelvin_mV,MEASURED,
+,OP0,,,,,,,M4_T2,J8 downstream to T2 center tap,,,,,,,,Kelvin_mV,MEASURED,
+,OP0,,,,,,,M5_NEG_BANK,BAT- to B across Q39-Q40-Q41-Q42-Q63-Q64-Q65,,,,,,,,Kelvin_mV,MEASURED,
+,OP0,,,,,,,M6_B_RETURN,Main MOS source region to B return,,,,,,,,Kelvin_mV,MEASURED_OR_OPEN,
