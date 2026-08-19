@@ -102,14 +102,7 @@ Q19 Drain → A node
 
 Old `9+10 / Q19 OPEN` model is superseded.
 
-Four physical driver groups are paired into two logical commands:
-
-```text
-DA1 + DA2 → A function
-DB1 + DB2 → C function
-DR-A ↔ DR-A2 through 0Ω
-DR-B ↔ DR-B2 through 0Ω
-```
+Four physical driver groups serve the two A/C power functions.
 
 Correct current variables:
 
@@ -279,40 +272,13 @@ M1-PQ50-V121-A data = CONTEXT_ONLY / DIFFERENT VARIANT
 A0 transformer numerical parameters = OPEN
 ```
 
-R52 coordinate export and layout image also expose only `PQ5050`; no populated production P/N has been recovered from current R52 files.
-
 ---
 
 ## 2026-08-19 — PCB copper-loss model corrected by manufacturing specification — CRITICAL
 
-### Superseded assumption
+Initial PcbDoc-stack calculations used approximately 35.56 µm copper and produced an ~11.5 W partial-positive-PCB scale.
 
-Initial geometry calculations used PcbDoc stack metadata:
-
-```text
-Top ≈35.56 µm
-Bottom ≈35.56 µm
-R_sheet,1layer≈0.485 mΩ/square
-```
-
-This produced:
-
-```text
-BAT+ common ≈0.249 mΩ /≈7.67 W @175.4A
-T1 local ≈0.351 mΩ /≈2.70 W @87.7A
-T2 PCB excl. J8 ≈0.144 mΩ /≈1.10 W @87.7A
-partial positive PCB ≈0.373 mΩ /≈11.5 W
-```
-
-Those values are now:
-
-```text
-SUPERSEDED_BY_R52_MANUFACTURING_SPEC
-```
-
-### New authoritative manufacturing evidence
-
-`PB-2200-0038-D_R52_231206_PCB製作規格.xlsx`, tied to the same R52 Gerber, specifies:
+The direct R52 manufacturing specification tied to the same Gerber instead specifies:
 
 ```text
 FR4
@@ -322,47 +288,135 @@ base copper =2.0oz
 finished copper thickness >82µm
 ```
 
-Decision:
+Therefore:
 
 ```text
-R52 finished copper >82µm
-= AUTHORITATIVE AS-BUILT MANUFACTURING BOUND
+old 35.56 µm geometry-loss model = SUPERSEDED
 ```
 
-Using 82µm as the conservative minimum and rescaling the same 2D geometry:
+Using 82 µm as the conservative minimum and the same 2D geometry:
 
 ```text
-R_sheet,1layer,max≈0.210 mΩ/square
-R_sheet,2layer,ideal,max≈0.105 mΩ/square
-
-BAT+ common:
-R≤~0.108 mΩ
-P@175.4A≤~3.32 W
-
-T1 local:
-R≤~0.152 mΩ
-P@87.7A≤~1.17 W
-
-T2 PCB excl. J8:
-R≤~0.0624 mΩ
-P@87.7A≤~0.48 W
-
-partial positive PCB:
-R_eq≤~0.162 mΩ
-P@175.4A≤~4.98 W
+BAT+ common ≤~3.32 W @175.4A
+T1 local ≤~1.17 W @87.7A
+T2 PCB excl. J8 ≤~0.48 W @87.7A
+partial positive PCB ≤~4.98 W
 ```
 
 Research consequence:
 
 ```text
-OLD conclusion:
-common PCB copper ~ entire main-MOS conduction bucket
-
-CURRENT conclusion:
-PCB distribution remains material but is substantially smaller than the old stack-based model; main MOS / protection interface / contacts / fuses / J8 / HFT must not be ranked before measurement.
+PCB distribution remains material
+but is NOT proven dominant
 ```
 
-The architecture requirement `very-short common LV path` remains physically sensible, but its quantitative justification is weaker than previously stated.
+---
+
+## 2026-08-19 — Primary RC damping and U5 stuffing boundary resolved
+
+Direct A/C adjacency establishes two passive series-RC snubber/damping branches across the primary switched nodes and no direct active recovery branch attached to those A/C nodes.
+
+Decision:
+
+```text
+direct primary-node damping = PASSIVE / DISSIPATIVE RC STRUCTURE
+P_snubber = OPEN / WAVEFORM_NEEDED
+```
+
+R52 also supports U5 buffered command distribution and direct 0Ω bypass options. The exact production stuffing of U5/R212/R213 remains open.
+
+Therefore older wording that treated R212/R213 as definitely populated production timing links is superseded.
+
+---
+
+## 2026-08-19 — A0 optimization is NOT the research task — CRITICAL DIRECTION CORRECTION
+
+A0 reverse engineering has reached the point where continued component-level tracing risks turning the work into an ASP optimization project.
+
+Formal decision:
+
+```text
+ASP-2000 R52
+= real-product benchmark / evidence source
+≠ optimization target
+```
+
+A0 structural evidence is now sufficient for a physical-gap screen.
+
+Product-engineering items are no longer independent research targets:
+
+```text
+PCB / bus / connector geometry
+Fuse / J8 / contacts
+battery reverse-protection / BOCP
+RL1 / precharge implementation
+U5 / stuffing details
+exact RC snubber value tuning
+```
+
+Continue them only when they discriminate a topology-level hypothesis.
+
+Current physical-gap hypotheses:
+
+```text
+PG-1 extreme-LV conduction exposure before X1
+= HYPOTHESIS / TOPOLOGY-RELEVANT
+
+PG-2 dissipative commutation / leakage-energy handling
+= HYPOTHESIS / STRONG STRUCTURAL SIGNAL
+
+PG-3 magnetic transformation burden at extreme ratio
+= OPEN / NOT YET A GAP
+
+PG-4 single-phase 2ω energy reflection into LV source
+= HYPOTHESIS / NOT_ESTABLISHED
+```
+
+Authoritative screen:
+
+```text
+research/25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md
+```
+
+---
+
+## 2026-08-19 — Exhaustive A0 loss closure no longer blocks mechanism comparison
+
+The previous broad workflow:
+
+```text
+measure/close every A0 static + dynamic watt
+→ only then build A1 and compare mechanisms
+```
+
+is superseded because it over-serves product characterization rather than the research question.
+
+New minimum-evidence workflow:
+
+```text
+A0 structural evidence freeze
+↓
+physical-gap screen
+↓
+H1 PG-1 conduction discriminator
+H2 PG-2 commutation/snubber discriminator
+H3 PG-3 magnetic discriminator
+H4 PG-4 2ω-routing discriminator
+↓
+A1 / Direct-HFL / non-isolated X1 mechanism comparison
+↓
+reject gaps that disappear under fair optimization
+↓
+only then topology synthesis
+```
+
+A1 is therefore no longer blocked by a requirement to fully close every ASP loss term. It begins after the minimum evidence needed to make the mechanism comparison meaningful.
+
+Candidate #10 remains:
+
+```text
+HOLD / NOT_ASSIGNED
+```
 
 ---
 
@@ -389,26 +443,22 @@ candidate deletes A0 product functionality
 
 ```text
 Research phase                         = Physical Gap Validation
-A0 main power/current graph            = SUBSTANTIALLY_RECONSTRUCTED
-A logical switch                       = 10 MOS / VERIFIED
-C logical switch                       = 10 MOS / VERIFIED
-4 drivers /2 logical commands          = VERIFIED_AT_CONNECTIVITY_LEVEL
+A0 role                                = REAL-PRODUCT EVIDENCE / NOT OPTIMIZATION TARGET
+A0 structural reverse engineering      = SUFFICIENT_FOR_GAP_SCREEN
 R52 finished copper                    = >82 µm / VERIFIED_FROM_MANUFACTURING_SPEC
 old 35.56 µm geometry-loss model       = SUPERSEDED
-BAT+ common geometry bound             = ≤~3.32 W / NOT_MEASURED
 partial positive PCB geometry bound    = ≤~4.98 W / NOT_MEASURED
-ASP reverse-polarity function          = VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
-BOCP analog gain                       = ~22.1 V/V / VERIFIED_FROM_MAIN_BOARD
-RL1 precharge/bypass role              = VERIFIED_AT_CONNECTIVITY_AND_NETNAME_LEVEL
-A0 transformer populated P/N           = OPEN
+main-MOS conduction scale              = ~12.3 W / DATASHEET_BOUND
+battery-interface scale                = ~7.47 W / PRODUCT-INTERFACE DATASHEET_BOUND
+A/C passive RC damping                 = VERIFIED
 A0 transformer numerical parameters    = OPEN
-M1-PQ50-V121-A data                     = CONTEXT_ONLY
-A0 measured distribution loss          = OPEN
-A0 dynamic switch/HFT loss             = OPEN
-A0 total BAT→X1 loss                   = OPEN
-A1 matched model                       = BLOCKED_UNTIL_A0_LOSS_LOCALIZATION
+PG-1                                   = HYPOTHESIS
+PG-2                                   = HYPOTHESIS / STRONG SIGNAL
+PG-3                                   = OPEN
+PG-4                                   = HYPOTHESIS
+A1                                     = NEXT AFTER MINIMUM H1-H4 EVIDENCE
 Early fan-out benefit                  = NOT_PROVEN
 Active X2 benefit                      = NOT_PROVEN
-Candidate #10                          = NOT_ASSIGNED
+Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
