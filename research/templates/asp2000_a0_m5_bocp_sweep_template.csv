@@ -1,0 +1,6 @@
+run_id,operating_point,Vin_V,Pout_W,Vout_V,I_source_A,V_B_minus_V_BATminus_mV,V_BOCP_relative_B_V,V_12VP_V,V_minus12V_V,MOS_bank_temp_C,ambient_C,cooling_condition,R_M5_mOhm,P_M5_W,G_BOCP_meas_V_per_V,notes,evidence_status
+M5-001,OP0,,,,,,,,,,,,,,,,,NOT_MEASURED
+M5-002,OP1,,,,,,,,,,,,,,,,,NOT_MEASURED
+M5-003,OP2,,,,,,,,,,,,,,,,,NOT_MEASURED
+M5-004,OP3,,,,,,,,,,,,,,,,,NOT_MEASURED
+M5-005,OP4_12V_2kW_if_permitted,12,2000,220,,,,,,,,,,,,,,NOT_MEASURED
