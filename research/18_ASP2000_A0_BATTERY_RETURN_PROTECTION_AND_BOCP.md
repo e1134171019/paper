@@ -2,7 +2,7 @@
 
 Status date: 2026-08-19  
 Role: `A0 BATTERY-INTERFACE FUNCTION / FAIR-BOUNDARY CORRECTION`  
-Evidence status: `DIRECT SCHDOC CONNECTIVITY + COMPILED-PCB POWER-NET CONFIRMATION`  
+Evidence status: `SCHDOC + COMPILED-PCB + ASP PRODUCT SPEC`  
 Hardware waveform status: `NOT YET MEASURED`  
 Novelty relevance: `NONE — benchmark/function-boundary evidence`
 
@@ -10,7 +10,7 @@ Novelty relevance: `NONE — benchmark/function-boundary evidence`
 
 This document resolves the product-function ambiguity around the seven full-current MOSFETs between the ASP-2000 R52 main low-side return `B` and battery negative.
 
-Previous research notes correctly established the power boundary:
+Verified power boundary:
 
 ```text
 B
@@ -20,9 +20,20 @@ Q39 Q40 Q41 Q42 Q63 Q64 Q65
 BAT-
 ```
 
-but left the exact function as `OPEN`.
+The evidence now comes from two independent directions:
 
-The present SchDoc trace resolves the gate-bias and BOCP sensing architecture far enough to classify the function without pretending that the control-board firmware or exact trip threshold is known.
+```text
+1. MAIN-board SchDoc / compiled-PCB structure
+2. ASP-series product specification
+```
+
+The product specification explicitly lists:
+
+```text
+Input reverse polarity protection (AUTO-RECOVERY)
+```
+
+Therefore reverse-polarity protection is no longer merely inferred to exist at product level.
 
 Raw company source files remain outside this public repository.
 
@@ -37,16 +48,14 @@ Q39 Q40 Q41 Q42 Q63 Q64 Q65
 = CSD18510KCS
 ```
 
-SchDoc + PCB mapping establishes:
+SchDoc + PCB mapping establishes for all seven:
 
 ```text
 Drain  → BAT-
 Source → B
 ```
 
-for all seven positions.
-
-Therefore they form one parallel low-side battery-return interface, not seven series devices and not seven independently switched branches.
+They form one parallel low-side battery-return interface, not seven series devices and not seven independently switched branches.
 
 The main converter return current reaches battery negative through this parallel bank.
 
@@ -54,9 +63,7 @@ The main converter return current reaches battery negative through this parallel
 
 ## 3. Gate-bias architecture — VERIFIED
 
-Each MOS gate has the same local network.
-
-Examples/generalized form:
+Every MOS gate has the same network:
 
 ```text
 12VP
@@ -82,29 +89,42 @@ Q64: R186 = 68R1, R185 = 47K5
 Q65: R188 = 68R1, R187 = 47K5
 ```
 
-The seven `68R1` resistor inputs are tied to the same `12VP` power rail.
+The seven 68.1 Ω resistor inputs are tied to common `12VP`.
 
-No independent PWM / enable command is present between `12VP` and these seven individual gates in the reconstructed MAIN-board circuit.
+No independent MAIN-board PWM / enable command is present between `12VP` and these seven gates.
 
-Research consequence:
+Thus, when 12VP is established:
 
 ```text
-seven-MOS bank = common continuously-enhanced battery-return interface when 12VP is present
+seven-MOS bank = common enhanced low-resistance battery-return interface
 ```
 
 not:
 
 ```text
-seven independently commanded disconnect switches
+seven separately commanded disconnect switches
 ```
 
-The exact startup behavior still depends on how `12VP` itself rises and is controlled.
+The detailed 12VP startup/shutdown sequence remains open.
 
 ---
 
-## 4. Reverse-polarity / ideal-diode-style interpretation — STRONGLY SUPPORTED
+## 4. Reverse-polarity function — PRODUCT LEVEL VERIFIED
 
-For the annotated N-channel MOS devices, the verified orientation is:
+The ASP standard specification explicitly declares:
+
+```text
+Input reverse polarity protection (AUTO-RECOVERY)
+```
+
+Therefore:
+
+```text
+ASP product reverse-polarity protection function
+= VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
+```
+
+The seven-MOS hardware orientation is:
 
 ```text
 normal return direction:
@@ -115,105 +135,143 @@ Source = B
 Drain  = BAT-
 ```
 
-This orientation places the intrinsic body-diode direction in the normal return direction while the enhanced MOS channel bypasses the diode with low resistance when the gate is biased from `12VP`.
-
-That is structurally consistent with a low-side reverse-polarity / ideal-diode-style battery interface:
+This orientation plus common gate enhancement is structurally consistent with a low-side ideal-diode-style implementation:
 
 ```text
 correct polarity
-→ initial allowed return direction
-→ gate bias enhances parallel MOS bank
-→ low conduction drop
+→ intrinsic diode permits the intended initial direction
+→ 12VP enhances the MOS bank
+→ MOS channel reduces normal conduction drop
 
 reverse polarity
-→ intrinsic diode orientation blocks the opposite battery-current direction
+→ intrinsic body-diode orientation blocks the opposite battery-current direction
 ```
 
-Status:
+Therefore the combined evidence status is:
 
 ```text
-low-side reverse-polarity / ideal-diode-style function = STRONGLY SUPPORTED
+reverse-polarity protection exists in ASP product
+= VERIFIED
+
+Q39...Q65 are a low-side ideal-diode-style implementation of that function
+= STRONGLY_SUPPORTED_BY_HARDWARE_STRUCTURE
 ```
 
-A separate commandable full-disconnect function is **not supported by the present seven-MOS topology alone**, because the body-diode path remains in the normal return direction when the gates are not enhanced.
-
-This does not exclude the possibility that some other product element provides system disconnect functionality.
+A separate commandable full-disconnect function is not supported by this seven-MOS topology alone because the body-diode path remains in the normal return direction with the gates off.
 
 ---
 
-## 5. BOCP sensing path — VERIFIED
+## 5. B / SIG reference relationship — VERIFIED
 
-The same `B ↔ BAT-` boundary is explicitly monitored by U4 (`LM2904`).
+In the U4 schematic region, the `B` net label and `SIG` reference port are on the same connected wire.
 
-Reconstructed comparator/amplifier section:
+Thus for the BOCP analog section:
 
 ```text
-U4 pin 5 (+ input) → B
+B = local signal reference SIG
+```
+
+This allows the BOCP voltage to be interpreted relative to the same local reference used by the seven-MOS return bank.
+
+---
+
+## 6. BOCP sensing path — LINEAR AMPLIFIER VERIFIED
+
+The same `B ↔ BAT-` boundary is monitored by U4 (`LM2904`).
+
+Reconstructed channel:
+
+```text
+U4 + input → B / SIG
 
 BAT-
 ↓
-R153 = 1 kΩ
+R153 = 1.00 kΩ
 ↓
-U4 pin 6 (- input)
+U4 - input
 ↑
-R152 = 22.1 kΩ feedback from U4 output
+R152 = 22.1 kΩ negative feedback from U4 output
 
-U4 pin 7 output
+U4 output
 ↓
 R154 = 100 Ω
 ↓
 BOCP
 ↓
 CN4A pin 6
+
+U4 supply:
+V+ → 12VP
+V- → -12V
 ```
 
-Therefore the directly sensed electrical quantity is based on:
+Important correction:
 
 ```text
-V_B - V_BAT-
+this is a closed-loop analog amplifier
+NOT a Schmitt/comparator hysteresis interpretation
 ```
 
-with feedback/hysteresis around the U4 decision point.
-
-When the seven MOSFETs are enhanced and operating in the ohmic region:
+Define:
 
 ```text
-V_B-BAT- ≈ I_source × R_bank,hot
+ΔV_M5 = V_B - V_BAT-
 ```
 
-so the battery-return MOS bank is also a natural current/fault-sensing element.
+For an ideal op-amp in the linear region:
+
+```text
+V_U4out - V_B
+= (R152/R153) ΔV_M5
+≈ 22.1 × ΔV_M5
+```
+
+If BOCP receiver loading through R154 is negligible:
+
+```text
+V_BOCP - V_B ≈ 22.1 × ΔV_M5
+```
 
 Status:
 
 ```text
-B↔BAT- voltage-drop sensing feeding BOCP = VERIFIED
+B↔BAT- analog sensing path = VERIFIED
+nominal circuit gain ≈ 22.1 V/V = VERIFIED_FROM_COMPONENT_VALUES
+BOCP measured gain/offset = OPEN
 BOCP exact firmware/control interpretation = OPEN
-exact trip threshold / output-state meaning = OPEN
+exact trip threshold / final protection action = OPEN
 ```
 
-The signal name `BOCP` and the measured quantity are strongly consistent with an over-current / abnormal-return-drop protection role, but the acronym expansion and final control action are not promoted to verified without the control-board logic/firmware.
+Detailed transfer and diagnostic gate:
+
+```text
+research/19_ASP2000_A0_BOCP_TRANSFER_AND_M5_DIAGNOSTIC_GATE.md
+```
 
 ---
 
-## 6. Function classification
+## 7. Function classification
 
 ### VERIFIED
 
 ```text
-7 × CSD18510KCS are physically parallel between B and BAT-
+7 × CSD18510KCS physically parallel between B and BAT-
 Drain → BAT-
 Source → B
-all seven gates are biased from common 12VP through individual 68.1 Ω resistors
+all seven gates biased from common 12VP through individual 68.1 Ω
 all seven gates have individual 47.5 kΩ pull-downs to B
+B = SIG in the U4 analog region
 U4 senses B relative to BAT-
-U4 output is exported as BOCP to CN4A pin 6
+U4 closed-loop resistor gain = 22.1 nominal
+U4 output exported as BOCP to CN4A pin 6
+ASP product explicitly includes input reverse-polarity protection / AUTO-RECOVERY
 ```
 
 ### STRONGLY SUPPORTED
 
 ```text
-low-side reverse-polarity / ideal-diode-style battery interface
-B↔BAT- MOS-bank drop reused as battery-current / fault information
+Q39...Q65 implement the declared reverse-polarity function as a low-side ideal-diode-style bank
+B↔BAT- MOS-bank drop is reused as current/fault information
 BOCP participates in over-current / abnormal-drop protection logic
 ```
 
@@ -223,25 +281,26 @@ BOCP participates in over-current / abnormal-drop protection logic
 independently commanded battery disconnect by Q39...Q65
 PWM operation of Q39...Q65 during normal conversion
 seven separate current branches with separate control
+BOCP is itself a digital comparator output
 ```
 
 ### OPEN
 
 ```text
 exact BOCP trip threshold
-exact BOCP active polarity
+exact BOCP active polarity at the control-board decision level
 control-board response to BOCP
-whether BOCP distinguishes over-current, short-circuit, MOS-not-enhanced, reverse condition, or multiple conditions
+whether firmware distinguishes over-current / short-circuit / weak MOS enhancement / multiple conditions
 12VP startup/shutdown sequence
 ```
 
+Drive search did not locate a BOCP receiver/control-board schematic or firmware artifact in the currently accessible ASP files, so these items remain evidence-blocked rather than guessed.
+
 ---
 
-## 7. Loss consequence
+## 8. Loss consequence
 
-The previously established datasheet boundary remains useful only as a scale reference.
-
-For `CSD18510KCS`:
+For `CSD18510KCS`, the existing 25°C datasheet boundary is:
 
 ```text
 RDS(on),max @ VGS=10 V = 1.7 mΩ
@@ -250,45 +309,77 @@ RDS(on),max @ VGS=10 V = 1.7 mΩ
 Seven ideal parallel devices:
 
 ```text
-R_eq,25C,max ≈ 1.7 mΩ / 7 ≈ 0.243 mΩ
+R_eq,25C,max ≈ 0.243 mΩ
 ```
 
-At the research scaling current `175.4 A`:
+At `I_source = 175.4 A` scaling:
 
 ```text
-P_25C,bound ≈ I²R ≈ 7.47 W
+ΔV_M5,25C-bound ≈ 42.6 mV
+P_25C,bound ≈ 7.47 W
+```
+
+Nominal BOCP scale from the 22.1× amplifier:
+
+```text
+V_BOCP - V_B ≈ 0.94 V
 ```
 
 Status:
 
 ```text
-DATASHEET BOUND / NOT MEASURED
+DATASHEET / TRANSFER SCALE ONLY
+NOT MEASURED
+NOT A VERIFIED TRIP THRESHOLD
 ```
 
-The actual product loss must still be obtained from the M5 hardware measurement:
+The actual product loss must be obtained from M5 hardware measurement:
 
 ```text
 P_batteryInterface,meas
 = I_source × ΔV(B↔BAT-)
 ```
 
-with temperature recorded.
+with temperature and 12VP recorded.
 
 ---
 
-## 8. Benchmark-boundary correction
+## 9. Why BOCP is not benchmark-grade current metrology
 
-The seven-MOS loss is now classified primarily as a **battery-interface protection/sensing loss**, not as the magnetic X1 conversion mechanism itself.
+The current-to-voltage element is the MOS bank itself:
 
-Fair comparisons must use one of two explicit contracts.
+```text
+R_bank = f(Tj, VGS, sharing, package, PCB, contacts)
+```
+
+and LM2904-family input offset is in the millivolt class, while the desired M5 signal is also only tens of millivolts.
+
+Therefore:
+
+```text
+M5 Kelvin + I_source + temperature
+= benchmark-grade loss evidence
+
+BOCP
+= product protection/sense-chain cross-check
+```
+
+A BOCP-derived current value must not replace direct M5 loss measurement unless an independent product calibration is established.
+
+---
+
+## 10. Benchmark-boundary correction
+
+The seven-MOS loss is classified primarily as a battery-interface protection/sensing loss, not magnetic-X1 loss.
 
 ### Contract P — product-level comparison
 
-Every architecture must provide matched required functions such as:
+Every architecture must provide matched required functionality such as:
 
 ```text
-reverse-polarity protection / equivalent ideal-diode behavior
-battery-current or abnormal-return-drop protection sensing
+input reverse-polarity protection / equivalent ideal-diode behavior
+AUTO-RECOVERY-equivalent product behavior if required by comparison contract
+battery-current / abnormal-return-drop fault information
 required fusing / fault isolation
 ```
 
@@ -296,103 +387,101 @@ Implementation may differ, but its loss must be counted.
 
 ### Contract C — core-converter comparison
 
-If the research question is only the intrinsic conversion path:
+Battery-interface protection/sensing overhead may be excluded only when excluded from A0, A1 and every candidate equally.
 
-```text
-battery-interface protection/sensing overhead
-```
-
-may be excluded **only when excluded from A0, A1 and every candidate equally**.
-
-Forbidden comparison:
+Forbidden:
 
 ```text
 Candidate removes Q39...Q65 functionality
-→ counts ~7 W saving
-→ claims new X1/topology advantage
+→ counts the removed watts
+→ claims X1/topology advantage
 ```
 
-A candidate may legitimately reduce this loss while preserving the same product function, but that saving is classified first as:
-
-```text
-battery-interface / protection engineering improvement
-```
-
-not evidence by itself of a new power-conversion topology.
+A lower-loss implementation preserving the product function is a valid battery-interface engineering improvement, but not by itself proof of a new conversion topology.
 
 ---
 
-## 9. Measurement correction
+## 11. M5 measurement requirement
 
-M5 remains a priority measurement:
-
-```text
-BAT- terminal ↔ B main-return reference
-```
-
-Record synchronously:
+At each stable load point record:
 
 ```text
 I_source
-ΔV_B-BAT-
+ΔV_M5 = V_B - V_BAT-
+V_BOCP relative B/SIG
 12VP
+-12V if safely accessible
 MOS-bank temperature
-BOCP state/voltage if safely accessible
+ambient/cooling condition
 ```
 
-Then:
+Calculate:
 
 ```text
-R_bank,hot = ΔV / I_source
-P_bank     = I_source × ΔV
+R_M5,eff = ΔV_M5 / I_source
+P_M5     = I_source × ΔV_M5
+
+G_BOCP,meas
+= (V_BOCP - V_B) / ΔV_M5
 ```
 
-A load sweep can later test whether BOCP changes with the bank drop, but no trip test should be performed without an approved hardware-safety procedure.
+Use a load sweep rather than one point:
+
+```text
+ΔV_M5 vs I_source
+→ hot effective battery-interface resistance
+
+V_BOCP vs ΔV_M5
+→ analog-chain gain and intercept
+```
+
+No intentional protection trip test should be performed without an approved hardware-safety procedure.
 
 ---
 
-## 10. Research consequence for A1
+## 12. Research consequence for A1
 
-A1 no longer needs to preserve a vague `disconnect` assumption for this specific seven-MOS block.
+A1 must no longer preserve a vague generic `disconnect` assumption for this block.
 
-Instead, its matched product-function requirement should be written as:
+Under Product Contract P it must preserve the now-verified product requirement:
 
 ```text
-matched battery-interface protection/sensing function
-with reverse-polarity behavior and equivalent fault/current information as required
+input reverse-polarity protection
 ```
 
-The A1 implementation is free to use a lower-loss realization.
+and match required sensing/fault information to the extent established by the product boundary.
 
-This sharpens the central topology question:
+This sharpens the central comparison:
 
 ```text
 A0 product-interface loss
 vs
-A0 magnetic X1 loss
+A0 intrinsic magnetic X1 loss
 ```
 
-must be separated before deciding that the X1 physics itself should be replaced.
+before deciding whether X1 physics itself should be replaced.
 
 ---
 
-## 11. Formal status
+## 13. Formal status
 
 ```text
-B↔BAT- seven-MOS power boundary                = VERIFIED
-gate bias from 12VP through 7 × 68.1 Ω         = VERIFIED
-7 × 47.5 kΩ gate-source pull-downs to B        = VERIFIED
-independent disconnect command on this bank     = NOT FOUND / NOT SUPPORTED
-reverse-polarity / ideal-diode-style role       = STRONGLY SUPPORTED
-U4 senses B relative to BAT-                    = VERIFIED
-BOCP exported to CN4A pin 6                     = VERIFIED
-over-current / abnormal-drop protection role    = STRONGLY SUPPORTED
-exact BOCP threshold/control response            = OPEN
-battery-interface measured loss                 = OPEN
-A0 total BAT→X1 loss                             = OPEN
-A1                                               = BLOCKED UNTIL A0 LOSS LOCALIZATION
-Candidate #10                                    = NOT ASSIGNED
-Novelty                                          = NOT ESTABLISHED
+B↔BAT- seven-MOS power boundary                    = VERIFIED
+gate bias from 12VP through 7 × 68.1 Ω             = VERIFIED
+7 × 47.5 kΩ gate-source pull-downs to B            = VERIFIED
+ASP input reverse-polarity protection feature      = VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
+Q39...Q65 ideal-diode-style implementation link    = STRONGLY_SUPPORTED
+independent disconnect command on this bank         = NOT_SUPPORTED
+B = SIG at U4 analog section                        = VERIFIED
+U4 senses B relative to BAT-                        = VERIFIED
+BOCP nominal analog gain ≈22.1 V/V                  = VERIFIED_FROM_CIRCUIT
+BOCP exported to CN4A pin 6                         = VERIFIED
+over-current / abnormal-drop protection role        = STRONGLY_SUPPORTED
+BOCP receiver/control-board artifact                 = NOT_FOUND_IN_CURRENT_DRIVE_SEARCH
+exact BOCP threshold/control response                = OPEN
+battery-interface measured loss                     = OPEN
+A0 total BAT→X1 loss                                = OPEN
+A1                                                  = BLOCKED UNTIL A0 LOSS LOCALIZATION
+Candidate #10                                       = NOT_ASSIGNED
+Novelty                                             = NOT_ESTABLISHED
 ```
-
-This document supersedes earlier wording that left the Q39...Q65 product role completely unclassified.
