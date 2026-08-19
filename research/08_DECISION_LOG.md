@@ -420,6 +420,113 @@ HOLD / NOT_ASSIGNED
 
 ---
 
+## 2026-08-19 — Nine-family mechanism extraction completed v1
+
+The nine working power-path families are retained as taxonomy, but are no longer treated as nine topology blocks to be arbitrarily combined.
+
+Formal extraction record:
+
+```text
+research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
+```
+
+Six screening pools are established:
+
+```text
+MP-A — Early X1 / leave extreme-LV domain early
+MP-B — Soft commutation / leakage-energy utilization
+MP-C — Collective high-voltage building
+MP-D — Direct / integrated AC synthesis
+MP-E — Intentional 2ω energy routing
+MP-F — Continuous-input / ripple-current shaping
+```
+
+Decision:
+
+```text
+technique name ≠ physical-gap solution
+```
+
+Therefore the following cannot enter synthesis merely by label:
+
+```text
+LLC
+DAB
+high-gain
+switched-capacitor
+fan-out
+interleaving
+remove HV DC bus
+active X2 before PG-4 survives
+```
+
+Every future combination must pass:
+
+```text
+C1 each mechanism maps to a surviving PG
+C2 do not duplicate one function while stacking loss
+C3 actual circuit graph is physically compatible
+C4 quantify new RMS / circulating / commutation burden
+C5 P_saved > P_added
+C6 reclassify completed circuit against #01...#09
+C7 if it fits an existing family, it is not Candidate #10
+C8 discuss #10 only if the gap survives and existing families cannot reasonably describe the resulting main energy path
+```
+
+Current next step:
+
+```text
+PG × Mechanism compatibility screen
+```
+
+not topology synthesis.
+
+Candidate #10 remains:
+
+```text
+HOLD / NOT_ASSIGNED
+```
+
+---
+
+## 2026-08-19 — M1-PQ50-V108-A recorded as context-only magnetic evidence
+
+A private approval sheet supplied by the user shows a real PQ50-class transfer-type HFT implementation with:
+
+```text
+4-turn, 6 mil × 28 mm copper-foil low-voltage windings
+30-turn secondary
+No Gap core assembly
+nonzero measured leakage inductance
+MnZn ferrite material options
+```
+
+It is useful as physical context for:
+
+```text
+PG-1 extreme-LV current/copper burden
+PG-2 leakage/commutation energy
+PG-3 magnetic transformation burden
+```
+
+but no direct part-number linkage to ASP-2000 R52 T1/T2 has been established.
+
+Therefore:
+
+```text
+M1-PQ50-V108-A = CONTEXT_ONLY / NOT A0 NUMERICAL EVIDENCE
+```
+
+The raw approval PDF is not committed.
+
+Detailed checkpoint:
+
+```text
+research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
+```
+
+---
+
 ## Fair comparison contracts
 
 ```text
@@ -452,11 +559,16 @@ main-MOS conduction scale              = ~12.3 W / DATASHEET_BOUND
 battery-interface scale                = ~7.47 W / PRODUCT-INTERFACE DATASHEET_BOUND
 A/C passive RC damping                 = VERIFIED
 A0 transformer numerical parameters    = OPEN
+M1-PQ50-V108-A                         = CONTEXT_ONLY / NOT A0
 PG-1                                   = HYPOTHESIS
 PG-2                                   = HYPOTHESIS / STRONG SIGNAL
 PG-3                                   = OPEN
 PG-4                                   = HYPOTHESIS
-A1                                     = NEXT AFTER MINIMUM H1-H4 EVIDENCE
+Nine-family mechanism extraction       = COMPLETE v1
+Mechanism pool MP-A...MP-F              = ESTABLISHED FOR SCREENING
+PG × Mechanism compatibility           = NEXT
+Mechanism combination                  = NOT YET EXECUTED
+A1                                     = FAIR BENCHMARK AFTER COMPATIBILITY/MINIMUM EVIDENCE
 Early fan-out benefit                  = NOT_PROVEN
 Active X2 benefit                      = NOT_PROVEN
 Candidate #10                          = HOLD / NOT_ASSIGNED
