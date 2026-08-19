@@ -944,3 +944,215 @@ Active X2 benefit                      = NOT_PROVEN / H4-GATED
 Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
+
+---
+
+## 2026-08-19 — Minimum falsification / evidence plan established v1 — CRITICAL
+
+Formal record:
+
+```text
+research/32_MINIMUM_FALSIFICATION_EVIDENCE_PLAN.md
+```
+
+The retained PG × PM pairs are now converted into explicit measurement, materiality, fair-falsifier and stop gates.
+
+### Materiality decision
+
+No universal post-hoc percentage is allowed.
+
+Each PG must use a predeclared:
+
+```text
+T_mat,PGk
+```
+
+with all of the following properties:
+
+```text
+tied to the declared power/loss envelope
+above practical uncertainty floor
+large enough to affect architecture/thermal decision
+same rule for baseline and alternatives
+fixed before interpreting the final result
+```
+
+Therefore:
+
+```text
+nonzero loss ≠ material Physical Gap
+```
+
+The existing 20 W LV-conduction budget remains a PG-1 reference, but no arbitrary fixed percentage of that budget is declared as the universal threshold.
+
+### Net-benefit decision
+
+Formal comparison remains:
+
+```text
+ΔP_net = P_saved - P_added
+```
+
+and where uncertainty is available the preferred robust test is:
+
+```text
+ΔP_net,low = P_saved,low - P_added,high > 0
+```
+
+### Comparator normalization
+
+The former generic architecture stack is refined:
+
+```text
+A1  = optimized PM-1 magnetic falsifier
+B   = Direct-HFL architecture comparator; internal mechanisms must be decomposed
+C2  = PM-2-dominant inductive/high-gain comparator
+C3  = PM-3-dominant charge-transfer/stacking comparator
+X2-P = conditional PM-5 passive-buffer comparator after H4
+X2-A = conditional PM-6 active-buffer comparator after H4
+```
+
+Key corrections:
+
+```text
+one generic C cannot fairly represent both PM-2 and PM-3
+Direct HFL by name is not a primitive mechanism comparator
+A1/B/C alone cannot fairly test PM-5 vs PM-6
+```
+
+### H1 gate — PG-1
+
+Minimum A0 evidence:
+
+```text
+I_source avg/RMS
+A/C hot on-state VDS + current or defensible bounded equivalent
+switch temperature
+T1/T2 RMS where safely available
+```
+
+Stop conditions include:
+
+```text
+PG-1 burden not material
+fair A1 PM-1 removes the burden below materiality
+PM-2/PM-3 alternatives fail positive ΔP_net
+```
+
+### H2 gate — PG-2
+
+Minimum A0 evidence:
+
+```text
+fs / duty / dead time
+V_A-B / V_C-B
+synchronized relevant switch current
+V_R110 / V_R119 or valid snubber-power observable
+actual VGS where timing interpretation requires it
+```
+
+Hard stop:
+
+```text
+P_comm,avoidable not material
+→ PG-2 MATERIALITY_FAIL
+→ PM-4 research direction CLOSED
+```
+
+### H3 gate — PG-3
+
+PM-1 / PM-2 / PM-3 must terminate at a comparable reduced-current boundary and carry symmetric loss accounting.
+
+A0 context-only PQ50 values may not be substituted as actual A0 transformer parameters.
+
+Stop conditions include:
+
+```text
+unmatched boundaries
+no material burden difference
+optimized PM-1 not materially worse than alternatives
+```
+
+### H4 gate — PG-4
+
+Minimum A0 evidence:
+
+```text
+source current time waveform across enough line cycles
+100/120-Hz source-current component
+synchronized HV-link ripple
+output real power / line frequency context
+```
+
+Existing PM-5 HV-link buffering is the first falsifier.
+
+Hard stop:
+
+```text
+source-side 2ω not material after existing passive buffering
+→ PG-4 MATERIALITY_FAIL
+→ active X2 CLOSED
+```
+
+Only if H4 survives may `X2-P` versus `X2-A` be compared.
+
+### Evidence priority
+
+```text
+Priority 1 — H2 + H4 hard materiality gates
+Priority 2 — H1 pre-X1 conduction scale
+Priority 3 — H3 total transformation burden
+Priority 4 — A1 / C2 / C3 comparator evidence
+Priority 5 — B Direct-HFL integration evidence
+```
+
+This is an information-efficiency order, not a claim of physical importance.
+
+Mechanism combination remains closed.
+
+Next valid action:
+
+```text
+Create executable H1/H2/H3/H4 evidence-acquisition worksheet
+↓
+exact probe / signal
+instrument / method
+operating point
+sample window / synchronization
+calculation
+uncertainty
+PASS / FAIL field
+↓
+separate A0-now measurements from external paper/model evidence
+```
+
+Candidate #10 remains `HOLD / NOT_ASSIGNED`; Novelty remains `NOT_ESTABLISHED`.
+
+---
+
+## Current decision state — after minimum falsification plan v1
+
+This state supersedes the earlier `Minimum falsification/evidence plan = NEXT` line above.
+
+```text
+Research phase                         = Physical Gap Validation
+PG × canonical Physical Mechanism      = COMPLETE v1 / 28 CELLS SCREENED
+Minimum falsification/evidence plan    = ESTABLISHED v1
+T_mat,PG1...PG4 numerical values       = OPEN / MUST BE PREDECLARED
+H1 PG-1 evidence                       = REQUIRED / NOT YET CLOSED
+H2 PG-2 materiality gate               = REQUIRED / HARD STOP
+H3 PG-3 evidence                       = REQUIRED / NOT YET CLOSED
+H4 PG-4 materiality gate               = REQUIRED / HARD STOP
+A1                                     = PM-1 FAIR FALSIFIER
+B                                      = DIRECT-HFL ARCHITECTURE COMPARATOR / DECOMPOSE PMs
+C2                                     = PM-2-DOMINANT COMPARATOR
+C3                                     = PM-3-DOMINANT COMPARATOR
+X2-P                                   = CONDITIONAL PM-5 COMPARATOR AFTER H4
+X2-A                                   = CONDITIONAL PM-6 COMPARATOR AFTER H4
+Executable H1/H2/H3/H4 worksheet      = NEXT
+Mechanism combination                  = NOT YET EXECUTED
+Early fan-out benefit                  = NOT_PROVEN
+Active X2 benefit                      = NOT_PROVEN / H4-GATED
+Candidate #10                          = HOLD / NOT_ASSIGNED
+Novelty                                = NOT_ESTABLISHED
+```
