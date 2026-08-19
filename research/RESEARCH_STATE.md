@@ -25,19 +25,21 @@ Core question:
 
 > **不是研究怎麼升壓，而是研究低壓百安培能量怎麼走，才最少變成熱。**
 
-Necessary average source current cannot disappear before the first major impedance/current-domain transformation. The research variable is how much extra RMS current and resistive/commutation exposure remain in the expensive low-voltage domain.
+Mandatory rule:
+
+```text
+P_saved > P_added
+```
 
 ---
 
-## 2. Structural coordinates
+## 2. Functional coordinates
 
 ```text
 X1 = first major impedance / current-domain transformation region
 X2 = local 2ω / bidirectional buffer / recycling coordinate
 X3 = complete AC-synthesis region
 ```
-
-These are functional coordinates, not single components.
 
 Preferred ordering:
 
@@ -51,12 +53,6 @@ reduced-current domain
 [X2 only if net-beneficial]
 ↓
 X3
-```
-
-Mandatory rule:
-
-```text
-P_saved > P_added
 ```
 
 ---
@@ -75,25 +71,20 @@ P_saved > P_added
 #09 Direct High-Frequency-Link DC–AC
 ```
 
-Current status:
+Current emphasis:
 
 ```text
-#01 = REFERENCE ONLY / poor fit
 #02 = PRIMARY REAL-PRODUCT / EARLY-X1 BENCHMARK
-#03 = PRIMARY ACTIVE-HFT / EARLY-X1 BENCHMARK
+#03 = PRIMARY ACTIVE-HFT BENCHMARK
 #04 = PRIMARY NON-ISOLATED / CURRENT-DISTRIBUTION BENCHMARK
-#05 = KEEP AS ENERGY-ROUTING MECHANISM
-#06 = HOLD / very high current-stress risk
-#07 = HOLD / high-risk at 12 V
-#08 = HOLD / high-risk at extreme LV
 #09 = PRIMARY MODERN DIRECT-HFL BENCHMARK
 ```
-
-Modularization, IPOS, current sharing, capacitive isolation, active buffer, partial power and soft switching are orthogonal dimensions and do not create a new family by themselves.
 
 ```text
 Candidate #10 = NOT_ASSIGNED
 ```
+
+Modularization, IPOS, current sharing, capacitive isolation, active buffer, partial power and soft switching remain orthogonal dimensions rather than automatic new families.
 
 ---
 
@@ -123,11 +114,11 @@ Status:
 
 ```text
 very-short common path = KEEP / physical requirement
-local decoupling = KEEP
-early fan-out = HYPOTHESIS / not automatic loss reduction
-branch switching + X1 = CORE RESEARCH REGION
-active X2 = OPTIONAL / NOT_PROVEN
-X3 after X1 = KEEP
+local decoupling       = KEEP
+early fan-out          = HYPOTHESIS / not automatic loss reduction
+branch switching + X1  = CORE RESEARCH REGION
+active X2              = OPTIONAL / NOT_PROVEN
+X3 after X1            = KEEP
 ```
 
 ---
@@ -153,8 +144,6 @@ pin 7 = C
 The two center-tap supply paths remain separate.
 
 ### 5.2 Primary switch architecture — RESOLVED
-
-Compiled PCB establishes two high-current switched primary-end nodes:
 
 ```text
 A node = NetC62_1
@@ -193,8 +182,6 @@ DB2-G → 5 C-side MOS
 
 Each main MOS has an individual 27.4 Ω gate resistor.
 
-Control pairing:
-
 ```text
 DR-A  ─ R213=0Ω ─ DR-A2
 DR-B  ─ R212=0Ω ─ DR-B2
@@ -208,7 +195,7 @@ Thus:
 2 high-current switched nodes
 ```
 
-Actual propagation/timing mismatch remains a waveform measurement item.
+Actual propagation/timing mismatch remains a waveform item.
 
 ### 5.4 Correct current variables
 
@@ -223,7 +210,7 @@ I_DA1 / I_DA2 / I_DB1 / I_DB2
 = local silicon-subgroup currents
 ```
 
-Stable conduction approximation:
+Stable-conduction approximation:
 
 ```text
 I_A,total ≈ I_T1,A + I_T2,A
@@ -236,7 +223,7 @@ Do not equate DA1/DA2 subgroup current with T1/T2 current.
 
 ## 6. Battery-negative protection/sensing interface — PRODUCT FUNCTION LOCKED
 
-Seven `CSD18510KCS` devices form one parallel full-current battery-return bank:
+Seven `CSD18510KCS` devices form one full-current parallel bank:
 
 ```text
 B
@@ -246,42 +233,35 @@ Q39 Q40 Q41 Q42 Q63 Q64 Q65
 BAT-
 ```
 
-Verified orientation:
+Verified hardware:
 
 ```text
 Source → B
 Drain  → BAT-
-```
-
-Verified gate network:
-
-```text
 12VP → individual 68.1 Ω → Gate
 Gate → individual 47.5 kΩ → B
 ```
 
-No independent MAIN-board PWM/enable command was found for this bank.
-
-Independent ASP product specification evidence explicitly lists:
+ASP product specification independently lists:
 
 ```text
 Input reverse polarity protection (AUTO-RECOVERY)
 ```
 
-Therefore status is now separated into product function and implementation attribution:
+Current status:
 
 ```text
-ASP input reverse-polarity protection function
+ASP input reverse-polarity function
 = VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
 
-Q39...Q65 as low-side ideal-diode-style implementation of that function
+Q39...Q65 as low-side ideal-diode-style implementation
 = STRONGLY_SUPPORTED_BY_HARDWARE_STRUCTURE
 
-commandable full battery disconnect by this bank alone
+commandable full disconnect by this bank alone
 = NOT_SUPPORTED_BY_PRESENT_CIRCUIT
 ```
 
-This region's loss is classified primarily as:
+This loss is classified primarily as:
 
 ```text
 battery-interface protection/sensing overhead
@@ -291,7 +271,7 @@ not intrinsic magnetic-X1 loss.
 
 ---
 
-## 7. BOCP analog sensing path — TRANSFER RELATION RESOLVED
+## 7. BOCP analog sensing — TRANSFER RELATION RESOLVED
 
 Direct SchDoc wiring establishes:
 
@@ -299,7 +279,7 @@ Direct SchDoc wiring establishes:
 B = local SIG reference in the U4 analog region
 ```
 
-U4 (`LM2904`) BOCP channel:
+U4 (`LM2904`) network:
 
 ```text
 U4 + input → B / SIG
@@ -309,25 +289,16 @@ U4 output → R154 = 100 Ω → BOCP → CN4A pin 6
 U4 rails → 12VP / -12V
 ```
 
-Important correction:
-
-```text
-U4 BOCP channel = closed-loop analog amplifier
-not a comparator/hysteresis interpretation
-```
-
 Define:
 
 ```text
 ΔV_M5 = V_B - V_BAT-
 ```
 
-Ideal closed-loop relation:
+Ideal linear relation:
 
 ```text
-V_U4out - V_B
-= (R152/R153) ΔV_M5
-≈ 22.1 × ΔV_M5
+V_U4out - V_B ≈ 22.1 × ΔV_M5
 ```
 
 For a high-impedance BOCP receiver:
@@ -336,15 +307,7 @@ For a high-impedance BOCP receiver:
 V_BOCP - V_B ≈ 22.1 × ΔV_M5
 ```
 
-1% resistor ratio nominal range:
-
-```text
-G_BOCP ≈ 21.66 … 22.55 V/V
-```
-
-before op-amp offset, temperature, loading and board effects.
-
-At the `175.4 A` / seven-MOS 25°C datasheet scale reference:
+At the existing 175.4 A / seven-MOS 25°C datasheet scale:
 
 ```text
 R_bank ≈ 0.243 mΩ
@@ -353,75 +316,155 @@ P_M5 ≈ 7.47 W
 nominal BOCP above B ≈ 0.94 V
 ```
 
-Status:
+All are non-measured scale references.
 
 ```text
 BOCP analog transfer relation = VERIFIED_FROM_MAIN_BOARD
-0.94 V = SCALE_REFERENCE / NOT_MEASURED / NOT_TRIP_THRESHOLD
-BOCP measured gain/offset = OPEN
+BOCP measured gain/offset      = OPEN
+BOCP exact trip/control action = OPEN / EVIDENCE_BLOCKED
 ```
 
-Drive search did not locate a BOCP receiver/control-board schematic or firmware artifact in the currently accessible ASP files.
+Drive search did not locate the BOCP receiver/control-board logic or firmware.
 
-Therefore:
+Formal loss evidence remains:
 
 ```text
-BOCP exact trip threshold / active polarity / control response
-= OPEN / EVIDENCE_BLOCKED
+I_source + ΔV_M5 + temperature
 ```
 
-BOCP is not benchmark-grade current metrology. LM2904-family input offset is mV-class and the MOS-bank sense resistance varies with temperature, VGS, sharing and interconnect.
+BOCP is a sense-chain cross-check, not benchmark-grade current metrology.
 
-Formal hierarchy:
+---
+
+## 8. X1→HV structure — RL1 ROLE RESOLVED
+
+Secondary series connection:
 
 ```text
-M5 Kelvin + I_source + temperature
-= benchmark-grade battery-interface loss evidence
+T1 pin 5 = T2 pin 2
+```
 
-BOCP vs ΔV_M5
-= product sense-chain cross-check
+Outer legs:
+
+```text
+T1 outer → D1 / D5 bridge leg
+```
+
+The T2 outer path is now resolved in detail:
+
+```text
+T2 pin 5
+│
+├── RL1 power contact ───────────────────────┐
+│                                            │
+└── R40 1k/5W ─┐                             │
+                ├── 500 Ω precharge path ───┤
+    R41 1k/5W ─┘                             │
+                                             ↓
+                                      D2 / D6 bridge AC node
+```
+
+Verified RL1 details:
+
+```text
+RL1 = OZ-SS-112LM1
+annotation = 240VAC / 16A / 12VDC
+coil pin 1 → 12VP
+coil driver → Q29 / D9 / R74 / R78
+control net → RELAY_SS1
+RELAY_SS1 → CN5A pin 3
+```
+
+Formal decision:
+
+```text
+RL1 HV-secondary precharge / soft-start bypass
+= VERIFIED_AT_CONNECTIVITY_AND_NETNAME_LEVEL
+```
+
+Functional sequence:
+
+```text
+startup / bypass not active
+→ secondary current reaches bridge through R40 || R41 = 500 Ω
+→ HV DC-link inrush/precharge current is limited
+
+normal power state / bypass active
+→ RL1 contact bypasses the 500 Ω path
+→ normal secondary current reaches D2/D6 through the relay contact path
+```
+
+Open items:
+
+```text
+RELAY_SS1 active polarity
+control-board precharge timing / bus threshold
+relay contact resistance at operating temperature
+```
+
+Loss classification:
+
+```text
+R40/R41 startup dissipation
+= precharge/inrush-management overhead
+= NOT ordinary steady-state X1 loss
+
+RL1 normal contact drop
+= steady-state post-X1/interconnect loss
+= MEASUREMENT_NEEDED
 ```
 
 Detailed evidence:
 
 ```text
-research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md
-research/19_ASP2000_A0_BOCP_TRANSFER_AND_M5_DIAGNOSTIC_GATE.md
+research/20_ASP2000_A0_RL1_HV_PRECHARGE_BYPASS.md
 ```
 
 ---
 
-## 8. Verified X1-to-HV structure
+## 9. Revised A0 path
 
 ```text
-T1 pin5 = T2 pin2                    ← direct secondary series junction
-T1 outer secondary → D1/D5
-T2 outer secondary → RL1 → D2/D6
-D1,D2 → BUS+
-D5,D6 → BUS-
+BAT+
+│
+├─ 4-fuse bank → local bulk → T1 center tap ─┐
+└─ 4-fuse bank → local bulk → T2 center tap ─┤
+                                              │
+T1/T2 A half-primaries → A node → 10 MOS ─────┤
+T1/T2 C half-primaries → C node → 10 MOS ─────┤
+                                              ↓
+                                              B
+                                              ↓
+                         7-MOS battery-interface protection/sensing bank
+                                              ↓
+                                             BAT-
+
+T1 + T2 magnetic transformation               ← X1
 ↓
-HV DC-link                           ← passive X2-capable node
+secondary series / collective formation
 ↓
-HV inverter                          ← X3
+RL1 + R40/R41 precharge/bypass region
+↓
+D1/D5 + D2/D6 HV bridge rectification
+↓
+BUS+ / BUS-
+↓
+HV DC-link                                     ← passive X2-capable node
+↓
+HV inverter                                    ← X3
 ↓
 AC
 ```
-
-`RL1` exact role remains open.
 
 A0 remains family `#02`.
 
 ---
 
-## 9. A0 numerical bounds — NOT MEASURED
+## 10. Current numerical bounds — NOT MEASURED
 
-### PCB / distribution
+### Positive PCB / distribution
 
 ```text
-Top copper ≈ 1.4 mil ≈ 35.56 µm
-Bottom copper ≈ 1.4 mil ≈ 35.56 µm
-R_sheet,1layer ≈ 0.485 mΩ/square
-
 R_BAT+,common,geometry ≈ 0.249 mΩ
 P@175.4 A ≈ 7.67 W
 
@@ -438,92 +481,72 @@ R_eq≈0.373 mΩ
 P@175.4 A≈11.5 W
 ```
 
-All are `GEOMETRY_MODEL / NOT_MEASURED`.
+`GEOMETRY_MODEL / NOT_MEASURED`.
 
 ### Main A/C MOS
 
-12 V population `CSD18542KCS`, max `RDS(on)=4mΩ @ VGS=10V`.
-
 ```text
+CSD18542KCS
 10 MOS per logical switch
-R_A,eq≈R_C,eq≈0.400mΩ
-P_mainMOS,cond,25C-bound≈12.3W
+R_A,eq≈R_C,eq≈0.400 mΩ @ 25C max-data boundary
+P_mainMOS,cond,25C-bound≈12.3 W
 ```
 
 `DATASHEET_BOUND / NOT_MEASURED`.
 
 ### Battery interface
 
-`CSD18510KCS`, max `RDS(on)=1.7mΩ @ VGS=10V`.
-
 ```text
-7 ideal parallel → Req≈0.243mΩ
-P@175.4A≈7.47W
+CSD18510KCS
+7 ideal parallel → Req≈0.243 mΩ
+P@175.4 A≈7.47 W
 ```
 
 `DATASHEET_BOUND / NOT_MEASURED`.
 
-Do not sum mixed evidence classes into a claimed product loss.
+Do not sum mixed evidence classes into a claimed measured product loss.
 
 ---
 
-## 10. Product-level BAT→X1 loss decomposition
+## 11. Fair comparison contracts
+
+### Contract P — product level
+
+Match required functions, including as applicable:
 
 ```text
-P_A0,BAT→X1/product =
-    P_positiveDistribution
-  + P_fuse/J8
-  + P_A/C_MOS,cond
-  + P_A/C_MOS,sw
-  + P_primary,Cu
-  + P_core
-  + P_commutation/clamp
-  + P_BreturnCopper
-  + P_batteryInterfaceProtection/Sensing
+input reverse-polarity protection
+battery-return fault/current information
+fusing / fault isolation
+HV DC-link precharge / inrush management
 ```
 
-Two fair-comparison contracts:
+Their loss/cost may differ, but the function cannot be silently deleted on the candidate side.
+
+### Contract C — steady-state core converter
 
 ```text
-Contract P — product level
-→ match verified input reverse-polarity protection behavior and required fault/current information; count loss.
-
-Contract C — core converter
-→ exclude battery-interface overhead from A0/A1/candidate equally.
+exclude battery-interface overhead equally
+exclude startup-only precharge energy equally
+compare intrinsic steady-state conversion path
 ```
 
 Forbidden:
 
 ```text
-candidate deletes Q39...Q65 function
-→ calls removed watts an X1/topology improvement
+candidate deletes A0 product function
+→ counts removed watts as topology/X1 advantage
 ```
 
 ---
 
-## 11. Hardware measurement gates prepared
+## 12. Hardware measurement gates
 
-### Static / Kelvin M0–M6
+### M5 — current first hardware gate
 
-```text
-M0 BAT+ → fuse inputs
-M1 individual fuse banks
-M2 T1 local feed
-M3 J8
-M4 T2 local feed
-M5 B ↔ BAT- battery-interface bank
-M6 B return copper
-```
+Historical Drive search did not find a usable ASP-2000 BOCP/M5 load-sweep dataset.
 
-For multi-terminal BAT+:
-
-```text
-P_BAT+ = Σ I_k ΔV_k
-```
-
-#### M5 controlled load sweep — CURRENT FIRST HARDWARE GATE
-
-At each stable load point record:
+At each controlled point record:
 
 ```text
 I_source
@@ -534,34 +557,12 @@ MOS-bank temperature
 ambient/cooling condition
 ```
 
-Then calculate:
+Then:
 
 ```text
 R_M5,eff = ΔV_M5 / I_source
 P_M5     = I_source × ΔV_M5
-
-G_BOCP,meas
-= (V_BOCP - V_B) / ΔV_M5
-```
-
-Use regressions:
-
-```text
-ΔV_M5 vs I_source
-→ hot effective R_M5
-
-V_BOCP vs ΔV_M5
-→ measured BOCP gain and intercept
-```
-
-Formal hierarchy:
-
-```text
-M5 Kelvin + I_source + temperature
-= benchmark-grade loss evidence
-
-BOCP
-= product sense-chain cross-check
+G_BOCP   = (V_BOCP - V_B) / ΔV_M5
 ```
 
 Template:
@@ -570,7 +571,7 @@ Template:
 research/templates/asp2000_a0_m5_bocp_sweep_template.csv
 ```
 
-### Dynamic switch / HFT D0–D7
+### Dynamic switch/HFT gate
 
 ```text
 fs / duty / dead time
@@ -584,76 +585,29 @@ primary volt-second
 T1/T2 temperature
 ```
 
-Stable-conduction first-order boundary:
-
-```text
-p_A(t)=v_A-B(t)i_A,total(t)
-p_C(t)=v_C-B(t)i_C,total(t)
-```
-
-Transitions require synchronous, bandwidth-adequate, deskewed measurements.
-
 ---
 
-## 12. Benchmark stack
+## 13. Current unresolved items
 
 ```text
-A0 — actual ASP-2000 R52
-A1 — fair optimized magnetic HFT
-B  — Direct HFL
-C  — non-isolated current-distribution/high-gain
-D  — working candidate architecture
-```
-
-A1 is allowed equivalent:
-
-```text
-optimized distribution
-heavy silicon paralleling
-distributed local gate drivers
-optimized magnetic X1
-matched verified input reverse-polarity protection under Contract P
-matched required battery-return fault/current information
-collective HV formation
-```
-
-A1 remains numerically blocked until A0 loss localization identifies the true target.
-
----
-
-## 13. X2 remains later gate
-
-Do not add active X2 before A0/A1 loss localization.
-
-```text
-Buffer OFF vs Buffer ON
-Go iff P_LV,saved > P_X2,added
-```
-
-If passive post-X1 storage already suppresses source 2ω sufficiently, active X2 must be rejected or restructured.
-
----
-
-## 14. Current unresolved items
-
-```text
-exact fs / duty / dead time
-actual DA1-vs-DA2 / DB1-vs-DB2 timing mismatch
+M0–M6 actual Kelvin data
+M5 measured hot resistance/loss
+BOCP measured gain/intercept
+exact BOCP trip/control response
+exact switching frequency / duty / dead time
 silicon subgroup current sharing
 T1/T2 current balance
 fuse sharing / hot fuse resistance
 J8 physical conductor / resistance
 hot main-MOS RDS(on)
 B-return copper loss
+T1/T2 turns ratio
 T1/T2 winding Rac / core loss
 leakage/clamp processed power
-RL1 exact role
+RELAY_SS1 timing / bus threshold
+RL1 contact resistance
 source 100/120 Hz ripple
 HV DC-link ripple
-BOCP measured gain/intercept
-BOCP receiver/control-board circuit
-exact BOCP trip threshold / active polarity / control response
-12VP startup/shutdown sequence
 A0 measured distribution loss
 A0 dynamic switch/HFT loss
 A0 total BAT→X1 loss
@@ -663,7 +617,7 @@ candidate superiority
 
 ---
 
-## 15. Detailed evidence records
+## 14. Detailed evidence records
 
 ```text
 07_BENCHMARKS.md
@@ -679,28 +633,29 @@ candidate superiority
 17_ASP2000_A0_PRIMARY_SWITCH_CURRENT_BOUNDARY.md
 18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md
 19_ASP2000_A0_BOCP_TRANSFER_AND_M5_DIAGNOSTIC_GATE.md
+20_ASP2000_A0_RL1_HV_PRECHARGE_BYPASS.md
 ```
 
 ---
 
-## 16. Current decision state
+## 15. Current decision state
 
 ```text
-Research phase                          = Physical Gap Validation
-A0 main power/current graph             = SUBSTANTIALLY_RECONSTRUCTED
-A logical switch                        = 10 MOS / VERIFIED
-C logical switch                        = 10 MOS / VERIFIED
-4 drivers / 2 logical commands          = VERIFIED_AT_CONNECTIVITY_LEVEL
-positive PCB geometry loss bound        = ESTABLISHED / NOT_MEASURED
-B↔BAT- seven-MOS power boundary         = VERIFIED
-12VP common gate bias                   = VERIFIED
-ASP reverse-polarity product function   = VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
-Q39...Q65 ideal-diode implementation    = STRONGLY_SUPPORTED_BY_HARDWARE_STRUCTURE
-B / SIG analog reference relation       = VERIFIED
-BOCP nominal analog gain                = ~22.1 V/V / VERIFIED_FROM_MAIN_BOARD
-BOCP measured gain/intercept            = OPEN
-BOCP receiver/control-board evidence    = NOT_FOUND_IN_CURRENT_DRIVE_SEARCH
+Research phase                         = Physical Gap Validation
+A0 main power/current graph            = SUBSTANTIALLY_RECONSTRUCTED
+A logical switch                       = 10 MOS / VERIFIED
+C logical switch                       = 10 MOS / VERIFIED
+4 drivers / 2 logical commands         = VERIFIED_AT_CONNECTIVITY_LEVEL
+positive PCB geometry loss bound       = ESTABLISHED / NOT_MEASURED
+ASP reverse-polarity product function  = VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
+Q39...Q65 ideal-diode implementation   = STRONGLY_SUPPORTED
+BOCP analog gain relation              = ~22.1 V/V / VERIFIED_FROM_CIRCUIT
 BOCP exact trip/control response        = OPEN / EVIDENCE_BLOCKED
+RL1 identity/contact path               = VERIFIED
+RELAY_SS1 control net                   = VERIFIED
+RL1 HV precharge/soft-start bypass      = VERIFIED_AT_CONNECTIVITY_AND_NETNAME_LEVEL
+RL1 timing/contact loss                 = OPEN
+historical ASP-2000 M5 dataset          = NOT_FOUND_IN_CURRENT_DRIVE_SEARCH
 battery-interface measured loss         = OPEN
 A0 measured distribution loss           = OPEN
 A0 dynamic switch/HFT loss              = OPEN
@@ -713,16 +668,12 @@ Candidate #10                           = NOT_ASSIGNED
 Novelty                                 = NOT_ESTABLISHED
 ```
 
-Immediate next gate:
+Immediate next evidence gate:
 
 ```text
-M5 controlled load sweep
-→ I_source + ΔV_M5 + BOCP + 12VP + temperature
-→ close actual battery-interface R/P and verify BOCP gain
-
-then complete M0–M6 + D0–D7
-↓
-separate product-interface overhead from intrinsic X1 loss
+A0 hardware M5 load sweep when hardware is available
++
+continue non-hardware closure of T1/T2 magnetic parameters from available files
 ↓
 A0 BAT→X1 Loss Budget v1
 ↓
