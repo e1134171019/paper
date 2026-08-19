@@ -187,6 +187,7 @@ research/30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 research/31_PG_PM_COMPATIBILITY_SCREEN.md
 research/32_MINIMUM_FALSIFICATION_EVIDENCE_PLAN.md
 research/33_COMBINATION_LOSS_AUDIT_GATE.md
+research/34_H1_H2_H3_H4_EVIDENCE_ACQUISITION_WORKSHEET.md
 ```
 
 ```text
@@ -818,7 +819,75 @@ Only after this gate passes may a completed graph be retained as a topology cand
 
 ---
 
-## 16. Benchmark stack / next sequence
+## 16. Executable H1/H2/H3/H4 acquisition worksheet — ESTABLISHED v1
+
+Authoritative record:
+
+```text
+research/34_H1_H2_H3_H4_EVIDENCE_ACQUISITION_WORKSHEET.md
+```
+
+The previous minimum evidence requirements are now expressed as a lab-executable worksheet containing:
+
+```text
+measurement point / physical boundary
+instrument/probe class
+operating-point declaration
+synchronization / bandwidth requirement
+calculation / derived quantity
+uncertainty / invalidity rule
+PASS / FAIL / EVIDENCE_INSUFFICIENT field
+PG decision consequence
+```
+
+Critical measurement-boundary decisions:
+
+```text
+H2 switching region = two real electrical A/C switch functions
+NOT four fictional 5-MOS power branches
+
+H2 VGS reference = each MOS own Source / local B
+NOT arbitrary BAT-
+
+H2 switching-energy integration = deskewed synchronous V/I only
+otherwise P_switching remains OPEN / BOUNDED
+
+H4 = source current and HV-link ripple at the same declared operating point / line-cycle context
+existing passive HV-link PM-5 = first PG-4 falsifier
+```
+
+The worksheet also separates:
+
+```text
+A0-NOW hardware evidence
+from
+later comparator/model evidence A1 / B / C2 / C3 / X2-P / X2-A
+```
+
+Hardware execution status remains:
+
+```text
+NOT EXECUTED
+```
+
+because the worksheet itself does not establish the actual instrument/probe ratings, physical unit population/rating, access condition or predeclared PG materiality thresholds.
+
+Before energized H2/H4 acquisition, the following readiness items must close:
+
+```text
+T_mat,PG2 predeclared
+T_mat,PG4 predeclared
+actual A0 unit/population/rating confirmed
+available probe/instrument voltage/current/common-mode/BW capability confirmed
+physical access to required nodes confirmed
+probe deskew and current-probe zero/degauss method confirmed
+```
+
+No value may be invented to satisfy readiness.
+
+---
+
+## 17. Benchmark stack / next sequence
 
 ```text
 A0 — actual ASP-2000 structural evidence
@@ -852,13 +921,18 @@ Minimum falsification / evidence plan                    ✅ v1
 ↓
 Combination Loss Audit Gate governance                   ✅ v1
 ↓
-Executable H1/H2/H3/H4 evidence-acquisition worksheet   ← NEXT
+Executable H1/H2/H3/H4 evidence-acquisition worksheet   ✅ v1
 ↓
-execute highest-information hard gates
+H2/H4 pre-measurement readiness gate                     ← NEXT
 ↓
-assign acquired evidence to A1 / B / C2 / C3 / X2-P / X2-A
+predeclare T_mat,PG2 / T_mat,PG4
+confirm A0 unit rating + instrument/probe capability + physical access
+↓
+energized H2/H4 acquisition only after readiness/approval
 ↓
 reject gaps that fail materiality / fair falsifier / net benefit
+↓
+H1 / H3 and matched A1 / B / C2 / C3 evidence as required
 ↓
 FOR SURVIVING PG ONLY:
 minimal mechanism selection
@@ -892,7 +966,7 @@ This is an information-efficiency order, not a physical-importance ranking.
 
 ---
 
-## 17. Formal decision state
+## 18. Formal decision state
 
 ```text
 Research phase                         = Physical Gap Validation
@@ -927,22 +1001,30 @@ Canonical L3 dictionary PM-1...PM-7   = ESTABLISHED v1
 PG × canonical Physical Mechanism      = COMPLETE v1 / 28 CELLS SCREENED
 Minimum falsification/evidence plan    = ESTABLISHED v1
 Combination Loss Audit Gate            = ESTABLISHED v1 / CALG-0...CALG-12
-Combination-only interaction loss      = MANDATORY FUTURE ACCOUNTING
-Loss relocation audit                  = MANDATORY FUTURE ACCOUNTING
-Cross-PG regression audit              = MANDATORY FUTURE ACCOUNTING
-Matched total-loss comparison          = FINAL COMBINATION LOSS AUTHORITY
+Executable H1/H2/H3/H4 worksheet      = ESTABLISHED v1
+A0 hardware measurements              = NOT EXECUTED
+H2 acquisition definition             = READY_BY_PROTOCOL / HARD-GATE PRIORITY
+H4 acquisition definition             = READY_BY_PROTOCOL / HARD-GATE PRIORITY
+H1 acquisition definition             = READY_BY_PROTOCOL
+H3 acquisition definition             = READY_BY_PROTOCOL / PARAMETER-DEPENDENT
 T_mat,PG1...PG4 numerical values       = OPEN / MUST BE PREDECLARED
+T_mat,PG2 / T_mat,PG4 readiness        = NEXT
+instrument/probe actual capability     = OPEN / LAB READINESS NEEDED
+hardware rating/access approval        = OPEN / LAB READINESS NEEDED
 H1 PG-1 evidence                       = REQUIRED / NOT YET CLOSED
-H2 PG-2 materiality gate               = REQUIRED / HARD STOP
+H2 PG-2 materiality gate               = REQUIRED / HARD STOP / NOT MEASURED
 H3 PG-3 evidence                       = REQUIRED / NOT YET CLOSED
-H4 PG-4 materiality gate               = REQUIRED / HARD STOP
+H4 PG-4 materiality gate               = REQUIRED / HARD STOP / NOT MEASURED
 A1                                     = PM-1 FAIR FALSIFIER
 B                                      = DIRECT-HFL ARCHITECTURE COMPARATOR / DECOMPOSE PMs
 C2                                     = PM-2-DOMINANT COMPARATOR
 C3                                     = PM-3-DOMINANT COMPARATOR
 X2-P                                   = CONDITIONAL PM-5 COMPARATOR AFTER H4
 X2-A                                   = CONDITIONAL PM-6 COMPARATOR AFTER H4
-Executable evidence worksheet          = NEXT
+Combination-only interaction loss      = MANDATORY FUTURE ACCOUNTING
+Loss relocation audit                  = MANDATORY FUTURE ACCOUNTING
+Cross-PG regression audit              = MANDATORY FUTURE ACCOUNTING
+Matched total-loss comparison          = FINAL COMBINATION LOSS AUTHORITY
 Mechanism combination                  = NOT YET EXECUTED / NOT AUTHORIZED BEFORE PG SURVIVAL
 fan-out benefit                        = NOT_PROVEN
 active X2 benefit                      = NOT_PROVEN / H4-GATED
@@ -968,4 +1050,5 @@ Detailed records:
 31_PG_PM_COMPATIBILITY_SCREEN.md
 32_MINIMUM_FALSIFICATION_EVIDENCE_PLAN.md
 33_COMBINATION_LOSS_AUDIT_GATE.md
+34_H1_H2_H3_H4_EVIDENCE_ACQUISITION_WORKSHEET.md
 ```
