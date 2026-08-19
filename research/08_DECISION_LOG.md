@@ -2,7 +2,7 @@
 
 Purpose: preserve why a research direction was kept, narrowed, corrected, or rejected.
 
-This file records research decisions, not final truth. Later evidence may reverse a decision; corrections supersede earlier abstractions without erasing the audit trail.
+This file records research decisions, not final truth. Later evidence may reverse a decision; newer dated corrections supersede older abstractions without erasing the reasoning history.
 
 ---
 
@@ -13,7 +13,7 @@ Focus = low-voltage high-current DC→single-phase AC loss/topology study
 Anchor = 12 V / 2 kW / ~166.7 A ideal
 ```
 
-Reason: milliohm-scale resistance is already material at this current, so current path/RMS exposure matters more than voltage-gain labels alone.
+Reason: at hundred-ampere current, milliohm-scale resistance is a first-order loss term. Current path / RMS exposure is therefore more important than voltage-gain labels alone.
 
 ---
 
@@ -24,12 +24,7 @@ UPS/BESS system function = NOT FOCUS
 local bidirectional energy exchange = KEEP AS MECHANISM
 ```
 
-Working terms:
-
-```text
-Bidirectional Energy Buffer
-Bidirectional Power-Decoupling Port
-```
+Use terms such as `Bidirectional Energy Buffer` / `Bidirectional Power-Decoupling Port` only when discussing local energy routing.
 
 ---
 
@@ -41,7 +36,7 @@ Rejected assumption:
 remove HFT → automatically lower loss
 ```
 
-Electric-field/capacitive transfer must account for capacitor ESR/dielectric loss, reactive/circulating VA, extra switches, balancing, common-mode and isolation/EMI burden.
+Electric-field/capacitive transfer must still pay capacitor ESR/dielectric loss, reactive/circulating VA, switching, balancing, common-mode and isolation/EMI costs.
 
 ---
 
@@ -60,7 +55,7 @@ single-stage inverter
 direct HFL DC–AC
 ```
 
-Current narrow intersection remains:
+Current status remains:
 
 ```text
 OPEN_INTERSECTION
@@ -75,15 +70,15 @@ NOVELTY_NOT_ESTABLISHED
 12–24 Vdc / 1–3 kW / 220 Vac / 1φ
 ```
 
-Keep `12 V / 2 kW` as the extreme-current stress anchor.
+Keep `12 V / 2 kW` as the primary extreme-current stress anchor.
 
 ---
 
 ## 2026-08-17 — Nine-family working taxonomy retained
 
-Use nine main power-path families. Treat modular/IPOS/current-sharing/matrix/capacitive-isolation/active-buffer/partial-power/soft-switching as orthogonal design dimensions rather than automatic new families.
+Use nine main power-path families. Treat modular/IPOS/current sharing/matrix/capacitive isolation/active buffer/partial power/soft switching as orthogonal dimensions rather than automatic new families.
 
-Direct HFL remains a required modern benchmark; Xi'an-type HFL + power-decoupling work is not a new ninth-family origin.
+Direct HFL remains a required modern benchmark.
 
 ---
 
@@ -110,10 +105,10 @@ P_saved > P_added
 PLECS first
 LTspice second
 Maxwell/Q3D third
-hardware last
+hardware validation
 ```
 
-System-level mechanism validation precedes detailed device/transient optimization.
+System-level mechanism validation precedes detailed topology/device optimization.
 
 ---
 
@@ -131,7 +126,7 @@ System-level mechanism validation precedes detailed device/transient optimizatio
 → 220 Vac
 ```
 
-Important correction:
+Important:
 
 ```text
 X1 / X2 / X3 are functional coordinates,
@@ -153,15 +148,15 @@ X3 after X1             = KEEP
 
 ## 2026-08-19 — ASP-2000 R52 promoted to A0 real-product benchmark
 
-Initial component/stage extraction established two PQ5050 HFT modules, extensive parallel low-side MOS silicon, eight main input fuse positions, local low-voltage bulk, HV rectification, HV DC-link and a post-bus inverter.
-
 Decision:
 
 ```text
 ASP-2000 R52 = A0 REAL-PRODUCT BENCHMARK
 ```
 
-Consequence: parallel MOS, multiple magnetic paths and current sharing cannot be credited as candidate novelty or automatic efficiency advantage.
+Real product evidence includes two PQ5050 HFTs, extensive low-side silicon paralleling, eight main input fuses, local LV bulk, HV rectification, HV DC-link and post-bus AC synthesis.
+
+Consequence: `parallel MOS`, `multiple HFT`, `current sharing`, `early distribution`, and `secondary voltage combination` cannot be credited as candidate novelty.
 
 ---
 
@@ -172,18 +167,18 @@ A0 = actual ASP product
 A1 = fair optimized magnetic HFT
 ```
 
-A1 must be allowed equivalent current-distribution/layout freedom. Reject comparison of a new modular candidate against an artificially monolithic HFT baseline.
+A1 must be allowed equivalent current-distribution, silicon-paralleling, gate-drive and packaging freedom. Reject comparison against an artificially monolithic HFT baseline.
 
 ---
 
 ## 2026-08-19 — Early fan-out is not assumed loss-saving
 
-Splitting current into N branches does not automatically reduce total copper loss if conductor resources are merely divided, while added branches increase gate/Coss/parasitic/control/circulation burden.
+Current splitting alone does not guarantee lower total I²R if conductor resources are merely divided, and added branches add gate/Coss/parasitic/control burden.
 
 Required gate:
 
 ```text
-P_common + ΣP_branch + P_gate/Coss/parasitic
+P_common + ΣP_branch + P_added
 < matched baseline
 ```
 
@@ -205,129 +200,37 @@ Go condition:
 P_LV,saved > P_X2,added
 ```
 
-If the passive HV DC-link already suppresses source 2ω sufficiently, active X2 is rejected or restructured.
+If the passive post-X1 DC-link already suppresses source 2ω sufficiently, active X2 must be removed or restructured.
 
 ---
 
-## 2026-08-19 — ASP net-level reconstruction supersedes the four-independent-bank abstraction
+## 2026-08-19 — ASP net-level reconstruction superseded the four-independent-bank abstraction
 
-New direct SchDoc net reconstruction establishes:
+SchDoc reconstruction established:
 
 ```text
 BAT+
-├─ F2/F3/F5/F6 → local bulk → T1 center tap B
-└─ F7/F8/F9/F10 → local bulk → T2 center tap B
+├─ 4-fuse feed → T1 center tap
+└─ 4-fuse feed → T2 center tap
 
-T1 A = T2 A → shared A-side paralleled MOS switching node
-T1 C = T2 C → shared C-side paralleled MOS switching node
+T1 A = T2 A
+T1 C = T2 C
 ```
 
-Therefore the earlier spatial description:
-
-```text
-4 × independent five-MOS banks
-```
-
-is **superseded** as an electrical model.
-
-More accurate interpretation:
-
-```text
-two separately fused/local-bulk center-tap HFT feeds
-+ two shared high-parallel-count A/C switching nodes
-```
-
-MOS extraction status:
-
-```text
-20 annotated positions
-19 expected power connections directly reconstructed
-Q19 drain appears isolated in SchDoc
-Q19 footprint exists in PcbDoc
-Q19 drain connectivity = OPEN / requires deeper PCB-BOM-assembly verification
-```
-
-The secondary graph also establishes:
-
-```text
-T1 pin5 = T2 pin2                    ← direct series junction
-T1 outer → D1/D5 rectifier leg
-T2 outer → RL1 → D2/D6 rectifier leg
-D1,D2 → BUS+
-D5,D6 → BUS-
-```
-
-Research consequence:
-
-> A0 already combines current sharing, multiple magnetic paths, and collective/series secondary voltage formation. A new candidate must beat this real structure, not a simplified #02 cartoon.
-
-Detailed records:
-
-```text
-research/10_ASP2000_PRODUCT_BASELINE.md
-research/12_ASP2000_A0_POWER_PATH_AND_LOSS_BUDGET.md
-```
+Therefore the earlier spatial description `4 × independent five-MOS converter branches` was rejected as an electrical model.
 
 ---
 
-## 2026-08-19 — A0 numerical loss localization becomes the immediate gate
+## 2026-08-19 — BAT+ distribution geometry became a first-order loss bucket
 
-Do not jump directly from connectivity reconstruction to a new topology.
-
-First quantify/bound:
+PcbDoc copper extraction established a nominal geometry bound:
 
 ```text
-P_common
-P_fuse
-P_local_interconnect
-P_bulk_ESR
-P_MOS,cond
-P_MOS,sw
-P_primary,Cu
-P_core
-P_commutation/clamp
-```
-
-for the `BAT→X1` boundary.
-
-Only loss mechanisms that remain material after a fair A1 optimized-HFT model justify replacing X1 with another physical mechanism.
-
-Current order:
-
-```text
-A0 loss localization
-↓
-A1 optimized HFT
-↓
-X1 mechanism comparison
-↓
-X2 Buffer OFF/ON
-↓
-Candidate topology synthesis
-```
-
----
-
-## 2026-08-19 — BAT+ PCB distribution receives a geometry-based loss bound
-
-Direct PcbDoc primitive reconstruction establishes:
-
-```text
-BAT+ connector
-→ Top/Bottom large copper polygons
-→ 8 main fuse-input pads
-```
-
-with sixteen BAT+ stitching vias in the local distribution region.
-
-A nominal-copper 2D sheet model, using the extracted 1.4 mil Top/Bottom copper stack and equal current per fuse as the balanced reference, gives:
-
-```text
-R_BAT+,common,geometry ≈ 0.249 mΩ
+R_BAT+,common ≈ 0.249 mΩ
 P @ 175.4 A ≈ 7.67 W
 ```
 
-Adding the modeled post-fuse PCB portions gives a partial positive-path PCB-only equivalent:
+Partial positive PCB-only model including local feed geometry:
 
 ```text
 R_eq,positive-PCB,partial ≈ 0.373 mΩ
@@ -337,119 +240,212 @@ P @ 175.4 A ≈ 11.5 W
 Status:
 
 ```text
-GEOMETRY_MODEL / NOT MEASURED
+GEOMETRY MODEL / NOT MEASURED
 ```
 
-This does not include connector/contact, fuse-element, hot-copper, solder reinforcement or the T2 external-link resistance.
-
-Research consequence:
-
-> ordinary low-voltage power distribution can already consume a material fraction of the 0.65 mΩ / 20 W research budget before main MOS/HFT conversion loss is counted.
+Research consequence: low-voltage distribution is a topology/packaging variable, not a layout afterthought.
 
 ---
 
-## 2026-08-19 — T2 local feed contains an external-link boundary
+## 2026-08-19 — T2 contains a J8 external-link boundary
 
-PcbDoc reconstruction shows two large same-net `J8` terminals separated by approximately 93 mm, with no ordinary reconstructed PCB polygon spanning the complete gap.
+Two same-net J8 terminals are separated by ~93 mm without an ordinary reconstructed PCB polygon spanning the full gap.
 
 Decision:
 
 ```text
 external high-current link intent = STRONGLY SUPPORTED
-exact J8 conductor implementation = OPEN
+exact physical conductor = OPEN
 R_J8 = MEASUREMENT_NEEDED
 ```
 
-Do not substitute a guessed copper-wire/busbar resistance for the physical assembly.
+Do not guess the assembly conductor resistance.
 
 ---
 
-## 2026-08-19 — Negative battery return contains a seven-device full-current MOS bank
+## 2026-08-19 — Negative battery return contains a seven-device full-current MOS region
 
-Direct SchDoc/PcbDoc reconstruction establishes that battery negative and the main low-side switching return `B` are separated by seven TO-220 MOS positions:
+Verified boundary:
 
 ```text
-Q39 Q40 Q41 Q42 Q63 Q64 Q65
+B
+↔ Q39 Q40 Q41 Q42 Q63 Q64 Q65
+↔ BAT-
 ```
 
 All seven are annotated `CSD18510KCS`.
 
-Verified electrical boundary:
-
-```text
-BAT−
-↔ seven-device MOS bank
-↔ B main low-side return
-```
-
-The exact protection/disconnect/control role remains open.
-
-Using the official 1.7 mΩ maximum `RDS(on)` @ 10 V as a datasheet boundary:
+25°C datasheet boundary:
 
 ```text
 7 ideal parallel devices → R_eq ≈ 0.243 mΩ
-175.4 A continuous-enhancement scaling → ≈ 7.47 W
-```
-
-Status:
-
-```text
-full-current series MOS region = VERIFIED
-dissipation value = DATASHEET_BOUND / NOT MEASURED
+175.4 A scaling → ≈ 7.47 W
 ```
 
 Critical benchmark rule:
 
-> A candidate may not claim a topology loss advantage by deleting a required protection/disconnect function that exists in A0. Equivalent product functionality must be matched or removed from both comparison boundaries.
+> A candidate may not create a false efficiency advantage by deleting protection/disconnect functionality that A0 must provide.
 
-Detailed distribution/measurement gate:
+---
+
+## 2026-08-19 — Kelvin / millivolt-drop measurement promoted ahead of A1
+
+Static high-current regions should be closed by:
 
 ```text
-research/14_ASP2000_A0_DISTRIBUTION_AND_KELVIN_PLAN.md
+current + segment mV drop + temperature
+```
+
+rather than extending uncertain geometry assumptions.
+
+Priority regions include BAT+ distribution, individual fuses, T1/T2 local feeds, J8, B↔BAT- and return copper.
+
+---
+
+## 2026-08-19 — Dynamic measurement gate defined
+
+Dynamic closure requires:
+
+```text
+fs / duty / dead time
+actual device VGS
+A/C switched-node voltage
+T1/T2 primary current
+volt-second
+switching/commutation energy
+```
+
+Do not calculate switching loss from unsynchronized V/I channels or an invalid current boundary.
+
+---
+
+## 2026-08-19 — Compiled PCB resolves Q19 and the real primary-switch architecture
+
+New compiled-PCB evidence establishes:
+
+```text
+A node = NetC62_1
+→ T1 A + T2 A
+→ Q3 Q4 Q5 Q6 Q33
+→ Q18 Q19 Q20 Q21 Q37
+→ 10 connected MOS total
+
+C node = NetC65_1
+→ T1 C + T2 C
+→ Q11 Q12 Q13 Q14 Q36
+→ Q24 Q25 Q26 Q27 Q38
+→ 10 connected MOS total
+
+all 20 main MOS sources → B
+```
+
+Therefore:
+
+```text
+Q19 drain connectivity = VERIFIED IN PCB
+```
+
+The previous `Q19 OPEN / 9+10 MOS` abstraction is superseded.
+
+Updated 12 V conduction sensitivity bound:
+
+```text
+10 A-side + 10 C-side
+R_A ≈ R_C ≈ 0.400 mΩ @ 25C/max datasheet boundary
+P_mainMOS,cond ≈ 12.3 W under the same simplified 175.4 A / 50%-per-side model
 ```
 
 ---
 
-## 2026-08-19 — Kelvin/millivolt-drop measurement promoted ahead of A1
+## 2026-08-19 — Four physical driver groups are paired into two logical switch commands
 
-The geometry model is now sufficient to identify priority measurements but not to close the A0 loss budget.
-
-Next gate:
+Physical groups:
 
 ```text
-segmented Kelvin / millivolt-drop measurement
+DA1 / DA2 → A power node
+DB1 / DB2 → C power node
 ```
 
-Priority segments:
+Control trace:
 
 ```text
-BAT+ → each fuse input
-individual fuse input→output
-T1 local feed
-J8 external link
-T2 local feed
-BAT− ↔ B across Q39...Q65
-B-return distribution
+DR-A  ─ R213 = 0R ─ DR-A2
+DR-B  ─ R212 = 0R ─ DR-B2
 ```
 
-Reason:
+Decision:
 
-At mΩ-class resistance and ~175 A, small layout/contact/protection resistances produce multi-watt losses. Direct `I × ΔV` measurement is more defensible than extending the PCB geometry model into unknown assembly elements.
+```text
+4 physical driver subgroups
+2 logical switching functions
+2 high-current switched primary-end nodes
+```
+
+This is now the formal A0 primary-switch model.
+
+Dynamic timing mismatch between the two local drivers under one command remains a measurement item.
+
+---
+
+## 2026-08-19 — Transformer current and MOS subgroup current are separated conceptually
+
+Correct variables:
+
+```text
+I_T1 / I_T2
+= transformer center-tap / winding-feed currents
+
+I_A,total / I_C,total
+= currents through the two electrical switch functions
+
+I_DA1 / I_DA2 / I_DB1 / I_DB2
+= local silicon subgroup currents
+```
+
+During stable conduction:
+
+```text
+I_A,total ≈ I_T1,A + I_T2,A
+I_C,total ≈ I_T1,C + I_T2,C
+```
+
+But in general:
+
+```text
+I_DA1 != I_T1
+I_DA2 != I_T2
+```
+
+because DA1/DA2 are parallel on the same A drain/source nodes. The same applies to DB1/DB2 on C.
+
+This correction prevents invalid `VDS × wrong current` switching-loss calculations.
+
+Detailed record:
+
+```text
+research/17_ASP2000_A0_PRIMARY_SWITCH_CURRENT_BOUNDARY.md
+```
 
 ---
 
 ## Current decision state
 
 ```text
-A0 main power graph             = SUBSTANTIALLY RECONSTRUCTED
-A0 positive PCB geometry model  = ESTABLISHED AS NON-MEASURED BOUND
-A0 negative series MOS region   = VERIFIED / LOSS BOUND ESTABLISHED
-A0 measured distribution loss   = OPEN
-A0 numerical loss budget        = OPEN
-A1 matched model                = BLOCKED UNTIL A0 DISTRIBUTION BOUNDS / MEASUREMENT
-Working architecture            = KEEP
-Early fan-out benefit           = NOT PROVEN
-Active X2 benefit               = NOT PROVEN
-Candidate #10                   = NOT ASSIGNED
-Novelty                         = NOT ESTABLISHED
+Research phase                    = Physical Gap Validation
+A0 main power graph               = SUBSTANTIALLY RECONSTRUCTED
+Q19 anomaly                       = RESOLVED
+A logical switch                  = 10 MOS / VERIFIED
+C logical switch                  = 10 MOS / VERIFIED
+4 drivers / 2 logical commands    = VERIFIED AT CONNECTIVITY LEVEL
+positive PCB geometry loss bound  = ESTABLISHED / NOT MEASURED
+negative series MOS region        = VERIFIED / BOUND ESTABLISHED
+A0 measured distribution loss     = OPEN
+A0 dynamic switch loss            = OPEN
+A0 total BAT→X1 loss              = OPEN
+A1 matched model                  = BLOCKED UNTIL A0 LOSS LOCALIZATION
+Working architecture              = KEEP
+Early fan-out benefit             = NOT PROVEN
+Active X2 benefit                 = NOT PROVEN
+Candidate #10                     = NOT ASSIGNED
+Novelty                           = NOT ESTABLISHED
 ```
