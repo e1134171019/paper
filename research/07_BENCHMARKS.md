@@ -24,276 +24,109 @@ battery-interface protection/sensing functionality
 measurement basis
 ```
 
-Unmatched peak efficiencies from different papers/products are not a ranking.
-
 Core rule:
 
 ```text
 P_saved > P_added
 ```
 
-Two comparison contracts are allowed:
+Two contracts remain valid:
 
 ```text
 Contract P — product level
-→ matched required battery-interface/protection/sensing functions and their loss counted
+→ match required protection/sensing/precharge/product functions and count their loss
 
 Contract C — core converter
-→ battery-interface overhead excluded from A0/A1/candidate equally
+→ exclude product-interface/startup-only overhead equally
 ```
 
-Never delete A0 product functionality only on the candidate side and call the saved watts a topology gain.
+A0 ASP-2000 is a real-product evidence source, **not an optimization target**.
+
+Authoritative research-problem screen:
+
+```text
+research/25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md
+```
 
 ---
 
-## 2. Benchmark A — Magnetic HFT class
+## 2. Benchmark A — magnetic HFT class
 
 Working family:
 
 ```text
-#02 High-Frequency Magnetic-Isolated Two-Stage
-```
-
-Generic path:
-
-```text
-LV DC
-→ LV HF switching
-→ HFT
-→ HV rectification
-→ HV DC bus
-→ VSI
-→ AC
+#02 HFT + Rectifier + HV DC Bus + VSI
 ```
 
 ### A0 — ASP-2000 R52 real-product baseline
 
-Current SchDoc + compiled-PCB reconstruction establishes:
+Current structural abstraction:
 
 ```text
 BAT+
-├─ F2/F3/F5/F6 → local LV bulk → T1 center tap
-└─ F7/F8/F9/F10 → local LV bulk → T2 center tap
+├─ four-fuse/local-bulk feed → T1 center tap
+└─ four-fuse/local-bulk feed → T2 center tap
 
-T1 A + T2 A → common A switched node → 10 parallel MOS → B
-T1 C + T2 C → common C switched node → 10 parallel MOS → B
+T1-A + T2-A → common A node → 10 parallel MOS → B
+T1-C + T2-C → common C node → 10 parallel MOS → B
 
 B
 ↓
-7-MOS battery-interface protection/sensing bank
+7-MOS battery-interface protection/sensing region
 ↓
 BAT-
 
-T1/T2 magnetic transformation                         ← X1
+T1/T2 magnetic transformation                    ← X1
 ↓
-secondary series / collective voltage formation
+secondary collective/series voltage formation
 ↓
-D1/D5 + D2/D6 HV rectifier bridge
+HV rectification
 ↓
-BUS+ / BUS- + HV DC-link                              ← passive X2-capable node
+HV DC-link                                        ← passive X2-capable node
 ↓
-post-bus HV inverter                                  ← X3
+HV inverter                                       ← X3
 ↓
 AC
 ```
 
-Primary switches:
+A0 also contains:
 
 ```text
-A node = 10 connected main MOS
-C node = 10 connected main MOS
-common source/return = B
+manufactured finished copper >82 µm
+4 local main-gate driver subgroups / 2 logical A-C functions
+passive A↔C RC snubber/damping network
+HV precharge/bypass function
 ```
 
-Q19 is verified in the compiled PCB; old `19 connected / Q19 OPEN` wording is superseded.
-
-Gate structure:
+Important classification:
 
 ```text
-DA1 + DA2 → A power node
-DB1 + DB2 → C power node
-
-DR-A  ─ R213=0Ω ─ DR-A2
-DR-B  ─ R212=0Ω ─ DR-B2
+PCB / fuse / J8 / connector / protection / BOCP / precharge / driver stuffing
+= product-engineering evidence unless needed to discriminate a physical-gap hypothesis
 ```
 
-Thus:
-
-```text
-4 physical driver subgroups
-2 logical switching functions
-2 high-current switched nodes
-```
-
-Current variables:
-
-```text
-I_T1 / I_T2 = transformer feed currents
-I_A,total / I_C,total = two electrical switch currents
-I_DA1 / I_DA2 / I_DB1 / I_DB2 = local silicon-subgroup currents
-```
-
-Do not equate DA1/DA2 with T1/T2 currents.
-
-#### A0 battery-interface function
-
-Seven `CSD18510KCS` devices connect:
-
-```text
-Source → B
-Drain  → BAT-
-Gate   → common 12VP through individual 68.1Ω
-Gate   → B through individual 47.5kΩ
-```
-
-No independent MAIN-board PWM/enable command was found for this bank.
-
-An independent ASP-series product specification explicitly lists:
-
-```text
-Input reverse polarity protection (AUTO-RECOVERY)
-```
-
-Therefore:
-
-```text
-ASP input reverse-polarity protection function
-= VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
-
-Q39...Q65 as the low-side ideal-diode-style implementation
-= STRONGLY_SUPPORTED_BY_HARDWARE_STRUCTURE
-
-independent full-disconnect role of this bank
-= NOT_SUPPORTED_BY_PRESENT_CIRCUIT
-```
-
-U4 (`LM2904`) monitors `B` relative to `BAT-` and exports `BOCP` to CN4A pin 6.
-
-The MAIN-board resistor network is a closed-loop analog amplifier:
-
-```text
-B / SIG → U4 + input
-BAT- → 1.00kΩ → U4 - input
-U4 output → 22.1kΩ feedback → U4 - input
-U4 output → 100Ω → BOCP
-```
-
-Nominal linear-region relation:
-
-```text
-V_BOCP - V_B ≈ 22.1 × (V_B - V_BAT-)
-```
-
-Status:
-
-```text
-B↔BAT- analog sensing path = VERIFIED
-BOCP nominal gain ≈22.1 V/V = VERIFIED_FROM_CIRCUIT
-BOCP over-current / abnormal-drop role = STRONGLY_SUPPORTED
-exact threshold / control-board response = OPEN
-```
-
-Therefore the seven-MOS loss is classified primarily as battery-interface protection/sensing overhead, not intrinsic magnetic-X1 loss.
-
-A0 details:
-
-```text
-research/10_ASP2000_PRODUCT_BASELINE.md
-research/12_ASP2000_A0_POWER_PATH_AND_LOSS_BUDGET.md
-research/14_ASP2000_A0_DISTRIBUTION_AND_KELVIN_PLAN.md
-research/16_ASP2000_A0_DYNAMIC_SWITCHING_AND_HFT_MEASUREMENT_PROTOCOL.md
-research/17_ASP2000_A0_PRIMARY_SWITCH_CURRENT_BOUNDARY.md
-research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md
-research/19_ASP2000_A0_BOCP_TRANSFER_AND_M5_DIAGNOSTIC_GATE.md
-```
-
-A0 is used for real-product loss localization; it is not assumed inefficient.
+A0 is not assumed inefficient.
 
 ### A1 — fair optimized magnetic benchmark
 
 A1 may use equivalent engineering freedom:
 
 ```text
-12 V short / low-R bus
-→ optimized current distribution
-→ heavy parallel silicon
-→ distributed local gate driving
-→ optimized magnetic X1
-→ collective HV formation / rectification
-→ reduced-current node
-→ X3
+short/heavy LV distribution
+optimized silicon paralleling
+optimized local gate drive
+optimized magnetic X1
+appropriate soft-commutation/clamp strategy
+collective HV formation
+reduced-current node
+X3
 ```
 
-Under product-level Contract P, A1 must provide matched required battery-interface functions, specifically:
+A1 exists to answer:
 
-```text
-input reverse-polarity protection
-AUTO-RECOVERY-equivalent product behavior when included in the declared contract
-battery-return current/fault information equivalent to the established A0 requirement
-fusing / fault isolation
-```
+> If magnetic X1 receives fair optimization under the same specification and product contract, which A0-derived physical gaps remain?
 
-Implementation does not need to copy A0. A lower-loss realization is allowed and should be counted as battery-interface engineering improvement.
-
-Forbidden comparisons:
-
-```text
-candidate deletes battery protection/sensing
-vs
-A0/A1 carrying that product overhead
-```
-
-and:
-
-```text
-new modular candidate
-vs
-artificially monolithic / under-paralleled magnetic baseline
-```
-
-A1 answers:
-
-> If the same distribution, silicon-paralleling, driver-distribution, packaging and matched-product-function freedom is applied to magnetic conversion, what candidate loss advantage remains?
-
-### A-class loss map
-
-```text
-battery/source
-→ BAT+ connector / common copper
-→ fuse distribution
-→ local T1/T2 feed + J8
-→ local LV bulk ESR/ripple
-→ A/C 10-MOS logical switch conduction
-→ A/C switching/Coss/gate/commutation
-→ T1/T2 primary copper/core
-→ secondary copper
-→ leakage/clamp/snubber
-→ B return copper
-→ battery-interface protection/sensing overhead
-→ HV rectifier
-→ HV bus capacitor
-→ HV inverter
-→ output filter/interconnect
-```
-
-Required A0/A1 quantities:
-
-```text
-I_source,avg / RMS / 100-120Hz / HF
-I_T1 / I_T2
-I_A,total / I_C,total
-subgroup-current mismatch if material
-fuse/J8 path loss
-common LV Rdc/Rac
-A/C MOS conduction/switching loss
-battery-interface loss or equal-boundary exclusion
-T1/T2 primary Rac + core loss
-rectifier loss
-HV DC-link ripple/capacitor RMS
-HV inverter loss
-```
-
-If A0/A1 already suppress source 2ω strongly, active-X2 value must be reframed.
+A1 is **not** an ASP repair project. It is a mechanism-level reference model.
 
 ---
 
@@ -309,25 +142,33 @@ Typical path:
 
 ```text
 LV DC
-→ HF bridge
-→ HFT / HF link
+→ HF switching / HFT link
 → bidirectional matrix / cycloconverter
 → AC
 ```
 
-Relative to A0/A1 it may avoid:
+Potentially removed functions:
 
 ```text
-HV rectifier → full HV DC bus → VSI
+full HV rectifier
+complete HV DC bus
+separate VSI
 ```
 
-This is a required modern benchmark. Existing direct-HFL + AC-side power-decoupling prior art means keeping 2ω energy from fully returning to the LV source is not itself novel.
+But it must count added:
 
-Under Contract P, its battery-interface functions/loss must still be matched or bounded.
+```text
+bidirectional-switch conduction
+HF circulating RMS
+commutation burden
+AC-side energy decoupling if used
+```
+
+Removed stages are not automatically a win.
 
 ---
 
-## 4. Benchmark C — Non-Isolated Current-Distribution / High-Gain
+## 4. Benchmark C — Non-Isolated High-Gain / Current-Distribution
 
 Working family:
 
@@ -335,128 +176,162 @@ Working family:
 #04 Non-Isolated High-Gain DC/DC + VSI
 ```
 
-Fair extreme-LV form:
+Fair form:
 
 ```text
 12 V short bus
-→ N-way current distribution
-→ N × [switching + high-gain / coupled-L X1]
-→ collective HV combine
-→ HV node
+→ current distribution
+→ high-gain / coupled-L / switched network X1
+→ collective HV node
 → X3
 ```
 
-Compare:
+Must count:
 
 ```text
-common-path R_eq
-branch IRMS
-MOS conduction/switching
+LV conduction/switching
 inductor/coupled-inductor copper/core
 leakage/clamp
 rectifier/diode loss
 capacitor ESR/charge redistribution
-internal circulation
-matched battery-interface protection/sensing loss
+internal circulating current
 ```
 
-Direct 12 V / 2 kW / ~400 V hardware intersection remains not directly established by the current evidence set.
+Direct 12 V / 2 kW / ~400 V evidence remains incomplete; use bounded comparisons rather than unsupported ranking.
 
 ---
 
-## 5. Candidate D — Working loss-routing architecture
+## 5. Candidate D — HOLD
+
+Previous working architecture remains a hypothesis:
 
 ```text
 12–24 Vdc
 → very-short common LV path
-→ local bulk + HF decoupling
-→ early distributed branch power cells
+→ local decoupling
+→ early distribution
 → branch switching + candidate X1
 → reduced-current domain
-→ [optional active X2]
+→ [optional X2]
 → X3
-→ 220 Vac / 1φ
+→ 220 Vac
+```
+
+But:
+
+```text
+Candidate #10 = HOLD / NOT_ASSIGNED
+```
+
+No topology synthesis is active until a physical gap survives comparison with existing families.
+
+---
+
+## 6. Current physical-gap axes
+
+The benchmark is now driven by four A0-derived research hypotheses rather than by an exhaustive ASP component audit.
+
+```text
+PG-1 — extreme-LV conduction exposure before X1
+PG-2 — dissipative commutation / leakage-energy handling
+PG-3 — magnetic transformation burden at extreme ratio
+PG-4 — 2ω energy reflected into the LV source path
 ```
 
 Status:
 
 ```text
-working architecture = KEEP
-candidate superiority = NOT ASSUMED
-active X2 = OPTIONAL / MUST PASS ABLATION
+PG-1 = HYPOTHESIS / TOPOLOGY-RELEVANT
+PG-2 = HYPOTHESIS / STRONG STRUCTURAL SIGNAL
+PG-3 = OPEN / NOT YET A GAP
+PG-4 = HYPOTHESIS / NOT_ESTABLISHED
 ```
 
-Required X2 ablation:
+Detailed authority:
 
 ```text
-D0 — Buffer OFF
-D1 — Buffer ON
+research/25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md
 ```
-
-Go condition:
-
-```text
-P_LV,saved > P_buffer,loss + P_extra,circulation
-```
-
-If electric-field conversion is used, removed magnetic/rectifier/LV loss must exceed capacitor/reactive/circulating/extra-switch loss under matched functionality.
 
 ---
 
-## 6. Fair comparison matrix
+## 7. Fair mechanism-comparison matrix
+
+All A1/B/C comparisons should expose at least:
 
 ```text
-                    A0 ASP       A1 Opt HFT    B Direct HFL   C Non-iso HG   D Candidate
-Vin                 matched      matched       matched         matched        matched
-Pout                matched      matched       matched         matched        matched
-Vout                matched      matched       matched         matched        matched
-Isolation           explicit     explicit      explicit        explicit       explicit
-Battery interface   documented   matched       matched/bound   matched/bound  matched
-I_common,RMS        measure/model model         model/report    model          measure/model
-I_branch,RMS        measure/model model         model/report    model          measure/model
-I_2ω                measure/model model         model/report    model          measure/model
-I_circulating       measure/model model         model/report    model          measure/model
-P_distribution      decomposed   decomposed    decomposed      decomposed     decomposed
-P_batt-interface    separated    matched/excl. matched/excl.   matched/excl.  matched/excl.
-P_cond              decomposed   decomposed    decomposed      decomposed     decomposed
-P_sw                decomposed   decomposed    decomposed      decomposed     decomposed
-P_mag               decomposed   decomposed    decomposed      decomposed     N/A/remaining
-P_cap               decomposed   decomposed    decomposed      decomposed     decomposed
-P_rectifier         decomposed   decomposed    as applicable   decomposed     as applicable
-P_buffer            if present   if present    if present      if present     decomposed
-P_total             same bound   same bound    same bound      same bound     same bound
+M1 — extreme-LV RMS / conduction exposure before X1
+M2 — switching / commutation / dissipative-clamp energy
+M3 — magnetic or alternative energy-storage/conversion burden
+M4 — internal circulating / reactive RMS
+M5 — source-side 2ω reflection
+M6 — added active processing functions / stages
+M7 — matched isolation / protection / product contract
 ```
 
-If boundaries cannot be matched, evidence is `CONTEXT_ONLY` or `BOUNDED_TRADEOFF`, not a scalar ranking.
+A scalar efficiency number without decomposition is insufficient to explain a physical gap.
 
 ---
 
-## 7. Current benchmark gate
+## 8. Minimum A0 evidence before mechanism comparison
 
-A proposed topology must eventually survive:
+Do **not** require every ASP watt to be closed first.
+
+Collect only hypothesis-discriminating evidence:
 
 ```text
-Candidate
-vs A0 actual ASP
-vs A1 fair optimized magnetic HFT
-vs Direct HFL
-vs matched non-isolated high-gain when applicable
+H1 / PG-1
+→ source/transformer/switch current + hot conduction evidence
+
+H2 / PG-2
+→ fs/duty/deadtime + A/C V-I overlap + RC-snubber watts
+
+H3 / PG-3
+→ T1/T2 RMS + volt-second + magnetic parameter/loss bound
+
+H4 / PG-4
+→ source 100/120 Hz ripple + HV-link ripple
 ```
 
-Current order:
+If a PG is falsified early, stop spending A0 effort on that direction.
+
+---
+
+## 9. Current benchmark gate — REVISED
+
+Old broad workflow:
 
 ```text
-A0 measured static + dynamic loss localization
+close every A0 static + dynamic watt
+→ then begin mechanism comparison
+```
+
+is superseded.
+
+Current workflow:
+
+```text
+A0 structural evidence freeze
 ↓
-separate battery-interface overhead from intrinsic X1 loss
+Physical-gap screen
 ↓
-A0 BAT→X1 Loss Budget v1
+minimum H1–H4 discriminating evidence
 ↓
-A1 matched optimized magnetic model
+A1 optimized magnetic / B Direct-HFL / C non-isolated mechanism comparison
 ↓
-X1 mechanism comparison
+reject gaps that disappear under fair optimization
 ↓
-X2 ablation
+only then topology synthesis
 ↓
-Candidate synthesis only if a physical gap survives
+Candidate #10 only if an existing-family solution does not already close the surviving gap
+```
+
+Formal status:
+
+```text
+A0 role = EVIDENCE SOURCE / NOT OPTIMIZATION TARGET
+A1 = NEXT FAIR MAGNETIC MECHANISM BENCHMARK AFTER MINIMUM EVIDENCE
+B/C = REQUIRED CROSS-MECHANISM REFERENCES
+Candidate #10 = HOLD / NOT_ASSIGNED
+Novelty = NOT_ESTABLISHED
 ```
