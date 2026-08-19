@@ -92,6 +92,13 @@ Current benchmark emphasis:
 #09 → direct-HFL benchmark
 ```
 
+Mechanism extraction from #01–#09 is now recorded in:
+
+```text
+research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
+research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
+```
+
 ```text
 Candidate #10 = HOLD / NOT_ASSIGNED
 ```
@@ -305,9 +312,22 @@ actual magnetic watts
 
 `M1-PQ50-V121-A` belongs to another ASP-3000/24 V variant and remains context-only.
 
+A separately supplied private approval sheet for `M1-PQ50-V108-A` establishes useful PQ50-class industrial context:
+
+```text
+4-turn wide-foil low-voltage windings
+30-turn secondary
+No Gap core assembly
+nonzero leakage-inductance test values
+MnZn ferrite material options
+```
+
+but direct linkage to ASP-2000 R52 T1/T2 is not established.
+
 Therefore:
 
 ```text
+M1-PQ50-V108-A = PQ50-CLASS CONTEXT_ONLY / NOT A0 NUMERICAL EVIDENCE
 A0 magnetic burden = OPEN
 ```
 
@@ -494,7 +514,62 @@ No architecture wins merely by deleting a stage or product function.
 
 ---
 
-## 14. Benchmark stack / next sequence
+## 14. Mechanism extraction checkpoint — ACTIVE
+
+Nine-family mechanism extraction is complete at v1.
+
+Detailed matrix:
+
+```text
+research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
+```
+
+Current screening pools:
+
+```text
+MP-A — Early X1 / leave extreme-LV domain early
+MP-B — Soft commutation / leakage-energy utilization
+MP-C — Collective high-voltage building
+MP-D — Direct / integrated AC synthesis
+MP-E — Intentional 2ω energy routing
+MP-F — Continuous-input / ripple-current shaping
+```
+
+Important gate:
+
+```text
+mechanism name alone ≠ physical-gap solution
+```
+
+Examples not admitted merely by label:
+
+```text
+LLC
+DAB
+high-gain
+switched-capacitor
+fan-out
+interleaving
+active X2 before PG-4 survives
+```
+
+Combination rules are locked in `research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md`.
+
+Next action:
+
+```text
+PG × Mechanism compatibility screen
+↓
+reject redundant / physically conflicting / loss-stacking pairs
+↓
+retain only 2–3 physically defensible combinations
+↓
+reclassify each against #01–#09
+```
+
+---
+
+## 15. Benchmark stack / next sequence
 
 ```text
 A0 — actual ASP-2000 structural evidence
@@ -509,9 +584,13 @@ Current sequence:
 ```text
 A0 structural evidence freeze
 ↓
-Physical-gap screen                         ← CURRENT
+Physical-gap screen
 ↓
-minimum H1–H4 discriminating evidence
+Nine-family mechanism extraction                 ✅ v1
+↓
+PG × Mechanism compatibility screen              ← NEXT
+↓
+minimum H1–H4 evidence where needed to discriminate surviving PGs
 ↓
 A1 / B / C X1 mechanism comparison
 ↓
@@ -524,7 +603,7 @@ Candidate #10 only if existing #01–#09 do not already cover the solution path
 
 ---
 
-## 15. Formal decision state
+## 16. Formal decision state
 
 ```text
 Research phase                         = Physical Gap Validation
@@ -537,15 +616,20 @@ main-MOS conduction scale              = ~12.3 W / DATASHEET_BOUND
 battery-interface scale                = ~7.47 W / PRODUCT-INTERFACE DATASHEET_BOUND
 A/C passive RC damping                 = VERIFIED
 A0 transformer numerical parameters    = OPEN
+M1-PQ50-V108-A                         = CONTEXT_ONLY / NOT A0
 
 PG-1 extreme-LV conduction exposure    = HYPOTHESIS
 PG-2 dissipative commutation handling  = HYPOTHESIS / STRONG SIGNAL
 PG-3 magnetic burden                   = OPEN
 PG-4 2ω source reflection              = HYPOTHESIS
 
+Nine-family mechanism extraction       = COMPLETE v1
+Mechanism pool MP-A...MP-F              = ESTABLISHED FOR SCREENING
+PG × Mechanism compatibility           = NEXT
+Mechanism combination                  = NOT YET EXECUTED
 fan-out benefit                        = NOT_PROVEN
 active X2 benefit                      = NOT_PROVEN
-A1                                     = NEXT FAIR MECHANISM BENCHMARK AFTER MINIMUM EVIDENCE
+A1                                     = FAIR MECHANISM BENCHMARK AFTER COMPATIBILITY/MINIMUM EVIDENCE
 Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
@@ -560,4 +644,6 @@ Detailed records:
 23_ASP2000_A0_PRIMARY_SNUBBER_AND_GATE_DRIVER_BOUNDARY.md
 24_ASP2000_A0_U5_DRIVER_VARIANT_AND_SAVPP_GATE.md
 25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md
+26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
+27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
 ```
