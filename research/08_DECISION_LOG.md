@@ -625,21 +625,77 @@ PM-R12 multilevel voltage-state synthesis
 PM-R13 bridge polarity/amplitude synthesis
 ```
 
-`PM-R*` remains RAW. It has not yet been deduplicated into the final L3 mechanism dictionary.
+`PM-R*` remains RAW. This raw set is superseded as a direct screening object by the canonical dictionary below.
 
-Current next step is therefore:
+---
+
+## 2026-08-19 — Canonical L3 physical-mechanism dictionary established v1 — CRITICAL
+
+Formal record:
 
 ```text
-Deduplicate / formalize PM-R1...PM-R13
-↓
-remove support functions and duplicate descriptions
-↓
-map surviving L3 mechanisms to PG-1...PG-4
-↓
-then execute PG × Physical-Mechanism compatibility
+research/30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 ```
 
-No mechanism combination is authorized by normalization alone.
+The 13 raw entries were normalized into seven canonical same-level L3 mechanism classes:
+
+```text
+PM-1 — Magnetic Flux-Linkage Transformation
+PM-2 — Inductive Energy Transfer
+PM-3 — Capacitive Charge-Transfer / Voltage-Stacking
+PM-4 — Reactive-Energy-Assisted Commutation
+PM-5 — Capacitive Field-Energy Buffering
+PM-6 — Controlled Bidirectional Storage-Port Transfer
+PM-7 — Semiconductor Switching-State AC Synthesis
+```
+
+Raw normalization decisions:
+
+```text
+PM-R1  → PM-1
+PM-R2  → PM-2A
+PM-R3  → COMPOSITE(PM-1 + PM-2)
+PM-R4  → PM-3
+PM-R5  → COMPOSITE / architecture-conditioned L/C mechanism
+PM-R6  → PM-2B
+PM-R7  → PM-4
+PM-R8  → PM-5
+PM-R9  → PM-6
+PM-R10 → PM-7C
+PM-R11 → SP-1 support primitive
+PM-R12 → PM-7B
+PM-R13 → PM-7A
+```
+
+Key decisions:
+
+```text
+coupled-inductor label ≠ independent primitive L3 mechanism
+→ composite PM-1 + PM-2
+
+Z/qZ impedance-network label ≠ independent primitive L3 mechanism
+→ composite / architecture-conditioned process
+
+semiconductor rectification ≠ independent physical-gap solution mechanism
+→ SP-1 support primitive; its loss remains mandatory in accounting
+
+matrix / cycloconverter, multilevel and ordinary bridge AC synthesis
+→ PM-7 implementation variants rather than three unrelated same-level mechanisms
+```
+
+Historical mechanism pools are therefore no longer valid direct PG-screening axes:
+
+```text
+PG × MP-A...MP-F = REJECTED
+```
+
+The next valid screening object is:
+
+```text
+PG-1...PG-4 × PM-1...PM-7
+```
+
+No mechanism combination, Candidate #10 assignment or novelty claim is authorized by this ontology normalization.
 
 ---
 
@@ -693,11 +749,13 @@ Nine-family X1/X2/X3 normalization     = COMPLETE v1
 Nine-family role                       = ARCHITECTURE COVERAGE MAP
 Ontology L1/L2/L3/L4                   = ESTABLISHED v1
 MP-A...MP-F same-level ontology        = REJECTED
-Raw L3 mechanism inventory PM-R1...R13 = ESTABLISHED / NOT YET DEDUPLICATED
-L3 mechanism deduplication             = NEXT
-PG × Physical-Mechanism compatibility  = DEFERRED UNTIL L3 DICTIONARY
+Raw L3 PM-R1...PM-R13 direct screening = SUPERSEDED
+Canonical L3 dictionary PM-1...PM-7   = ESTABLISHED v1
+Canonical L3 mechanism count           = 7
+Support primitive SP-1                 = ESTABLISHED
+PG × canonical Physical Mechanism      = NEXT
 Mechanism combination                  = NOT YET EXECUTED
-A1                                     = FAIR BENCHMARK AFTER L3 NORMALIZATION / MINIMUM EVIDENCE
+A1                                     = FAIR BENCHMARK AFTER COMPATIBILITY / MINIMUM EVIDENCE
 Early fan-out benefit                  = NOT_PROVEN
 Active X2 benefit                      = NOT_PROVEN
 Candidate #10                          = HOLD / NOT_ASSIGNED
