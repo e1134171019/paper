@@ -291,7 +291,7 @@ Detailed record: `research/17_ASP2000_A0_PRIMARY_SWITCH_CURRENT_BOUNDARY.md`.
 
 ## 2026-08-19 — Seven-MOS battery-interface function narrowed
 
-New SchDoc trace resolves the gate and sensing architecture.
+SchDoc trace resolves the gate and sensing architecture.
 
 Seven devices:
 
@@ -310,7 +310,7 @@ Gate → 47.5kΩ → B
 
 No independent MAIN-board PWM/enable command was found for the bank.
 
-Decision:
+Initial hardware-only decision:
 
 ```text
 reverse-polarity / ideal-diode-style battery-interface role
@@ -320,53 +320,15 @@ commandable full battery disconnect by this bank alone
 = NOT_SUPPORTED_BY_PRESENT_CIRCUIT
 ```
 
-U4 (`LM2904`) directly monitors the same B↔BAT- boundary:
-
-```text
-U4 + input → B
-BAT- → 1kΩ → U4 - input
-22.1kΩ output feedback → - input
-U4 output → 100Ω → BOCP → CN4A pin 6
-```
-
-Therefore:
-
-```text
-B↔BAT- voltage-drop sensing → BOCP = VERIFIED
-BOCP over-current / abnormal-drop protection role = STRONGLY_SUPPORTED
-exact BOCP threshold / polarity / control-board response = OPEN
-```
-
-Research consequence:
-
-> The seven-MOS loss is classified primarily as battery-interface protection/sensing overhead, not intrinsic magnetic-X1 loss.
-
-Fair comparison now uses either:
-
-```text
-Contract P — product level:
-matched reverse-polarity / equivalent ideal-diode behavior + required fault/current information; count its loss.
-
-Contract C — core converter:
-exclude battery-interface overhead from A0/A1/candidate equally.
-```
-
-Forbidden:
-
-```text
-Candidate deletes Q39...Q65 functionality
-→ calls the removed watts an X1/topology advantage
-```
-
-Detailed record: `research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md`.
+This hardware-only classification is later upgraded by the ASP product specification below.
 
 ---
 
 ## 2026-08-19 — BOCP is a ~22.1× analog amplifier of the M5 drop
 
-Deeper SchDoc reconstruction establishes that the U4 BOCP channel is a closed-loop analog amplifier, not merely a comparator-name inference.
+Deeper SchDoc reconstruction establishes that the U4 BOCP channel is a closed-loop analog amplifier.
 
-The local `B` net and `SIG` reference port are directly connected in this schematic region.
+The local `B` net and `SIG` reference port are directly connected.
 
 Verified network:
 
@@ -388,13 +350,13 @@ V_U4out - V_B
 ≈ 22.1 × ΔV_M5
 ```
 
-If BOCP loading through R154 is negligible:
+If BOCP loading is negligible:
 
 ```text
 V_BOCP - V_B ≈ 22.1 × ΔV_M5
 ```
 
-At the existing 175.4 A / seven-MOS 25°C datasheet scale reference:
+At the 175.4 A / seven-MOS 25°C datasheet scale reference:
 
 ```text
 ΔV_M5 ≈ 42.6 mV
@@ -402,7 +364,7 @@ P_M5 ≈ 7.47 W
 V_BOCP - V_B ≈ 0.94 V
 ```
 
-All three remain non-measured scale references.
+All remain non-measured scale references.
 
 Decision:
 
@@ -411,9 +373,9 @@ BOCP analog transfer relation = VERIFIED_FROM_MAIN_BOARD
 BOCP exact trip threshold/control response = OPEN
 ```
 
-BOCP must not replace Kelvin loss measurement because LM2904 input offset is mV-class and the MOS-bank sense resistance is strongly temperature/VGS/current-sharing dependent.
+The earlier comparator/hysteresis wording is superseded; this channel is treated as a negative-feedback analog amplifier.
 
-Formal M5 evidence hierarchy:
+Formal M5 hierarchy:
 
 ```text
 I_source + ΔV_M5 + temperature
@@ -423,17 +385,53 @@ BOCP vs ΔV_M5
 → product sense-chain cross-check
 ```
 
-Required load-sweep regressions:
+Detailed record: `research/19_ASP2000_A0_BOCP_TRANSFER_AND_M5_DIAGNOSTIC_GATE.md`.
+
+---
+
+## 2026-08-19 — ASP product specification verifies input reverse-polarity protection
+
+An independent ASP-series standard specification available in Drive explicitly lists:
 
 ```text
-ΔV_M5 vs I_source
-→ effective hot R_M5
-
-V_BOCP vs ΔV_M5
-→ measured BOCP gain / offset
+Input reverse polarity protection (AUTO-RECOVERY)
 ```
 
-Detailed record: `research/19_ASP2000_A0_BOCP_TRANSFER_AND_M5_DIAGNOSTIC_GATE.md`.
+Decision upgrade:
+
+```text
+ASP reverse-polarity protection function
+= VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
+```
+
+Combined evidence now separates product function from implementation attribution:
+
+```text
+product reverse-polarity protection exists
+= VERIFIED
+
+Q39...Q65 are the low-side ideal-diode-style implementation of that product function
+= STRONGLY_SUPPORTED_BY_HARDWARE_STRUCTURE
+```
+
+The currently accessible Drive search did not locate a BOCP control-board receiver schematic or firmware artifact.
+
+Therefore:
+
+```text
+BOCP exact trip threshold / control response
+= OPEN / EVIDENCE_BLOCKED
+```
+
+Product-contract consequence:
+
+```text
+A1 / Candidate under Contract P
+must preserve matched input reverse-polarity protection behavior
+rather than a vague generic disconnect requirement.
+```
+
+Detailed function record: `research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md`.
 
 ---
 
@@ -449,11 +447,13 @@ C logical switch                     = 10 MOS / VERIFIED
 positive PCB geometry loss bound     = ESTABLISHED / NOT_MEASURED
 B↔BAT- seven-MOS power boundary      = VERIFIED
 12VP common gate bias                = VERIFIED
-reverse-polarity / ideal-diode role  = STRONGLY_SUPPORTED
-B↔BAT- sensing → BOCP                = VERIFIED
-BOCP nominal analog gain             = ~22.1 V/V / VERIFIED_FROM_CIRCUIT
-BOCP measured gain/offset            = OPEN
-BOCP exact trip/control response      = OPEN
+ASP reverse-polarity product function = VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
+Q39...Q65 ideal-diode implementation  = STRONGLY_SUPPORTED
+B / SIG reference relation            = VERIFIED
+BOCP nominal analog gain              = ~22.1 V/V / VERIFIED_FROM_CIRCUIT
+BOCP measured gain/offset             = OPEN
+BOCP receiver/control-board evidence  = NOT_FOUND_IN_CURRENT_DRIVE_SEARCH
+BOCP exact trip/control response      = OPEN / EVIDENCE_BLOCKED
 battery-interface measured loss      = OPEN
 A0 measured distribution loss        = OPEN
 A0 dynamic switch/HFT loss           = OPEN
