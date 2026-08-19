@@ -31,6 +31,19 @@ Mandatory rule:
 P_saved > P_added
 ```
 
+Final combination-level authority is now stronger:
+
+```text
+ΔP_total = P_loss,baseline - P_loss,candidate
+```
+
+and where uncertainty is available:
+
+```text
+ΔP_total,low
+= P_loss,baseline,low - P_loss,candidate,high > 0
+```
+
 ---
 
 ## 2. Research-object correction — CRITICAL
@@ -165,7 +178,7 @@ NOT nine mutually-exclusive physical mechanisms
 #01/#06/#07/#08/#09 may contain physical X1/X3 overlap
 ```
 
-Mechanism / falsification records:
+Mechanism / falsification / combination-governance records:
 
 ```text
 research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
@@ -173,6 +186,7 @@ research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
 research/30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 research/31_PG_PM_COMPATIBILITY_SCREEN.md
 research/32_MINIMUM_FALSIFICATION_EVIDENCE_PLAN.md
+research/33_COMBINATION_LOSS_AUDIT_GATE.md
 ```
 
 ```text
@@ -683,7 +697,7 @@ PG-3 → PM-1 / PM-2 / PM-3
 PG-4 → PM-5 / PM-6 / H4-gated
 ```
 
-The falsification plan now formalizes:
+The falsification plan formalizes:
 
 ```text
 T_mat,PG1...PG4 = PREDECLARED MATERIALITY PARAMETERS
@@ -707,16 +721,7 @@ X2-P = conditional PM-5 passive-buffer comparator after H4 survives
 X2-A = conditional PM-6 active-buffer comparator after H4 survives
 ```
 
-Important corrections:
-
-```text
-one generic C comparator is insufficient when PM-2 and PM-3 losses are mixed
-B Direct-HFL is not a primitive PM by name
-A1/B/C alone do not provide a clean PM-5 vs PM-6 comparison
-active X2 remains closed until H4 materiality passes
-```
-
-Formal PG stop states now include:
+Formal PG stop states include:
 
 ```text
 MATERIALITY_FAIL
@@ -725,11 +730,95 @@ NET_BENEFIT_FAIL
 EVIDENCE_INSUFFICIENT
 ```
 
-Mechanism combination remains closed.
+Mechanism combination remains closed until the relevant PG survives.
 
 ---
 
-## 15. Benchmark stack / next sequence
+## 15. Combination Loss Audit Gate — ESTABLISHED v1
+
+Authoritative record:
+
+```text
+research/33_COMBINATION_LOSS_AUDIT_GATE.md
+```
+
+Critical correction:
+
+```text
+single-PM benefit ≠ combination benefit
+PG solved locally ≠ converter improved globally
+```
+
+Any future combination must define an actual electrical graph and re-derive the entire current/energy path before it may be retained.
+
+Two separate ledgers are mandatory:
+
+```text
+A. physical watt ledger
+   conduction / switching / magnetic / capacitive / rectification /
+   circulating / buffer / auxiliary / other
+
+B. causal tags
+   REMOVED / REDUCED / RETAINED / RELOCATED /
+   INTRINSIC_NEW / INTERACTION_NEW / SUPPORT_NEW / AUXILIARY_NEW
+```
+
+Causal tags are labels on physical watt terms and are not summed as a second independent loss total.
+
+`INTERACTION_NEW` is now a mandatory accounting item. Examples include:
+
+```text
+soft-commutation benefit requiring extra circulating RMS
+voltage stacking + multilevel creating balancing / redistribution loss
+active X2 creating shared-bus / switch / inductor loss
+integrated X1/X3 creating new commutation states
+```
+
+Formal rules:
+
+```text
+RELOCATED ≠ REMOVED
+stage deletion ≠ loss proof
+target-PG improvement ≠ global net benefit
+```
+
+Every future combination must re-audit M1...M7 to detect cross-PG regression.
+
+Combination Audit Loss Gate `CALG-0...CALG-12` is established, including:
+
+```text
+surviving-PG authorization
+minimality
+no duplicate function without proof
+actual graph resolution
+matched functional contract
+state/current-path closure
+full physical loss ledger
+interaction-loss closure
+relocation/double-count audit
+cross-PG regression audit
+matched total-loss gate
+stress/feasibility sanity gate
+family reclassification
+```
+
+Final loss authority:
+
+```text
+P_loss,candidate < P_loss,baseline
+```
+
+Preferred robust pass:
+
+```text
+P_loss,candidate,high < P_loss,baseline,low
+```
+
+Only after this gate passes may a completed graph be retained as a topology candidate.
+
+---
+
+## 16. Benchmark stack / next sequence
 
 ```text
 A0 — actual ASP-2000 structural evidence
@@ -739,7 +828,7 @@ C2 — PM-2-dominant inductive/high-gain comparator
 C3 — PM-3-dominant charge-transfer/stacking comparator
 X2-P — conditional PM-5 passive buffer comparator after H4
 X2-A — conditional PM-6 active buffer comparator after H4
-D  — later candidate only if a gap survives
+D  — later candidate only if a gap survives and Combination Loss Audit passes
 ```
 
 Current sequence:
@@ -761,6 +850,8 @@ PG-1...PG-4 × PM-1...PM-7 compatibility screen          ✅ v1
 ↓
 Minimum falsification / evidence plan                    ✅ v1
 ↓
+Combination Loss Audit Gate governance                   ✅ v1
+↓
 Executable H1/H2/H3/H4 evidence-acquisition worksheet   ← NEXT
 ↓
 execute highest-information hard gates
@@ -769,12 +860,25 @@ assign acquired evidence to A1 / B / C2 / C3 / X2-P / X2-A
 ↓
 reject gaps that fail materiality / fair falsifier / net benefit
 ↓
-Topology synthesis only for surviving verified gap
+FOR SURVIVING PG ONLY:
+minimal mechanism selection
+↓
+actual combination graph
+↓
+Combination Loss Audit Gate
+↓
+robust matched total-loss advantage
+↓
+family reclassification against #01...#09
+↓
+retain or reject topology candidate
 ↓
 Candidate #10 only if existing #01–#09 do not reasonably cover the resulting main energy path
+↓
+Novelty evaluated separately
 ```
 
-Evidence priority currently formalized as:
+Evidence priority remains:
 
 ```text
 Priority 1 — H2 and H4 hard materiality gates
@@ -788,7 +892,7 @@ This is an information-efficiency order, not a physical-importance ranking.
 
 ---
 
-## 16. Formal decision state
+## 17. Formal decision state
 
 ```text
 Research phase                         = Physical Gap Validation
@@ -822,6 +926,11 @@ Ontology L1/L2/L3/L4                   = ESTABLISHED v1
 Canonical L3 dictionary PM-1...PM-7   = ESTABLISHED v1
 PG × canonical Physical Mechanism      = COMPLETE v1 / 28 CELLS SCREENED
 Minimum falsification/evidence plan    = ESTABLISHED v1
+Combination Loss Audit Gate            = ESTABLISHED v1 / CALG-0...CALG-12
+Combination-only interaction loss      = MANDATORY FUTURE ACCOUNTING
+Loss relocation audit                  = MANDATORY FUTURE ACCOUNTING
+Cross-PG regression audit              = MANDATORY FUTURE ACCOUNTING
+Matched total-loss comparison          = FINAL COMBINATION LOSS AUTHORITY
 T_mat,PG1...PG4 numerical values       = OPEN / MUST BE PREDECLARED
 H1 PG-1 evidence                       = REQUIRED / NOT YET CLOSED
 H2 PG-2 materiality gate               = REQUIRED / HARD STOP
@@ -834,7 +943,7 @@ C3                                     = PM-3-DOMINANT COMPARATOR
 X2-P                                   = CONDITIONAL PM-5 COMPARATOR AFTER H4
 X2-A                                   = CONDITIONAL PM-6 COMPARATOR AFTER H4
 Executable evidence worksheet          = NEXT
-Mechanism combination                  = NOT YET EXECUTED
+Mechanism combination                  = NOT YET EXECUTED / NOT AUTHORIZED BEFORE PG SURVIVAL
 fan-out benefit                        = NOT_PROVEN
 active X2 benefit                      = NOT_PROVEN / H4-GATED
 Candidate #10                          = HOLD / NOT_ASSIGNED
@@ -858,4 +967,5 @@ Detailed records:
 30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 31_PG_PM_COMPATIBILITY_SCREEN.md
 32_MINIMUM_FALSIFICATION_EVIDENCE_PLAN.md
+33_COMBINATION_LOSS_AUDIT_GATE.md
 ```
