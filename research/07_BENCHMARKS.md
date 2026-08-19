@@ -148,19 +148,49 @@ Gate   → B through individual 47.5kΩ
 
 No independent MAIN-board PWM/enable command was found for this bank.
 
-Function status:
+An independent ASP-series product specification explicitly lists:
 
 ```text
-low-side reverse-polarity / ideal-diode-style role = STRONGLY SUPPORTED
-independent full-disconnect role = NOT SUPPORTED BY PRESENT CIRCUIT
+Input reverse polarity protection (AUTO-RECOVERY)
 ```
 
-U4 (`LM2904`) monitors `B` relative to `BAT-` and exports `BOCP` to CN4A pin 6:
+Therefore:
 
 ```text
-B↔BAT- voltage-drop sensing → BOCP = VERIFIED
-BOCP over-current / abnormal-drop protection role = STRONGLY SUPPORTED
-exact threshold / control response = OPEN
+ASP input reverse-polarity protection function
+= VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
+
+Q39...Q65 as the low-side ideal-diode-style implementation
+= STRONGLY_SUPPORTED_BY_HARDWARE_STRUCTURE
+
+independent full-disconnect role of this bank
+= NOT_SUPPORTED_BY_PRESENT_CIRCUIT
+```
+
+U4 (`LM2904`) monitors `B` relative to `BAT-` and exports `BOCP` to CN4A pin 6.
+
+The MAIN-board resistor network is a closed-loop analog amplifier:
+
+```text
+B / SIG → U4 + input
+BAT- → 1.00kΩ → U4 - input
+U4 output → 22.1kΩ feedback → U4 - input
+U4 output → 100Ω → BOCP
+```
+
+Nominal linear-region relation:
+
+```text
+V_BOCP - V_B ≈ 22.1 × (V_B - V_BAT-)
+```
+
+Status:
+
+```text
+B↔BAT- analog sensing path = VERIFIED
+BOCP nominal gain ≈22.1 V/V = VERIFIED_FROM_CIRCUIT
+BOCP over-current / abnormal-drop role = STRONGLY_SUPPORTED
+exact threshold / control-board response = OPEN
 ```
 
 Therefore the seven-MOS loss is classified primarily as battery-interface protection/sensing overhead, not intrinsic magnetic-X1 loss.
@@ -174,6 +204,7 @@ research/14_ASP2000_A0_DISTRIBUTION_AND_KELVIN_PLAN.md
 research/16_ASP2000_A0_DYNAMIC_SWITCHING_AND_HFT_MEASUREMENT_PROTOCOL.md
 research/17_ASP2000_A0_PRIMARY_SWITCH_CURRENT_BOUNDARY.md
 research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md
+research/19_ASP2000_A0_BOCP_TRANSFER_AND_M5_DIAGNOSTIC_GATE.md
 ```
 
 A0 is used for real-product loss localization; it is not assumed inefficient.
@@ -193,11 +224,12 @@ A1 may use equivalent engineering freedom:
 → X3
 ```
 
-Under product-level Contract P, A1 must also provide matched required battery-interface functions, specifically as applicable:
+Under product-level Contract P, A1 must provide matched required battery-interface functions, specifically:
 
 ```text
-reverse-polarity / equivalent ideal-diode behavior
-battery-return current/fault information equivalent to A0 requirement
+input reverse-polarity protection
+AUTO-RECOVERY-equivalent product behavior when included in the declared contract
+battery-return current/fault information equivalent to the established A0 requirement
 fusing / fault isolation
 ```
 
