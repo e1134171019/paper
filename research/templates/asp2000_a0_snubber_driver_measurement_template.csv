@@ -1,0 +1,5 @@
+test_id,date,unit_sn,vin_v,pout_w,i_source_a,u5_populated,u5_marking,r212_populated,r213_populated,driver_path_class,savpp_state,fs_hz,duty_a_pct,duty_c_pct,deadtime_a_to_c_ns,deadtime_c_to_a_ns,dr_a_to_dr_a2_ns,dr_b_to_dr_b2_ns,vgs_da1_pk_v,vgs_da1_min_v,vgs_da2_pk_v,vgs_da2_min_v,vgs_db1_pk_v,vgs_db1_min_v,vgs_db2_pk_v,vgs_db2_min_v,vac_pk_v,vac_ringing_pk_v,r110_vrms_v,r119_vrms_v,p_r110_w,p_r119_w,p_snubber_total_w,t1_irms_a,t2_irms_a,mos_temp_c,snubber_r110_temp_c,snubber_r119_temp_c,u5_temp_c,probe_config,bandwidth_mhz,deskew_ns,notes,evidence_status
+OP1,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NOT_MEASURED
+OP2,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NOT_MEASURED
+OP3,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NOT_MEASURED
+OP4_12V_2kW_if_allowed,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,NOT_MEASURED
