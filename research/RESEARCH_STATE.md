@@ -170,6 +170,7 @@ Mechanism extraction records:
 ```text
 research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
 research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
+research/30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 ```
 
 ```text
@@ -661,108 +662,72 @@ No architecture wins merely by deleting a stage or product function.
 
 ---
 
-## 14. Mechanism extraction / ontology checkpoint — ACTIVE
+## 14. Canonical L3 physical-mechanism checkpoint — ACTIVE
 
-Nine-family mechanism extraction is complete at v1.
-
-Detailed records:
+Authoritative dictionary:
 
 ```text
-research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
-research/29_NINE_FAMILY_X1_X2_X3_NORMALIZATION.md
+research/30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 ```
 
-Historical screening pools remain:
+The raw inventory `PM-R1...PM-R13` has been normalized into seven canonical L3 mechanism classes:
 
 ```text
-MP-A — Early X1 / leave extreme-LV domain early
-MP-B — Soft commutation / leakage-energy utilization
-MP-C — Collective high-voltage building
-MP-D — Direct / integrated AC synthesis
-MP-E — Intentional 2ω energy routing
-MP-F — Continuous-input / ripple-current shaping
+PM-1 — Magnetic Flux-Linkage Transformation
+PM-2 — Inductive Energy Transfer
+PM-3 — Capacitive Charge-Transfer / Voltage-Stacking
+PM-4 — Reactive-Energy-Assisted Commutation
+PM-5 — Capacitive Field-Energy Buffering
+PM-6 — Controlled Bidirectional Storage-Port Transfer
+PM-7 — Semiconductor Switching-State AC Synthesis
 ```
 
-Definition Gate correction:
+Raw-item decisions:
 
 ```text
-MP-A...MP-F are NOT six same-level physical mechanisms
+PM-R1  → PM-1
+PM-R2  → PM-2A
+PM-R3  → COMPOSITE(PM-1 + PM-2)
+PM-R4  → PM-3
+PM-R5  → COMPOSITE / architecture-conditioned L/C mechanism
+PM-R6  → PM-2B
+PM-R7  → PM-4
+PM-R8  → PM-5
+PM-R9  → PM-6
+PM-R10 → PM-7C
+PM-R11 → SP-1 support primitive
+PM-R12 → PM-7B
+PM-R13 → PM-7A
 ```
 
-Ontology is now separated into:
+Key ontology corrections:
 
 ```text
-L1 Architecture / Main Circuit Graph
-L2 Strategy
-L3 Physical Mechanism
-L4 Resulting Property / Observable
+coupled-inductor label ≠ independent primitive mechanism
+Z/qZ impedance-network label ≠ independent primitive mechanism
+rectification = real loss-bearing support primitive, not independent PG solution
+matrix / multilevel / bridge AC synthesis = PM-7 implementation variants
 ```
 
-Nine-family normalization is complete at v1. It establishes a raw L3 inventory:
+Historical pools remain only as reasoning/search buckets:
 
 ```text
-PM-R1  transformer magnetic flux / turns-ratio transformation
-PM-R2  inductor charge-discharge energy transfer
-PM-R3  coupled-inductor magnetic gain / energy transfer
-PM-R4  capacitor charge transfer / voltage stacking / multiplication
-PM-R5  impedance-network L/C energy exchange with shoot-through states
-PM-R6  leakage/series-inductance-mediated active power transfer
-PM-R7  resonant / ZVS / ZCS commutation using stored reactive energy
-PM-R8  passive capacitive 2ω energy buffering
-PM-R9  active bidirectional buffer charge/discharge / ripple-port transfer
-PM-R10 bidirectional matrix / cycloconverter HF-link-to-AC transfer
-PM-R11 semiconductor rectification / synchronous rectification
-PM-R12 multilevel voltage-state synthesis
-PM-R13 bridge polarity/amplitude synthesis
+MP-A Early X1              = Strategy pool
+MP-B Soft commutation      = primarily PM-4
+MP-C Collective HV build   = PM-1 / PM-2 / PM-3 depending actual path
+MP-D Integrated AC         = architecture strategy using PM-7 variants
+MP-E 2ω routing            = PM-5 and/or PM-6
+MP-F Continuous input      = L4 resulting property / control outcome
 ```
 
-`PM-R* = RAW`; duplicates/support functions have not yet been removed.
-
-Current pool reclassification:
+Formal consequence:
 
 ```text
-MP-A = Strategy pool
-MP-B = Physical-mechanism pool
-MP-C = Mechanism-family / strategy hybrid
-MP-D = Architecture / integration-strategy pool
-MP-E = Energy-routing function / physical-mechanism pool
-MP-F = Resulting-property / control-strategy pool
+PG × MP-A...MP-F = REJECTED
+PG × canonical PM-1...PM-7 = NEXT SCREENING OBJECT
 ```
 
-Important gate:
-
-```text
-technique name ≠ physical-gap solution
-screening pool ≠ same-level mechanism ontology
-```
-
-Examples not admitted merely by label:
-
-```text
-LLC
-DAB
-high-gain
-switched-capacitor
-fan-out
-interleaving
-active X2 before PG-4 survives
-```
-
-Combination rules remain recorded in `research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md`, but direct `PG × MP-A...MP-F` execution is rejected.
-
-Next action:
-
-```text
-Deduplicate / formalize PM-R1...PM-R13
-↓
-remove support functions and duplicate descriptions
-↓
-create ontology-consistent L3 mechanism dictionary
-↓
-map surviving L3 mechanisms to PG-1...PG-4
-↓
-then execute PG × Physical-Mechanism compatibility
-```
+No mechanism combination has been executed.
 
 ---
 
@@ -789,9 +754,11 @@ X1 / X2 / X3 + Physical-Gap Definition Gate              ✅ v1
 ↓
 Nine-family common X1/X2/X3 normalization                ✅ v1
 ↓
-Deduplicate / formalize ontology-consistent L3 mechanisms ← NEXT
+Canonical L3 physical-mechanism dictionary               ✅ v1
 ↓
-PG × Physical-Mechanism compatibility screen
+PG-1...PG-4 × PM-1...PM-7 compatibility screen          ← NEXT
+↓
+attach pair-specific falsifier + added-loss terms
 ↓
 minimum H1–H4 evidence where needed to discriminate surviving PGs
 ↓
@@ -838,16 +805,17 @@ Nine-family X1/X2/X3 normalization     = COMPLETE v1
 Nine-family role                       = ARCHITECTURE COVERAGE MAP
 #05 unique X1 physics                   = REJECTED
 #08 single-ontology interpretation      = REJECTED
-MP-A...MP-F historical screening pools = KEEP
-MP-A...MP-F same-level ontology        = REJECTED
 Ontology L1/L2/L3/L4                   = ESTABLISHED v1
-Raw L3 mechanism inventory PM-R1...R13 = ESTABLISHED / NOT YET DEDUPLICATED
-L3 mechanism deduplication             = NEXT
-PG × Physical-Mechanism compatibility  = DEFERRED UNTIL L3 DICTIONARY
+Raw L3 PM-R1...PM-R13 direct screening = SUPERSEDED
+Canonical L3 dictionary PM-1...PM-7   = ESTABLISHED v1
+Canonical L3 mechanism count           = 7
+Support primitive SP-1                 = ESTABLISHED
+MP-A...MP-F direct PG crossing          = REJECTED
+PG × canonical Physical Mechanism      = NEXT
 Mechanism combination                  = NOT YET EXECUTED
 fan-out benefit                        = NOT_PROVEN
 active X2 benefit                      = NOT_PROVEN
-A1                                     = FAIR FALSIFICATION BENCHMARK AFTER L3 NORMALIZATION / MINIMUM EVIDENCE
+A1                                     = FAIR FALSIFICATION BENCHMARK AFTER COMPATIBILITY / MINIMUM EVIDENCE
 Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
@@ -866,4 +834,5 @@ Detailed records:
 27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
 28_X1_X2_X3_AND_PHYSICAL_GAP_DEFINITION_V1.md
 29_NINE_FAMILY_X1_X2_X3_NORMALIZATION.md
+30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 ```
