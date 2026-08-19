@@ -25,7 +25,7 @@ Core question:
 
 > **不是研究怎麼升壓，而是研究低壓百安培能量怎麼走，才最少變成熱。**
 
-Necessary average source current cannot disappear before the first major impedance/current-domain transformation. The research variable is which additional RMS components and how much resistive path also remain in that expensive low-voltage domain.
+Necessary average source current cannot disappear before the first major impedance/current-domain transformation. The research variable is how much extra RMS current and how much resistive/commutation path remain in the expensive low-voltage domain.
 
 ---
 
@@ -39,7 +39,7 @@ X3 = complete AC-synthesis region
 
 These are functional coordinates, not one component each and not automatically three converter stages.
 
-Current preferred ordering:
+Preferred ordering:
 
 ```text
 extreme-LV full-current domain
@@ -89,45 +89,164 @@ Modularization, IPOS, current sharing, active buffer, capacitive isolation, part
 
 ## 4. A0 product benchmark — ASP-2000 R52
 
-The user-supplied Altium source has progressed from component extraction to substantial net-level and PCB-primitive reconstruction.
+The user-supplied Altium source has progressed from component extraction to SchDoc + compiled-PCB net reconstruction and partial PCB-loss modeling.
 
-### 4.1 Verified low-voltage main path
+### 4.1 Positive-side current distribution
 
 ```text
 BAT+
-├─ F2/F3/F5/F6 → local LV bulk → T1 center tap B
-└─ F7/F8/F9/F10 → local LV bulk → T2 center tap B
+├─ F2/F3/F5/F6 → local LV bulk → T1 center tap
+└─ F7/F8/F9/F10 → local LV bulk → T2 center tap
 ```
 
-Both PQ5050 primaries expose:
+Both PQ5050 primaries are center tapped:
 
 ```text
-A — B(center tap) — C
+pin 9 = A
+pin 8 = center tap
+pin 7 = C
 ```
 
-Direct reconstruction establishes:
+The two center taps remain separate supply/current paths.
+
+### 4.2 Primary switched power nodes — RESOLVED
+
+Compiled PCB establishes only two high-current switched primary-end nodes.
+
+A node:
 
 ```text
-T1 A = T2 A → shared A-side paralleled MOS switching node
-T1 C = T2 C → shared C-side paralleled MOS switching node
+NetC62_1
+→ T1 A + T2 A
+→ Q3 Q4 Q5 Q6 Q33
+→ Q18 Q19 Q20 Q21 Q37
+→ 10 connected MOS drains
 ```
 
-Therefore the earlier four-independent-five-MOS-bank abstraction is superseded.
-
-MOS status:
+C node:
 
 ```text
-20 low-side MOS positions annotated
-19 expected power connections directly reconstructed
-Q19 drain appears isolated in SchDoc
-Q19 footprint exists in PcbDoc
-Q19 drain connectivity = OPEN
+NetC65_1
+→ T1 C + T2 C
+→ Q11 Q12 Q13 Q14 Q36
+→ Q24 Q25 Q26 Q27 Q38
+→ 10 connected MOS drains
 ```
 
-### 4.2 Verified X1-to-HV path
+All twenty main-MOS Source pads connect to:
 
 ```text
-T1 pin5 = T2 pin2                       ← direct secondary series junction
+B
+```
+
+Therefore the real low-voltage switch stage is:
+
+```text
+A logical switch = 10 parallel MOS
+C logical switch = 10 parallel MOS
+common source/return = B
+```
+
+The earlier `four independent five-MOS power branches` abstraction is superseded.
+
+### 4.3 Q19 anomaly — RESOLVED
+
+Earlier SchDoc-only extraction made Q19 Drain appear isolated.
+
+Compiled PCB proves:
+
+```text
+Q19 Drain → NetC62_1
+Q19 Source → B
+```
+
+Status:
+
+```text
+Q19 connectivity = VERIFIED IN PCB
+A-side connected MOS count = 10
+C-side connected MOS count = 10
+Total connected main LV MOS = 20
+```
+
+### 4.4 Four physical drivers, two logical commands
+
+Physical gate-driver groups:
+
+```text
+DA1-G → Q3 Q4 Q5 Q6 Q33
+DA2-G → Q18 Q19 Q20 Q21 Q37
+DB1-G → Q11 Q12 Q13 Q14 Q36
+DB2-G → Q24 Q25 Q26 Q27 Q38
+```
+
+Each main MOS has an individual 27.4 Ω gate resistor.
+
+Upstream command pairing:
+
+```text
+DR-A  ─ R213 = 0 Ω ─ DR-A2
+DR-B  ─ R212 = 0 Ω ─ DR-B2
+```
+
+Therefore:
+
+```text
+4 physical driver subgroups
+2 logical switching functions
+2 high-current switched power nodes
+```
+
+Connectivity-level command pairing is verified; actual propagation / edge mismatch remains a waveform measurement item.
+
+### 4.5 Local E-label correction
+
+SchDoc labels:
+
+```text
+DA1-E / DA2-E / DB1-E / DB2-E
+```
+
+must not be modeled as four isolated high-current return nets.
+
+Compiled PCB establishes:
+
+```text
+all main MOS Sources → B
+low-side local driver references → B
+```
+
+Thus `B` is the physical common source/return boundary.
+
+### 4.6 Negative full-current return
+
+Battery negative is separated from `B` by seven TO-220 MOS positions:
+
+```text
+B
+↓
+Q39 Q40 Q41 Q42 Q63 Q64 Q65
+↓
+BAT-
+```
+
+All seven are annotated `CSD18510KCS`.
+
+Status:
+
+```text
+negative-side full-current series MOS region = VERIFIED
+exact protection/disconnect function = OPEN
+```
+
+A candidate may not claim a topology efficiency improvement by silently deleting equivalent required product functionality.
+
+---
+
+## 5. Verified X1-to-HV structure
+
+```text
+T1 pin 5 = T2 pin 2                     ← direct secondary series junction
 T1 outer secondary → D1/D5 rectifier leg
 T2 outer secondary → RL1 → D2/D6 rectifier leg
 D1,D2 → BUS+
@@ -140,72 +259,65 @@ HV inverter                              ← X3
 
 `RL1` exact role remains open.
 
-A0 abstraction:
+A0 therefore remains a real-product #02 benchmark:
 
 ```text
-BAT+
-→ two separately fused/local-bulk center-tap HFT feeds
-→ shared heavily paralleled A/C switching nodes
-→ T1/T2 magnetic X1
+LV current distribution
+→ switched T1/T2 magnetic X1
 → collective/series secondary voltage formation
-→ HV bridge rectification
+→ HV rectification
 → HV DC-link
 → X3
 → AC
 ```
 
-Status:
+---
+
+## 6. Correct current variables
+
+Do not mix magnetic-path current with local silicon-subgroup current.
 
 ```text
-A0 main power graph = SUBSTANTIALLY RECONSTRUCTED
+I_T1 / I_T2
+= actual transformer center-tap / winding-feed currents
+
+I_A,total / I_C,total
+= total current through the two electrical switch functions
+
+I_DA1 / I_DA2 / I_DB1 / I_DB2
+= local parallel-silicon subgroup currents
 ```
+
+During stable A conduction:
+
+```text
+I_A,total ≈ I_T1,A + I_T2,A
+```
+
+During stable C conduction:
+
+```text
+I_C,total ≈ I_T1,C + I_T2,C
+```
+
+But generally:
+
+```text
+I_DA1 != I_T1
+I_DA2 != I_T2
+I_DB1 != I_T1
+I_DB2 != I_T2
+```
+
+because DA1/DA2 are two parallel driver/silicon subgroups on the same A drain/source nodes, and DB1/DB2 are two parallel subgroups on the same C nodes.
+
+Subgroup current division depends on hot RDS(on), local copper, gate timing, parasitic inductance and temperature; it must be measured/modelled rather than assumed 50/50.
+
+During dead time / transition edges, Coss, body-diode, leakage, clamp and ringing currents require synchronous high-bandwidth waveform evidence.
 
 ---
 
-## 5. Newly verified full-current return path
-
-Battery negative is not the same electrical net as the main low-side switching return `B`.
-
-Seven TO-220 devices bridge the two:
-
-```text
-Q39 Q40 Q41 Q42 Q63 Q64 Q65
-= CSD18510KCS
-```
-
-Verified boundary:
-
-```text
-main low-side return B
-↓
-7-device parallel MOS bank
-↓
-BAT−
-```
-
-Status:
-
-```text
-negative-side full-current series MOS region = VERIFIED
-exact protection/disconnect/control function = OPEN
-```
-
-Using the official device maximum `RDS(on)` only as a 25°C datasheet boundary:
-
-```text
-7 ideal parallel devices → R_eq ≈ 0.243 mΩ
-175.4 A scaling → conduction bound ≈ 7.47 W
-```
-
-This is `DATASHEET_BOUND / NOT MEASURED` and excludes hot RDS(on), current sharing, contacts and return copper.
-
-Critical fair-comparison rule:
-
-> A candidate may not claim a topology improvement by deleting a required protection/disconnect function that A0 contains. Equivalent functionality must be matched or removed from both comparison boundaries.
-
----
-
-## 6. Current working architecture — KEEP
+## 7. Current working architecture — KEEP
 
 ```text
 12 V source
@@ -235,7 +347,7 @@ local decoupling        = KEEP / engineering requirement
 early fan-out           = KEEP AS HYPOTHESIS
 branch switching + X1   = CORE RESEARCH REGION
 reduced-current node    = KEEP AS FUNCTIONAL CONCEPT
-active X2               = OPTIONAL / NOT YET PROVEN
+active X2               = OPTIONAL / NOT PROVEN
 X3 after X1             = KEEP / structural requirement
 ```
 
@@ -243,15 +355,15 @@ X3 after X1             = KEEP / structural requirement
 
 ---
 
-## 7. A0 numerical loss localization — current bounds
+## 8. Current A0 numerical bounds
 
-### 7.1 PCB stack
+### 8.1 PCB copper
 
-PcbDoc stack extraction:
+PcbDoc stack:
 
 ```text
-Top copper    ≈ 1.4 mil ≈ 35.56 um
-Bottom copper ≈ 1.4 mil ≈ 35.56 um
+Top copper    ≈ 1.4 mil ≈ 35.56 µm
+Bottom copper ≈ 1.4 mil ≈ 35.56 µm
 ```
 
 Nominal room-temperature sheet resistance:
@@ -260,26 +372,15 @@ Nominal room-temperature sheet resistance:
 R_sheet,1layer ≈ 0.485 mΩ/square
 ```
 
-At `175.4 A`, one full-current single-layer square is approximately:
+At 175.4 A:
 
 ```text
-14.9 W/square
+one full-current single-layer square ≈ 14.9 W
 ```
 
-This is only a scaling relation, not the actual route resistance.
+### 8.2 BAT+ common geometry
 
-### 7.2 BAT+ common multi-terminal geometry model
-
-Direct PCB primitive reconstruction identifies:
-
-```text
-3 large BAT+ connector power pads
-8 main fuse-input pads
-16 BAT+ stitching vias
-major Top/Bottom BAT+ polygons
-```
-
-A converged 2D equal-eight-fuse-current sheet model gives:
+2D nominal-copper model:
 
 ```text
 R_BAT+,common,geometry ≈ 0.249 mΩ
@@ -287,100 +388,91 @@ P @ 175.4 A ≈ 7.67 W
 average modeled drop ≈ 43.7 mV
 ```
 
-Status:
+### 8.3 Post-fuse PCB geometry
 
 ```text
-GEOMETRY_MODEL / NOT MEASURED
-```
-
-The model also predicts different average copper drops toward the T1 and T2 fuse groups, so equal T1/T2 current sharing must be measured rather than assumed.
-
-### 7.3 Post-fuse PCB models
-
 T1 local PCB:
-
-```text
-R_T1local,PCB ≈ 0.351 mΩ
+R ≈ 0.351 mΩ
 P @ 87.7 A ideal share ≈ 2.70 W
-```
 
-T2 PCB portions excluding the external link:
-
-```text
-R_T2local,PCB,excludingJ8 ≈ 0.144 mΩ
+T2 PCB excluding J8:
+R ≈ 0.144 mΩ
 P @ 87.7 A ideal share ≈ 1.10 W
 ```
 
-T2 contains two large same-net `J8` terminals about 93 mm apart with no ordinary reconstructed PCB polygon bridging the full gap.
-
-Status:
-
-```text
-external high-current link intent = STRONGLY SUPPORTED
-exact J8 conductor implementation = OPEN
-R_J8 = MEASUREMENT_NEEDED
-```
-
-### 7.4 Partial positive-path bound
-
-Under ideal 50/50 T1/T2 sharing:
+Partial positive PCB-only equivalent under ideal 50/50 T1/T2 sharing:
 
 ```text
 R_eq,positive-PCB,partial ≈ 0.373 mΩ
 P @ 175.4 A ≈ 11.5 W
 ```
 
-This excludes:
+Status:
 
 ```text
-connector/contact loss
-8 fuse elements
-J8 external link/contact
-hot-copper increase
-assembly reinforcement details
+GEOMETRY MODEL / NOT MEASURED
 ```
 
-Therefore it is a geometry-only partial bound, not the positive-path measured loss.
+This excludes connector/contact, fuse elements, J8, hot copper and assembly reinforcement.
 
----
+### 8.4 J8
 
-## 8. Main low-side MOS bound remains separate
+Two same-net `J8` high-current terminals are separated by about 93 mm with no ordinary PCB polygon spanning the complete gap.
+
+```text
+external high-current link intent = STRONGLY SUPPORTED
+exact conductor = OPEN
+R_J8 = MEASUREMENT_NEEDED
+```
+
+### 8.5 Main A/C MOS conduction — corrected 10+10 bound
 
 12 V population:
 
 ```text
 CSD18542KCS
 RDS(on),max @ VGS=10 V = 4 mΩ
-Qg,typ = 44 nC
 ```
 
-Current reconstructed A/C switching nodes:
+Each logical switch has ten connected devices:
 
 ```text
-A-side = 9 directly connected expected positions
-C-side = 10 directly connected positions
-Q19 connectivity = OPEN
+R_A,eq,25C,max ≈ 0.400 mΩ
+R_C,eq,25C,max ≈ 0.400 mΩ
 ```
 
-Simplified push-pull-like 9+10-device 25°C conduction boundary at `175.4 A`:
+Using the same simplified 175.4 A / 50%-per-side sensitivity model:
 
 ```text
-P_mainMOS,cond ≈ 13 W
+P_mainMOS,cond,25C-bound ≈ 12.3 W
 ```
 
 Status:
 
 ```text
-DATASHEET_BOUND / NOT MEASURED
+DATASHEET BOUND / NOT MEASURED
 ```
 
-The result does not establish the dominant A0 loss because hot RDS(on), primary waveform, MOS switching/commutation, PCB and protection-path losses remain separate.
+### 8.6 Negative seven-MOS region
+
+For `CSD18510KCS`, using the official max-RDS(on) boundary previously locked:
+
+```text
+7 ideal parallel devices → R_eq ≈ 0.243 mΩ
+175.4 A scaling → ≈ 7.47 W
+```
+
+Status:
+
+```text
+DATASHEET BOUND / NOT MEASURED
+```
+
+These different evidence-class values must not be summed into a claimed measured total.
 
 ---
 
-## 9. Current A0 BAT→X1 loss boundary
-
-The boundary must now include both positive and negative full-current paths:
+## 9. Current BAT→X1 loss boundary
 
 ```text
 BAT+
@@ -389,15 +481,17 @@ connector + BAT+ common distribution
 ↓
 8 fuse branches
 ↓
-T1 local path / T2 local path + J8
+T1 local feed / T2 local feed + J8
 ↓
-T1/T2 primary + A/C main switching MOS
+T1/T2 primary magnetic path
+↓
+A or C logical switch region: 10 MOS
 ↓
 B return
 ↓
-7-device negative-side series MOS bank
+7-device BAT- MOS region
 ↓
-BAT−
+BAT-
 ```
 
 Formal decomposition:
@@ -405,57 +499,77 @@ Formal decomposition:
 ```text
 P_A0,BAT→X1 =
     P_positiveDistribution
-  + P_mainMOS,cond
-  + P_mainMOS,sw
+  + P_fuse/J8
+  + P_A/C_MOS,cond
+  + P_A/C_MOS,sw
   + P_primary,Cu
   + P_core
   + P_commutation/clamp
+  + P_BreturnCopper
   + P_negativeSeriesBank
-  + P_returnCopper
 ```
-
-The present bounds are intentionally not summed into a claimed A0 total because they are different evidence classes and still omit measured/hot/assembly terms.
 
 ---
 
-## 10. Immediate measurement gate — segmented Kelvin / millivolt drop
+## 10. Hardware measurement gates prepared
 
-Geometry modeling has reached the point of diminishing return for unknown contacts, fuse elements, J8 and the return path.
+### 10.1 Static / Kelvin gate
 
-Next gate:
-
-```text
-M0 BAT+ terminal → each fuse input
-M1 each fuse input → output
-M2 T1 fuse-output node → T1 center tap
-M3 J8 left → J8 right
-M4 J8 right → T2 center tap
-M5 BAT− ↔ B across Q39...Q65 bank
-M6 B return distribution, if separately accessible
-```
-
-Minimum current channels:
+Protocol:
 
 ```text
-I_source
-I_T1
-I_T2
+research/15_ASP2000_A0_KELVIN_MEASUREMENT_PROTOCOL.md
 ```
 
-Preferred reconstruction:
+Priority segments:
 
 ```text
-P_segment = I_segment × ΔV_segment
-R_segment = ΔV_segment / I_segment
+M0 BAT+ → fuse inputs
+M1 individual fuses
+M2 T1 local feed
+M3 J8
+M4 T2 local feed
+M5 B ↔ BAT- seven-MOS region
+M6 B return copper if accessible
 ```
 
-Relevant component/connection temperatures must be recorded with the millivolt-drop data.
-
-Detailed plan:
+For multi-terminal BAT+ distribution:
 
 ```text
-research/14_ASP2000_A0_DISTRIBUTION_AND_KELVIN_PLAN.md
+P_BAT+ = Σ I_k ΔV_k
 ```
+
+not `I_source × one arbitrary fuse-input drop`.
+
+### 10.2 Dynamic switch / HFT gate
+
+Protocol:
+
+```text
+research/16_ASP2000_A0_DYNAMIC_SWITCHING_AND_HFT_MEASUREMENT_PROTOCOL.md
+```
+
+Priority dynamic quantities:
+
+```text
+fs / duty / dead time
+DA1↔DA2 timing mismatch
+DB1↔DB2 timing mismatch
+actual VGS on Q3/Q18/Q11/Q24
+V_A-B / V_C-B
+I_T1 / I_T2
+primary volt-second
+T1/T2 temperature
+```
+
+First system-level switch-region electrical power boundary:
+
+```text
+p_A(t) = v_A-B(t) i_A,total(t)
+p_C(t) = v_C-B(t) i_C,total(t)
+```
+
+Only use waveform integration when voltage/current channels are synchronous, bandwidth-adequate and deskewed.
 
 ---
 
@@ -469,13 +583,24 @@ C  — non-isolated current-distribution / high-gain
 D  — working candidate architecture
 ```
 
-A1 is temporarily blocked until the A0 distribution-loss boundary is measured or bounded tightly enough that the optimization target is known.
+A1 remains blocked until the A0 loss target is localized tightly enough.
 
-A1 must preserve matched product functionality; it cannot win by deleting A0 protection/disconnect/current-distribution functions.
+A1 must preserve equivalent relevant product functionality and may use:
+
+```text
+optimized distribution
+heavy silicon paralleling
+distributed local gate drivers
+optimized magnetic X1
+matched protection/disconnect function
+collective HV formation
+```
+
+A candidate cannot claim advantage merely from features A0/A1 are already allowed to use.
 
 ---
 
-## 12. X2 remains later gate
+## 12. X2 remains a later gate
 
 Do not add active X2 before A0/A1 loss localization.
 
@@ -493,27 +618,29 @@ Go condition:
 P_LV,saved > P_X2,added
 ```
 
-If the passive A0/A1 HV DC-link already suppresses source 2ω sufficiently, active X2 is rejected or restructured.
+If passive post-X1 energy storage already suppresses source 2ω sufficiently, active X2 must be rejected or restructured.
 
 ---
 
 ## 13. Current unresolved items
 
 ```text
-Q19 intended/assembled drain connection
-exact T1/T2 turns ratio
-exact switching timing/frequency
+exact switching frequency / duty / dead time
+actual DA1-vs-DA2 / DB1-vs-DB2 dynamic mismatch
+DA1/DA2 and DB1/DB2 subgroup current sharing
 T1/T2 current balance
 fuse sharing / hot fuse resistance
 J8 physical conductor / resistance
-MOS current sharing / hot RDS(on)
-BAT− / B return-copper resistance
-primary winding Rac/core loss
+hot main-MOS RDS(on)
+B-return copper resistance
+primary winding Rac / core loss
+exact turns / core material
 RL1 role
-HV capacitor footprint/assembly semantics
 source 100/120 Hz ripple
+HV DC-link ripple
 thermal map
 A0 measured distribution loss
+A0 measured dynamic switch loss
 A0 total BAT→X1 loss
 A1 total loss
 candidate superiority
@@ -521,15 +648,9 @@ candidate superiority
 
 ---
 
-## 14. Detailed research documents
+## 14. Detailed current documents
 
 ```text
-01_SCOPE.md
-02_TOPOLOGY_TAXONOMY.md
-03_LOSS_PHYSICS.md
-04_PRIOR_ART_CLOSURE.md
-05_RESEARCH_HYPOTHESIS.md
-06_VALIDATION_PLAN.md
 07_BENCHMARKS.md
 08_DECISION_LOG.md
 09_CANDIDATE10_SYNTHESIS_BOUNDARY.md
@@ -538,6 +659,9 @@ candidate superiority
 12_ASP2000_A0_POWER_PATH_AND_LOSS_BUDGET.md
 13_ASP2000_A0_NUMERICAL_LOSS_BOUNDS.md
 14_ASP2000_A0_DISTRIBUTION_AND_KELVIN_PLAN.md
+15_ASP2000_A0_KELVIN_MEASUREMENT_PROTOCOL.md
+16_ASP2000_A0_DYNAMIC_SWITCHING_AND_HFT_MEASUREMENT_PROTOCOL.md
+17_ASP2000_A0_PRIMARY_SWITCH_CURRENT_BOUNDARY.md
 ```
 
 ---
@@ -548,8 +672,20 @@ candidate superiority
 Research phase:
     Physical Gap Validation
 
-A0 main power graph:
+A0 main power/current graph:
     SUBSTANTIALLY RECONSTRUCTED
+
+Q19 anomaly:
+    RESOLVED / CONNECTED TO A NODE IN PCB
+
+A logical switch:
+    10 MOS / VERIFIED
+
+C logical switch:
+    10 MOS / VERIFIED
+
+Four local drivers / two logical commands:
+    VERIFIED AT CONNECTIVITY LEVEL
 
 A0 positive PCB geometry model:
     ESTABLISHED AS NON-MEASURED BOUND
@@ -560,11 +696,14 @@ A0 negative-side full-current MOS region:
 A0 measured distribution loss:
     OPEN
 
+A0 measured dynamic switch loss:
+    OPEN
+
 A0 total BAT→X1 loss:
     OPEN
 
 A1 matched magnetic model:
-    BLOCKED UNTIL A0 DISTRIBUTION BOUNDS / MEASUREMENT
+    BLOCKED UNTIL A0 LOSS LOCALIZATION
 
 Working architecture:
     KEEP
@@ -581,7 +720,9 @@ Candidate #10:
 Novelty:
     NOT ESTABLISHED
 
-Next action:
-    segmented Kelvin / millivolt-drop measurement of A0 distribution path,
-    then close the first measured BAT→X1 loss budget before A1 synthesis
+Next executable file-only action:
+    trace Q39…Q65 control/function to determine the role of the full-current B↔BAT- MOS region.
+
+Next hardware action:
+    execute Kelvin + D0 timing measurements, then close A0 BAT→X1 Loss Budget v1.
 ```
