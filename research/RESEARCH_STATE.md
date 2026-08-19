@@ -165,13 +165,14 @@ NOT nine mutually-exclusive physical mechanisms
 #01/#06/#07/#08/#09 may contain physical X1/X3 overlap
 ```
 
-Mechanism extraction records:
+Mechanism / falsification records:
 
 ```text
 research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
 research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
 research/30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 research/31_PG_PM_COMPATIBILITY_SCREEN.md
+research/32_MINIMUM_FALSIFICATION_EVIDENCE_PLAN.md
 ```
 
 ```text
@@ -647,7 +648,7 @@ These are research-hypothesis measurements, not ASP optimization measurements.
 
 ## 13. Cross-X1 comparison axes
 
-Compare surviving gaps across A1 / Direct-HFL / non-isolated high-gain using:
+Compare surviving gaps using:
 
 ```text
 M1 extreme-LV RMS/conduction exposure before X1
@@ -663,88 +664,68 @@ No architecture wins merely by deleting a stage or product function.
 
 ---
 
-## 14. PG × canonical physical-mechanism screen — COMPLETE v1
+## 14. PG × PM compatibility and minimum falsification plan — ACTIVE
 
 Authoritative records:
 
 ```text
 research/30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 research/31_PG_PM_COMPATIBILITY_SCREEN.md
+research/32_MINIMUM_FALSIFICATION_EVIDENCE_PLAN.md
 ```
 
-Canonical mechanisms remain:
+The 28-cell compatibility screen is complete. Primary retained pairs remain:
 
 ```text
-PM-1 — Magnetic Flux-Linkage Transformation
-PM-2 — Inductive Energy Transfer
-PM-3 — Capacitive Charge-Transfer / Voltage-Stacking
-PM-4 — Reactive-Energy-Assisted Commutation
-PM-5 — Capacitive Field-Energy Buffering
-PM-6 — Controlled Bidirectional Storage-Port Transfer
-PM-7 — Semiconductor Switching-State AC Synthesis
+PG-1 → PM-1 / PM-2 / PM-3
+PG-2 → PM-4 / H2-gated
+PG-3 → PM-1 / PM-2 / PM-3
+PG-4 → PM-5 / PM-6 / H4-gated
 ```
 
-The 28-cell screen is complete using:
+The falsification plan now formalizes:
 
 ```text
-DIRECT / CONDITIONAL / TRADE-OFF / RISK / IRRELEVANT
+T_mat,PG1...PG4 = PREDECLARED MATERIALITY PARAMETERS
+numerical values = OPEN / NOT ARBITRARILY SET
+
+ΔP_net = P_saved - P_added
+robust preference when uncertainty exists:
+ΔP_net,low = P_saved,low - P_added,high > 0
 ```
 
-where compatibility does not imply benefit or a verified gap.
+Materiality cannot be promoted from a nonzero measurement alone. The burden must be above the practical uncertainty floor and a predeclared project-relevant `T_mat,PGk`.
 
-Primary retained pairs:
+Comparator normalization:
 
 ```text
-PG-1 × PM-1  fair optimized magnetic-X1 falsifier
-PG-1 × PM-2  inductive alternative-X1 comparator
-PG-1 × PM-3  capacitive-transfer alternative-X1 comparator
-
-PG-2 × PM-4  direct commutation-loss mechanism
-
-PG-3 × PM-1  magnetic transformation benchmark
-PG-3 × PM-2  inductive transformation alternative
-PG-3 × PM-3  capacitive-transfer transformation alternative
-
-PG-4 × PM-5  passive 2ω buffering
-PG-4 × PM-6  active storage-port routing, H4-gated
+A1  = optimized PM-1 magnetic falsifier
+B   = Direct-HFL architecture-integration comparator; internal PMs must be decomposed
+C2  = PM-2-dominant non-isolated/high-gain comparator
+C3  = PM-3-dominant charge-transfer/stacking comparator
+X2-P = conditional PM-5 passive-buffer comparator after H4 survives
+X2-A = conditional PM-6 active-buffer comparator after H4 survives
 ```
 
-Conditional modifiers retained only for accounting / later architecture evaluation:
+Important corrections:
 
 ```text
-PG-1 × PM-4
-PG-2 × PM-2 / PM-7
-PG-3 × PM-4 / PM-7
-PG-4 × PM-2 / PM-7
+one generic C comparator is insufficient when PM-2 and PM-3 losses are mixed
+B Direct-HFL is not a primitive PM by name
+A1/B/C alone do not provide a clean PM-5 vs PM-6 comparison
+active X2 remains closed until H4 materiality passes
 ```
 
-Important stop-lines:
+Formal PG stop states now include:
 
 ```text
-PG-2 × PM-4 requires H2 materiality before becoming a research direction
-PG-4 × PM-6 requires H4 materiality before active X2 is justified
-PM-7 alone is not an X1 or X2 solution
-PM-5/PM-6 are not primary PG-1/PG-3 mechanisms
+MATERIALITY_FAIL
+FAIR_FALSIFIER_FAIL
+NET_BENEFIT_FAIL
+EVIDENCE_INSUFFICIENT
 ```
 
-Historical pools remain only as reasoning/search buckets:
-
-```text
-MP-A Early X1              = Strategy pool
-MP-B Soft commutation      = primarily PM-4
-MP-C Collective HV build   = PM-1 / PM-2 / PM-3 depending actual path
-MP-D Integrated AC         = architecture strategy using PM-7 variants
-MP-E 2ω routing            = PM-5 and/or PM-6
-MP-F Continuous input      = L4 resulting property / control outcome
-```
-
-Formal consequence:
-
-```text
-PG × MP-A...MP-F = REJECTED
-PG × canonical PM-1...PM-7 = COMPLETE v1
-Mechanism combination = STILL CLOSED
-```
+Mechanism combination remains closed.
 
 ---
 
@@ -752,9 +733,12 @@ Mechanism combination = STILL CLOSED
 
 ```text
 A0 — actual ASP-2000 structural evidence
-A1 — fair optimized magnetic HFT / PM-1 falsifier
-B  — Direct HFL architecture comparator
-C  — non-isolated high-gain/current-distribution architecture comparator
+A1 — fair optimized PM-1 magnetic HFT falsifier
+B  — Direct-HFL architecture comparator
+C2 — PM-2-dominant inductive/high-gain comparator
+C3 — PM-3-dominant charge-transfer/stacking comparator
+X2-P — conditional PM-5 passive buffer comparator after H4
+X2-A — conditional PM-6 active buffer comparator after H4
 D  — later candidate only if a gap survives
 ```
 
@@ -775,27 +759,32 @@ Canonical L3 physical-mechanism dictionary               ✅ v1
 ↓
 PG-1...PG-4 × PM-1...PM-7 compatibility screen          ✅ v1
 ↓
-Build minimum falsification / evidence plan for retained pairs ← NEXT
+Minimum falsification / evidence plan                    ✅ v1
 ↓
-H1 / H2 / H3 / H4 only where they discriminate a surviving PG
+Executable H1/H2/H3/H4 evidence-acquisition worksheet   ← NEXT
 ↓
-assign fair A1 / B / C comparator roles to retained PMs
+execute highest-information hard gates
 ↓
-reject gaps that fail materiality or P_saved > P_added
+assign acquired evidence to A1 / B / C2 / C3 / X2-P / X2-A
+↓
+reject gaps that fail materiality / fair falsifier / net benefit
 ↓
 Topology synthesis only for surviving verified gap
 ↓
 Candidate #10 only if existing #01–#09 do not reasonably cover the resulting main energy path
 ```
 
-Immediate evidence logic:
+Evidence priority currently formalized as:
 
 ```text
-PG-1 → H1 establishes A0 pre-X1 conduction scale; compare PM-1 vs PM-2 vs PM-3
-PG-2 → H2 is a hard materiality gate before PM-4 research direction
-PG-3 → H3 prevents assuming magnetics are the problem; compare total PM-1/2/3 burden
-PG-4 → H4 is a hard prerequisite before PM-5/PM-6 X2 work; active X2 remains conditional
+Priority 1 — H2 and H4 hard materiality gates
+Priority 2 — H1 pre-X1 conduction scale
+Priority 3 — H3 total transformation-burden closure
+Priority 4 — matched A1 / C2 / C3 evidence
+Priority 5 — B integration comparison where relevant
 ```
+
+This is an information-efficiency order, not a physical-importance ranking.
 
 ---
 
@@ -829,24 +818,25 @@ PG-4 2ω source reflection              = HYPOTHESIS
 Nine-family mechanism extraction       = COMPLETE v1
 Nine-family X1/X2/X3 normalization     = COMPLETE v1
 Nine-family role                       = ARCHITECTURE COVERAGE MAP
-#05 unique X1 physics                   = REJECTED
-#08 single-ontology interpretation      = REJECTED
 Ontology L1/L2/L3/L4                   = ESTABLISHED v1
-Raw L3 PM-R1...PM-R13 direct screening = SUPERSEDED
 Canonical L3 dictionary PM-1...PM-7   = ESTABLISHED v1
-Canonical L3 mechanism count           = 7
-Support primitive SP-1                 = ESTABLISHED
-MP-A...MP-F direct PG crossing          = REJECTED
 PG × canonical Physical Mechanism      = COMPLETE v1 / 28 CELLS SCREENED
-Primary PG-1 mechanism set             = PM-1 / PM-2 / PM-3
-Primary PG-2 mechanism set             = PM-4 / H2-GATED
-Primary PG-3 mechanism set             = PM-1 / PM-2 / PM-3
-Primary PG-4 mechanism set             = PM-5 / PM-6 / H4-GATED
-Minimum falsification/evidence plan    = NEXT
+Minimum falsification/evidence plan    = ESTABLISHED v1
+T_mat,PG1...PG4 numerical values       = OPEN / MUST BE PREDECLARED
+H1 PG-1 evidence                       = REQUIRED / NOT YET CLOSED
+H2 PG-2 materiality gate               = REQUIRED / HARD STOP
+H3 PG-3 evidence                       = REQUIRED / NOT YET CLOSED
+H4 PG-4 materiality gate               = REQUIRED / HARD STOP
+A1                                     = PM-1 FAIR FALSIFIER
+B                                      = DIRECT-HFL ARCHITECTURE COMPARATOR / DECOMPOSE PMs
+C2                                     = PM-2-DOMINANT COMPARATOR
+C3                                     = PM-3-DOMINANT COMPARATOR
+X2-P                                   = CONDITIONAL PM-5 COMPARATOR AFTER H4
+X2-A                                   = CONDITIONAL PM-6 COMPARATOR AFTER H4
+Executable evidence worksheet          = NEXT
 Mechanism combination                  = NOT YET EXECUTED
 fan-out benefit                        = NOT_PROVEN
 active X2 benefit                      = NOT_PROVEN / H4-GATED
-A1                                     = FAIR FALSIFICATION BENCHMARK / PM-1
 Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
@@ -867,4 +857,5 @@ Detailed records:
 29_NINE_FAMILY_X1_X2_X3_NORMALIZATION.md
 30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
 31_PG_PM_COMPATIBILITY_SCREEN.md
+32_MINIMUM_FALSIFICATION_EVIDENCE_PLAN.md
 ```
