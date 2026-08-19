@@ -18,375 +18,407 @@ overshoot / ringing / commutation
 HFT primary copper / core-related excitation
 ```
 
-目標不是立刻得到完整 converter efficiency，而是建立可重複的 A0 動態量測資料，使：
+本文件已依 `research/17_ASP2000_A0_PRIMARY_SWITCH_CURRENT_BOUNDARY.md` 修正：
 
 ```text
-P_mainMOS,sw
-P_mainMOS,cond
-I_primary,RMS
-switch timing
-HFT volt-second stress
+四組 local gate drivers
+!= 四個獨立 power branches
 ```
 
-不再依賴猜測。
+A0 實際是：
+
+```text
+2 個邏輯切換功能：A / C
+每側 10 顆 MOS
+4 組實體 driver subgroup
+共同 Source/return = B
+```
 
 ---
 
-## 2. SchDoc 直接重建出的四組 Gate-drive architecture
+## 2. 已驗證的主功率切換結構
 
-主低壓 MOS 並不是 20 顆共用一條 gate net。直接 SchDoc net reconstruction 建立四組獨立 drive group。
+### A logical switch
 
-### DA1 group
+Drain power node:
 
 ```text
-Main MOS:
+NetC62_1
+```
+
+Connected MOS:
+
+```text
+DA1 subgroup:
 Q3 Q4 Q5 Q6 Q33
 
-Driver-side gate bus:
-DA1-G
-
-Local source/reference:
-DA1-E
-
-Individual gate resistors:
-R15 R12 R13 R14 R106
-= 27R4 each
-
-Gate-source pull-down:
-R19 R16 R17 R18 R108
-= 47K5 each
-
-Local driver pair:
-Q7  = KWC4672
-Q8  = 2SA1797
+DA2 subgroup:
+Q18 Q19 Q20 Q21 Q37
 ```
 
-### DB1 group
+All Source pads:
 
 ```text
-Main MOS:
+→ B
+```
+
+Therefore:
+
+```text
+A logical switch = 10 parallel MOS
+```
+
+### C logical switch
+
+Drain power node:
+
+```text
+NetC65_1
+```
+
+Connected MOS:
+
+```text
+DB1 subgroup:
 Q11 Q12 Q13 Q14 Q36
 
-Gate bus:
-DB1-G
-Source/reference:
-DB1-E
-
-Gate resistors:
-R30 R31 R32 R33 R113
-= 27R4
-
-Pull-down:
-R36 R37 R38 R39 R116
-= 47K5
-
-Driver pair:
-Q15 = KWC4672
-Q16 = 2SA1797
-```
-
-### DA2 group
-
-```text
-Main MOS:
-Q18 Q19 Q20 Q21 Q37
-
-Gate bus:
-DA2-G
-Source/reference:
-DA2-E
-
-Gate resistors:
-R46 R47 R48 R49 R117
-= 27R4
-
-Pull-down:
-R55 R56 R57 R58 R118
-= 47K5
-
-Driver pair:
-Q17 = KWC4672
-Q22 = 2SA1797
-```
-
-`Q19 drain connectivity` remains `OPEN`; its gate/source context is present.
-
-### DB2 group
-
-```text
-Main MOS:
+DB2 subgroup:
 Q24 Q25 Q26 Q27 Q38
-
-Gate bus:
-DB2-G
-Source/reference:
-DB2-E
-
-Gate resistors:
-R63 R64 R65 R66 R120
-= 27R4
-
-Pull-down:
-R69 R70 R71 [plus remaining local pull-down position]
-R121
-= 47K5
-
-Driver pair:
-Q23 = KWC4672
-Q28 = 2SA1797
 ```
 
-Research consequence:
-
-> Four drive groups must be checked independently before assuming symmetric timing/current sharing.
-
----
-
-## 3. Important probe-reference rule
-
-Do **not** define VGS as:
+All Source pads:
 
 ```text
-Gate-to-BAT−
+→ B
 ```
 
-or:
+Therefore:
 
 ```text
-driver output-to-BAT−
+C logical switch = 10 parallel MOS
 ```
 
-The actual device quantity is:
+### Q19 correction
 
 ```text
-VGS_device = V(Gate pin after its individual 27.4 Ω resistor)
-           - V(the same MOS Source pin)
+Q19 Drain → NetC62_1
+Q19 Source → B
 ```
 
-For example:
+Status:
 
 ```text
-Q3 VGS  = Q3-G to Q3-S
-Q11 VGS = Q11-G to Q11-S
-Q18 VGS = Q18-G to Q18-S
-Q24 VGS = Q24-G to Q24-S
-```
-
-Driver-bus waveform may be measured separately:
-
-```text
-DA1-G relative to DA1-E
-DB1-G relative to DB1-E
-DA2-G relative to DA2-E
-DB2-G relative to DB2-E
-```
-
-This distinguishes:
-
-```text
-driver-command waveform
-vs
-actual device gate waveform after Rg/parasitics
+Q19 physical power connection = VERIFIED IN PCB
 ```
 
 ---
 
-## 4. Representative dynamic measurement set
+## 3. 四組實體 Gate driver、兩個邏輯命令
 
-Minimum representative devices:
-
-```text
-DA1 → Q3
-DB1 → Q11
-DA2 → Q18
-DB2 → Q24
-```
-
-Reason:
+### DA1
 
 ```text
-DA1/DA2 share the reconstructed A-side transformer switching node,
-DB1/DB2 share the reconstructed C-side transformer switching node,
-but their local source/reference and gate-drive groups are distinct.
+MOS: Q3 Q4 Q5 Q6 Q33
+Gate bus: DA1-G
+individual Rg: 27R4 each
+local driver pair: Q7 / Q8
 ```
 
-Therefore one A-side device and one C-side device are not sufficient to prove all four groups are equivalent.
+### DA2
+
+```text
+MOS: Q18 Q19 Q20 Q21 Q37
+Gate bus: DA2-G
+individual Rg: 27R4 each
+local driver pair: Q17 / Q22
+```
+
+### DB1
+
+```text
+MOS: Q11 Q12 Q13 Q14 Q36
+Gate bus: DB1-G
+individual Rg: 27R4 each
+local driver pair: Q15 / Q16
+```
+
+### DB2
+
+```text
+MOS: Q24 Q25 Q26 Q27 Q38
+Gate bus: DB2-G
+individual Rg: 27R4 each
+local driver pair: Q23 / Q28
+```
+
+Upstream control:
+
+```text
+DR-A  ─ R213 = 0R ─ DR-A2
+DR-B  ─ R212 = 0R ─ DR-B2
+```
+
+Therefore:
+
+```text
+A command → DA1 + DA2 drivers → 10 A-side MOS
+C command → DB1 + DB2 drivers → 10 C-side MOS
+```
+
+Four drivers still require timing comparison because a common logic command does not guarantee identical local propagation/edge behavior.
 
 ---
 
-## 5. D0 — Gate timing only
+## 4. Probe-reference correction
 
-First dynamic run should avoid immediate power-loss integration. Establish timing first.
+Do not use BAT- as the reference for main-MOS VGS.
 
-For T1-side groups:
-
-```text
-CH1: DA1-G relative DA1-E
-CH2: DB1-G relative DB1-E
-```
-
-For T2-side groups:
+Compiled physical source node is:
 
 ```text
-CH1: DA2-G relative DA2-E
-CH2: DB2-G relative DB2-E
+B
 ```
 
-Record:
+Actual device quantity:
+
+```text
+VGS_device = V(Gate pin after individual 27.4 ohm Rg)
+           - V(the same MOS Source pin / B-local point)
+```
+
+Representative devices:
+
+```text
+Q3  = DA1
+Q18 = DA2
+Q11 = DB1
+Q24 = DB2
+```
+
+The SchDoc labels:
+
+```text
+DA1-E / DA2-E / DB1-E / DB2-E
+```
+
+are local/hierarchical source-reference names, not four separate physical high-current returns. At PCB level the actual MOS sources and low-side driver references compile to `B`.
+
+---
+
+## 5. D0 — 先量四組 Gate timing
+
+第一輪不要先做 switching-loss integration。
+
+量測：
+
+```text
+DA1-G relative local B/source reference
+DA2-G relative local B/source reference
+DB1-G relative local B/source reference
+DB2-G relative local B/source reference
+```
+
+Extract:
 
 ```text
 fs
-period T
-Ton
-Toff
+period
+Ton / Toff
 duty
-DA↔DB non-overlap interval
-turn-on delay difference
-turn-off delay difference
-ringing amplitude / frequency
+A↔C non-overlap / dead time
+DA1↔DA2 propagation mismatch
+DB1↔DB2 propagation mismatch
+turn-on / turn-off edge mismatch
+ringing
 ```
 
-For reproducible timing extraction, define the timing crossing consistently, e.g. 50% of each measured gate high-level amplitude. This is a timing definition only, not a claim about MOS conduction threshold.
-
-Status after D0:
+Formal expected result:
 
 ```text
-exact switching frequency = MEASURED
-exact duty              = MEASURED
-exact dead/non-overlap   = MEASURED
-four-group symmetry      = TESTABLE
+logical synchronization topology = VERIFIED
+actual dynamic synchronization    = MEASURED AFTER D0
 ```
 
 ---
 
-## 6. D1 — Actual device VGS after gate resistor
+## 6. D1 — Actual VGS after Rg
 
-For each representative device:
+Measure:
 
 ```text
-Q3  Gate pin ↔ Source pin
-Q11 Gate pin ↔ Source pin
-Q18 Gate pin ↔ Source pin
-Q24 Gate pin ↔ Source pin
+Q3  G-S
+Q18 G-S
+Q11 G-S
+Q24 G-S
 ```
 
 Record:
 
 ```text
-VGS,on plateau/high level
-VGS,min during off state
-turn-on edge
-turn-off edge
-Miller-region behavior
-positive overshoot
-negative undershoot
+VGS,on plateau
+VGS,min off
+Miller behavior
+turn-on / turn-off edge
+overshoot / undershoot
 ringing
 ```
 
 Purpose:
 
 ```text
-verify whether the four nominally similar banks actually see similar drive
-and whether gate-network parasitics can explain switching imbalance.
+verify whether the two local drivers under one logical command actually deliver equivalent device drive
 ```
 
 ---
 
-## 7. D2 — Device / bank VDS waveform
+## 7. D2 — Power-node voltage
 
-Representative VDS:
+The first system-level switching-loss boundary should use the two real electrical switch nodes:
 
 ```text
-Q3  D-S  → DA1 bank reference
-Q11 D-S  → DB1 bank reference
-Q18 D-S  → DA2 bank reference
-Q24 D-S  → DB2 bank reference
+V_A-B(t)
+V_C-B(t)
 ```
+
+where:
+
+```text
+A = NetC62_1
+C = NetC65_1
+B = common main-MOS source/return
+```
+
+Representative individual VDS such as Q3/Q18/Q11/Q24 may still be recorded to evaluate local parasitic mismatch, but they are not four independent power-stage voltages.
 
 Record:
 
 ```text
-VDS,off
-VDS,on
-turn-on overlap interval
-turn-off overlap interval
+Voff
+Von
+overlap interval
 peak overshoot
-ringing frequency
-ringing decay
-any repetitive avalanche-like excursion if observed
+ringing frequency / decay
+repetitive avalanche-like stress if present
 ```
 
-Do not use a ground-referenced oscilloscope probe across a floating switching node unless the measurement setup is explicitly safe for that reference. Use an appropriate differential/isolated measurement method within its common-mode and voltage ratings.
+Use appropriately rated differential/isolated measurement equipment and do not create an unsafe ground reference.
 
 ---
 
-## 8. D3 — Current channels
+## 8. D3 — 正確的 Current Boundary
 
-Priority current channels remain:
+Priority currents:
 
 ```text
 I_source
-I_T1 center-feed
-I_T2 center-feed
+I_T1(t) at actual transformer center-tap / winding-feed lead
+I_T2(t) at actual transformer center-tap / winding-feed lead
 ```
 
-For dynamic switching-loss closure, ideal additional channels would be the individual DA1/DB1/DA2/DB2 bank currents. However current source/return connectivity is not yet reconstructed tightly enough to equate any one center-feed current directly with one MOS-bank current during all commutation intervals.
+The current probes should be placed so `I_T1/I_T2` represent transformer winding/feed current rather than only an upstream fuse/bulk current that can include capacitor-current ambiguity.
 
-Therefore:
+During stable A conduction:
 
 ```text
-I_T1 / I_T2
-= valid transformer-feed measurements
-
-I_DA1 / I_DB1 / I_DA2 / I_DB2
-= separate bank-current quantities; do not infer without evidence
+i_A,total ≈ i_T1,A + i_T2,A
 ```
 
-This prevents an invalid calculation such as:
+During stable C conduction:
 
 ```text
-P_Q3bank = average[VDS_Q3 × I_T1]
+i_C,total ≈ i_T1,C + i_T2,C
 ```
 
-unless the switching state and current mapping are explicitly verified.
+But:
+
+```text
+i_DA1 != i_T1 in general
+i_DA2 != i_T2 in general
+```
+
+because DA1 and DA2 are parallel subgroups on the same A drain/source power nodes.
+
+Likewise for DB1/DB2 on C.
+
+Subgroup current sharing is a separate quantity:
+
+```text
+i_DA1 + i_DA2 = i_A,total
+i_DB1 + i_DB2 = i_C,total
+```
+
+Do not assign transformer identity to driver subgroup current without evidence.
 
 ---
 
 ## 9. D4 — Switching-loss integration hierarchy
 
-### Level 1 — timing / stress only
+### Level 1 — timing/stress only
 
-If current-bandwidth evidence is not yet sufficient:
+If current bandwidth / deskew are not sufficient:
 
 ```text
-report VGS/VDS/timing/overshoot only
+report timing + VGS + V_A-B / V_C-B stress
 P_sw = OPEN
 ```
 
-### Level 2 — bank current available
+### Level 2 — two electrical switch regions
 
-For a bank where total bank current is measured synchronously:
-
-```text
-p_bank(t) = vDS,bank(t) × i_bank(t)
-P_bank    = average[p_bank(t)]
-```
-
-This captures combined bank conduction + switching energy at the measured electrical boundary and does not require assuming equal current sharing between parallel MOS devices.
-
-### Level 3 — per-device current available
-
-Only if individual-device current sharing is itself under study:
+When synchronous current evidence is sufficient:
 
 ```text
-p_device(t) = vDS,device(t) × iD,device(t)
+p_A(t) = v_A-B(t) i_A,total(t)
+p_C(t) = v_C-B(t) i_C,total(t)
+
+P_primarySwitchRegion
+= average[p_A + p_C]
 ```
 
-Per-device measurement is not required for the first A0 total-loss gate if bank-level power can be measured reliably.
+This is the preferred first A0 bank-level electrical boundary.
+
+### Level 3 — driver subgroup current sharing
+
+Only if DA1/DA2 or DB1/DB2 current imbalance becomes important:
+
+```text
+i_DA1 = alpha_A i_A,total
+i_DA2 = (1-alpha_A) i_A,total
+```
+
+Measure/model `alpha_A` rather than assuming 0.5.
+
+### Level 4 — per-device current
+
+Only if individual MOS current sharing itself becomes a target.
 
 ---
 
-## 10. D5 — T1/T2 primary-current characterization
+## 10. Commutation warning
+
+The stable-conduction current-sum model is not automatically valid during dead time and transition edges because current may flow through:
+
+```text
+Coss / displacement paths
+body diodes
+leakage inductance
+clamp / snubber networks
+parasitic capacitance
+ringing loops
+```
+
+For switching-energy integration:
+
+```text
+voltage and current channels must be synchronous
+probe bandwidth must be adequate
+channel deskew is mandatory
+```
+
+A small V/I time offset can produce a large false switching-energy result.
+
+---
+
+## 11. D5 — T1/T2 primary-current characterization
 
 Measure separately:
 
@@ -400,9 +432,9 @@ Extract:
 ```text
 Iavg
 IRMS
-peak current
-current imbalance
-magnetizing/ramp component if distinguishable
+peak
+T1/T2 imbalance
+current ramp / magnetizing component if distinguishable
 commutation spike
 HF ringing
 ```
@@ -413,111 +445,104 @@ Current-sharing metric:
 k_share = I_T1,RMS / I_T2,RMS
 ```
 
-Do not assume `k_share = 1` from topology symmetry.
+Do not assume `k_share = 1`.
 
-Transformer copper-loss model remains:
+Primary copper-loss model:
 
 ```text
-P_primary,Cu = I_primary,RMS² × R_primary,AC(f,T)
+P_primary,Cu = Σ I_primary,RMS^2 R_primary,AC(f,T)
 ```
 
-Actual `R_primary,AC` still requires measurement/extraction; DC winding resistance alone is insufficient at HF when skin/proximity effects are material.
+Actual `R_primary,AC` still requires measurement/extraction.
 
 ---
 
-## 11. D6 — Transformer voltage / volt-second capture
+## 12. D6 — Primary voltage / volt-second
 
-Measure the center-tap half-primary voltage waveforms with a measurement method appropriate to the switching node.
+Capture center-tap half-primary voltage waveforms.
 
-For each half-cycle, record:
+For each relevant interval:
 
 ```text
-V_primary(t)
-∫V_primary(t) dt  [volt-second]
+∫ V_primary(t) dt
 ```
 
-The directly measurable volt-second integral is useful even before exact turns count/core area are known.
-
-Once `N` and effective core area `Ae` are locked:
+Once `N` and `Ae` are locked:
 
 ```text
-ΔB = (1 / (N Ae)) ∫V_primary dt
+DeltaB = (1 / (N Ae)) ∫V_primary dt
 ```
 
 Until then:
 
 ```text
-volt-second stress = MEASURED
-ΔB                 = OPEN
-core loss          = OPEN / BOUNDED LATER
+volt-second stress = MEASURABLE
+DeltaB             = OPEN
+core loss          = OPEN
 ```
 
 ---
 
-## 12. D7 — HFT loss closure strategy
-
-Do not force a fake core-loss number before transformer construction data are available.
+## 13. D7 — HFT loss closure
 
 Use staged closure:
 
 ```text
-Stage H1:
-I_primary,RMS + winding Rdc/Rac
+H1:
+I_primary,RMS + Rdc/Rac
 → primary copper loss
 
-Stage H2:
-secondary current + winding Rdc/Rac
+H2:
+secondary current + Rdc/Rac
 → secondary copper loss
 
-Stage H3:
-measured volt-second + N + Ae + material/temperature
-→ flux/core-loss model
+H3:
+volt-second + N + Ae + material + temperature
+→ core-loss model
 
-or
-
-Stage H3-alt:
+or H3-alt:
 calorimetric / residual electrical method
 → total transformer loss
 ```
 
-Formal status:
-
-```text
-P_HFT,total = OPEN
-until at least copper + core/residual evidence are available
-```
+Do not force a core-loss scalar from `PQ5050` form factor alone.
 
 ---
 
-## 13. Minimum waveform set for one operating point
+## 14. Minimum waveform set
 
-At each declared operating point save at minimum:
+At a declared operating point save at minimum:
 
 ```text
-W0: I_source
-W1: DA1-G vs DA1-E
-W2: DB1-G vs DB1-E
-W3: DA2-G vs DA2-E
-W4: DB2-G vs DB2-E
-W5: Q3 VGS
-W6: Q11 VGS
-W7: Q18 VGS
-W8: Q24 VGS
-W9: Q3 VDS
-W10: Q11 VDS
-W11: Q18 VDS
-W12: Q24 VDS
-W13: I_T1
-W14: I_T2
-W15: T1 primary voltage / volt-second
-W16: T2 primary voltage / volt-second
+W0  I_source
+W1  DA1-G / local B reference
+W2  DA2-G / local B reference
+W3  DB1-G / local B reference
+W4  DB2-G / local B reference
+W5  Q3 VGS
+W6  Q18 VGS
+W7  Q11 VGS
+W8  Q24 VGS
+W9  V_A-B
+W10 V_C-B
+W11 I_T1
+W12 I_T2
+W13 T1 primary voltage / volt-second
+W14 T2 primary voltage / volt-second
 ```
 
-Not all channels need to be captured simultaneously if the operating condition is repeatable; however waveforms used for instantaneous power integration must be synchronous and time-aligned.
+Optional local-parasitic set:
+
+```text
+Q3 / Q18 individual VDS
+Q11 / Q24 individual VDS
+```
+
+Waveforms used for instantaneous power integration must be time-aligned.
 
 ---
 
-## 14. Required operating-point metadata
+## 15. Required metadata
 
 Every dynamic capture must record:
 
@@ -525,48 +550,45 @@ Every dynamic capture must record:
 Vin
 Pout
 Vout
-load type / PF
+load / PF
 ambient temperature
-MOS/heatsink temperature if available
-T1 temperature
-T2 temperature
+MOS/heatsink temperature
+T1/T2 temperature
 probe type / bandwidth
 current-probe type / bandwidth
 scope bandwidth / sample rate
-channel deskew status
+channel deskew
 capture time after thermal stabilization
 ```
 
-Without this metadata, waveform-derived loss values are `CONTEXT_ONLY` rather than benchmark-grade evidence.
+Without this metadata, waveform-derived loss is `CONTEXT_ONLY` rather than benchmark-grade evidence.
 
 ---
 
-## 15. Dynamic measurement stop conditions
+## 16. Stop conditions
 
-Stop/reconfigure the measurement rather than accepting the waveform if:
+Stop/reconfigure rather than accepting the waveform if:
 
 ```text
-probe common-mode or voltage rating is exceeded
-measurement reference would create an unsafe ground path
-current probe is saturated
-channel time skew is large enough to corrupt v×i switching-energy integration
-ringing changes materially when the probe is attached
+probe rating/common-mode exceeded
+unsafe ground path exists
+current probe saturates
+V/I skew corrupts integration
+probe attachment materially changes ringing
 waveform clips / aliases
-operating point is not thermally repeatable
+operating point is not repeatable
 ```
-
-For switching-energy integration, probe deskew is mandatory because a small relative time shift between VDS and ID can create a large false switching-loss term.
 
 ---
 
-## 16. Gate decision after dynamic data
+## 17. Gate decision
 
 The A0 dynamic gate closes only when we can separate at least:
 
 ```text
 P_distribution,measured
 P_negativeSeriesBank,measured
-P_mainMOS,cond/sw or bounded bank power
+P_A/C_switchRegion or credible bound
 P_primary,Cu
 P_HFT,remaining/open
 ```
@@ -577,21 +599,19 @@ Then create:
 A0 BAT→X1 Loss Budget v1
 ```
 
-Only after the largest credible loss buckets are known does A1 optimized magnetic synthesis proceed.
-
 Current status:
 
 ```text
-four drive groups / gate nets      = VERIFIED
-individual 27.4 Ω gate resistors   = VERIFIED
-local source-reference nets         = VERIFIED
-exact fs/duty/dead time             = OPEN → D0
-actual VGS/VDS stress               = OPEN → D1/D2
-T1/T2 RMS current balance           = OPEN → D5
-HFT volt-second                     = OPEN → D6
-main MOS switching loss             = OPEN
-HFT total loss                       = OPEN
-A1                                  = BLOCKED
-Candidate #10                        = NOT ASSIGNED
-Novelty                              = NOT ESTABLISHED
+A/C power nodes                    = VERIFIED
+10 MOS per logical switch          = VERIFIED
+Q19 connectivity                   = VERIFIED
+4 local drivers / 2 logical cmds   = VERIFIED AT CONNECTIVITY LEVEL
+actual driver timing mismatch      = OPEN → D0
+actual VGS/V_A-B/V_C-B             = OPEN → D1/D2
+T1/T2 RMS current                  = OPEN → D5
+A/C switching-region loss          = OPEN
+HFT total loss                     = OPEN
+A1                                 = BLOCKED
+Candidate #10                      = NOT ASSIGNED
+Novelty                            = NOT ESTABLISHED
 ```
