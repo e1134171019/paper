@@ -25,6 +25,7 @@ research/12_ASP2000_A0_POWER_PATH_AND_LOSS_BUDGET.md
 research/14_ASP2000_A0_DISTRIBUTION_AND_KELVIN_PLAN.md
 research/16_ASP2000_A0_DYNAMIC_SWITCHING_AND_HFT_MEASUREMENT_PROTOCOL.md
 research/17_ASP2000_A0_PRIMARY_SWITCH_CURRENT_BOUNDARY.md
+research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md
 ```
 
 ---
@@ -243,7 +244,7 @@ A distinct high-voltage inverter / AC-synthesis stage exists after BUS+/BUS-.
 
 ---
 
-## 4. Verified negative full-current return boundary
+## 4. Battery-negative full-current protection/sensing interface
 
 Battery negative is not identical to the primary switching return `B`.
 
@@ -259,14 +260,43 @@ BAT-
 
 All are annotated `CSD18510KCS`.
 
-Status:
+Direct SchDoc trace now establishes for all seven:
 
 ```text
-negative-side full-current series MOS region = VERIFIED
-exact protection/disconnect function = OPEN
+Drain  → BAT-
+Source → B
+Gate   → 12VP through an individual 68.1 Ω resistor
+Gate   → B through an individual 47.5 kΩ pull-down
 ```
 
-A candidate may not claim topology efficiency by silently deleting equivalent required product functionality.
+There is no independent MAIN-board PWM/enable command between `12VP` and the seven gates.
+
+The verified orientation and common gate bias are strongly consistent with a low-side reverse-polarity / ideal-diode-style battery interface rather than a commandable full battery disconnect.
+
+The same `B ↔ BAT-` voltage is monitored by U4 (`LM2904`):
+
+```text
+U4 + input → B
+U4 - input → BAT- through R153 = 1 kΩ
+U4 feedback → R152 = 22.1 kΩ
+U4 output → R154 = 100 Ω → BOCP → CN4A pin 6
+```
+
+Therefore:
+
+```text
+B↔BAT- voltage-drop sensing feeding BOCP = VERIFIED
+reverse-polarity / ideal-diode-style function = STRONGLY SUPPORTED
+over-current / abnormal-drop protection role = STRONGLY SUPPORTED
+exact BOCP threshold/control-board response = OPEN
+independent disconnect role of Q39...Q65 = NOT SUPPORTED BY PRESENT CIRCUIT
+```
+
+Detailed evidence:
+
+```text
+research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md
+```
 
 ---
 
@@ -284,7 +314,8 @@ BAT+
                                                    ↓
                                                    B
                                                    ↓
-                                         7-device BAT- MOS bank
+                              7-device battery-interface MOS bank
+                              reverse-polarity / BOCP sensing region
                                                    ↓
                                                   BAT-
 
@@ -349,9 +380,11 @@ battery/source impedance
 → secondary copper
 → leakage / clamp / snubber
 → B return copper
-→ seven-device BAT- series/protection bank
+→ seven-device battery-interface protection/sensing bank
 → BAT-
 ```
+
+The seven-MOS bank is classified primarily as product battery-interface overhead, not as the magnetic X1 conversion mechanism itself.
 
 Post-X1 losses then include rectifier, DC-link, X3 and output-filter losses.
 
@@ -392,6 +425,8 @@ under:
 P_saved > P_added
 ```
 
+Battery-interface savings must be separated from X1-topology savings.
+
 ---
 
 ## 9. Required A1 comparison
@@ -400,13 +435,17 @@ A1 must be allowed equivalent structural freedom:
 
 ```text
 optimized low-voltage distribution
-+ matched protection/disconnect functionality
++ matched battery-interface protection/sensing functionality
 + heavy parallel silicon
 + distributed gate driving
 + optimized magnetic X1
 + collective HV formation
 + X3
 ```
+
+For product-level comparison, the matched battery interface must provide equivalent required reverse-polarity behavior and fault/current information, although the implementation may differ.
+
+For core-converter comparison, the battery-interface overhead may be excluded only when excluded from A0, A1 and every candidate equally.
 
 Do not compare a new modular candidate against an artificially monolithic or under-optimized HFT baseline.
 
@@ -429,6 +468,8 @@ leakage/clamp processed power
 RL1 operating role
 source 100/120 Hz current
 HV DC-link ripple
+exact BOCP trip threshold / active polarity / control-board response
+12VP startup/shutdown sequence
 stage efficiencies / thermal map
 ```
 
@@ -445,7 +486,11 @@ all main MOS sources → B                = VERIFIED
 Q19 drain connectivity                  = VERIFIED IN PCB
 4 local driver groups / 2 logical cmds  = VERIFIED AT CONNECTIVITY LEVEL
 secondary series/rectifier graph        = VERIFIED
-negative BAT- series MOS region         = VERIFIED
+B↔BAT- seven-MOS boundary               = VERIFIED
+12VP common gate bias                    = VERIFIED
+B↔BAT- sensing → BOCP                    = VERIFIED
+reverse-polarity / ideal-diode role      = STRONGLY SUPPORTED
+BOCP protection interpretation           = STRONGLY SUPPORTED / EXACT RESPONSE OPEN
 A0 numerical BAT→X1 loss budget         = OPEN
 A0 benchmark                            = ESTABLISHED
 candidate superiority                   = NOT ESTABLISHED
