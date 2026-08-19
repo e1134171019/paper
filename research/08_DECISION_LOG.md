@@ -362,6 +362,81 @@ Detailed record: `research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md`.
 
 ---
 
+## 2026-08-19 — BOCP is a ~22.1× analog amplifier of the M5 drop
+
+Deeper SchDoc reconstruction establishes that the U4 BOCP channel is a closed-loop analog amplifier, not merely a comparator-name inference.
+
+The local `B` net and `SIG` reference port are directly connected in this schematic region.
+
+Verified network:
+
+```text
+U4 + input → B / SIG
+BAT- → R153=1.00kΩ → U4 - input
+U4 output → R152=22.1kΩ → U4 - input
+U4 output → R154=100Ω → BOCP
+U4 supply rails → 12VP / -12V
+```
+
+Ideal linear-region relation:
+
+```text
+ΔV_M5 = V_B - V_BAT-
+
+V_U4out - V_B
+= (R152/R153) ΔV_M5
+≈ 22.1 × ΔV_M5
+```
+
+If BOCP loading through R154 is negligible:
+
+```text
+V_BOCP - V_B ≈ 22.1 × ΔV_M5
+```
+
+At the existing 175.4 A / seven-MOS 25°C datasheet scale reference:
+
+```text
+ΔV_M5 ≈ 42.6 mV
+P_M5 ≈ 7.47 W
+V_BOCP - V_B ≈ 0.94 V
+```
+
+All three remain non-measured scale references.
+
+Decision:
+
+```text
+BOCP analog transfer relation = VERIFIED_FROM_MAIN_BOARD
+BOCP exact trip threshold/control response = OPEN
+```
+
+BOCP must not replace Kelvin loss measurement because LM2904 input offset is mV-class and the MOS-bank sense resistance is strongly temperature/VGS/current-sharing dependent.
+
+Formal M5 evidence hierarchy:
+
+```text
+I_source + ΔV_M5 + temperature
+→ benchmark-grade battery-interface loss
+
+BOCP vs ΔV_M5
+→ product sense-chain cross-check
+```
+
+Required load-sweep regressions:
+
+```text
+ΔV_M5 vs I_source
+→ effective hot R_M5
+
+V_BOCP vs ΔV_M5
+→ measured BOCP gain / offset
+```
+
+Detailed record: `research/19_ASP2000_A0_BOCP_TRANSFER_AND_M5_DIAGNOSTIC_GATE.md`.
+
+---
+
 ## Current decision state
 
 ```text
@@ -376,7 +451,9 @@ B↔BAT- seven-MOS power boundary      = VERIFIED
 12VP common gate bias                = VERIFIED
 reverse-polarity / ideal-diode role  = STRONGLY_SUPPORTED
 B↔BAT- sensing → BOCP                = VERIFIED
-BOCP exact control response          = OPEN
+BOCP nominal analog gain             = ~22.1 V/V / VERIFIED_FROM_CIRCUIT
+BOCP measured gain/offset            = OPEN
+BOCP exact trip/control response      = OPEN
 battery-interface measured loss      = OPEN
 A0 measured distribution loss        = OPEN
 A0 dynamic switch/HFT loss           = OPEN
