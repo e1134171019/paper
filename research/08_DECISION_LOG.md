@@ -473,19 +473,7 @@ C7 if it fits an existing family, it is not Candidate #10
 C8 discuss #10 only if the gap survives and existing families cannot reasonably describe the resulting main energy path
 ```
 
-Current next step:
-
-```text
-PG × Mechanism compatibility screen
-```
-
-not topology synthesis.
-
-Candidate #10 remains:
-
-```text
-HOLD / NOT_ASSIGNED
-```
+The old immediate-next wording `PG × Mechanism compatibility` is superseded by the Definition Gate and ontology normalization decisions below.
 
 ---
 
@@ -527,6 +515,134 @@ research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
 
 ---
 
+## 2026-08-19 — X1 / X2 / X3 Definition Gate established v1 — CRITICAL
+
+The previous shorthand definitions were insufficient because they could be misread as three mandatory serial hardware stages.
+
+Formal record:
+
+```text
+research/28_X1_X2_X3_AND_PHYSICAL_GAP_DEFINITION_V1.md
+```
+
+Decision:
+
+```text
+X1 = first major voltage/current-domain transformation FUNCTIONAL REGION
+X2 = 2ω / bidirectional energy-buffer and routing FUNCTIONAL COORDINATE
+X3 = complete single-phase AC-synthesis FUNCTIONAL REGION
+```
+
+Formal overlap rule:
+
+```text
+X1 / X2 / X3 MAY overlap physically
+but must remain distinguishable by function and loss accounting
+```
+
+Therefore:
+
+```text
+fixed universal X1 → X2 → X3 three-stage interpretation = REJECTED
+```
+
+X1 completion now requires a defensible reduced-current domain for majority main-path power rather than a topology label.
+
+PG-1 `exposure` is operationalized primarily through source-domain RMS/conduction burden, including:
+
+```text
+P_preX1,cond
+I_source,rms
+source-domain semiconductor conduction
+```
+
+The research ontology is separated into:
+
+```text
+L1 Architecture / Main Circuit Graph
+L2 Strategy
+L3 Physical Mechanism
+L4 Resulting Property / Observable
+```
+
+Therefore `MP-A...MP-F` are retained only as historical screening pools and are not six same-level physical mechanisms.
+
+---
+
+## 2026-08-19 — Nine-family X1/X2/X3 normalization completed v1
+
+Formal record:
+
+```text
+research/29_NINE_FAMILY_X1_X2_X3_NORMALIZATION.md
+```
+
+All nine families were re-expressed using one common template:
+
+```text
+L1 architecture
+X1 start / processing / completion
+X2 status
+X3 status
+coordinate overlap
+L2 strategy
+L3 physical mechanism
+L4 property
+added-loss burden
+PG relevance
+```
+
+Key decisions:
+
+```text
+nine families = ARCHITECTURE COVERAGE MAP
+NOT nine mutually-exclusive physical mechanisms
+
+#05 unique X1-physics interpretation = REJECTED
+#05 retained as bidirectional energy-routing / architecture umbrella
+
+#08 single-ontology interpretation = REJECTED
+#08 retained as composite switched-capacitor / multilevel umbrella
+
+#01/#06/#07/#08/#09 may contain physical X1/X3 overlap
+```
+
+A raw same-level L3 inventory is now established:
+
+```text
+PM-R1  transformer magnetic flux / turns-ratio transformation
+PM-R2  inductor charge-discharge energy transfer
+PM-R3  coupled-inductor magnetic gain / energy transfer
+PM-R4  capacitor charge transfer / voltage stacking / multiplication
+PM-R5  impedance-network L/C energy exchange with shoot-through states
+PM-R6  leakage/series-inductance-mediated active power transfer
+PM-R7  resonant / ZVS / ZCS commutation using stored reactive energy
+PM-R8  passive capacitive 2ω energy buffering
+PM-R9  active bidirectional buffer charge/discharge / ripple-port transfer
+PM-R10 bidirectional matrix / cycloconverter HF-link-to-AC transfer
+PM-R11 semiconductor rectification / synchronous rectification
+PM-R12 multilevel voltage-state synthesis
+PM-R13 bridge polarity/amplitude synthesis
+```
+
+`PM-R*` remains RAW. It has not yet been deduplicated into the final L3 mechanism dictionary.
+
+Current next step is therefore:
+
+```text
+Deduplicate / formalize PM-R1...PM-R13
+↓
+remove support functions and duplicate descriptions
+↓
+map surviving L3 mechanisms to PG-1...PG-4
+↓
+then execute PG × Physical-Mechanism compatibility
+```
+
+No mechanism combination is authorized by normalization alone.
+
+---
+
 ## Fair comparison contracts
 
 ```text
@@ -560,15 +676,28 @@ battery-interface scale                = ~7.47 W / PRODUCT-INTERFACE DATASHEET_B
 A/C passive RC damping                 = VERIFIED
 A0 transformer numerical parameters    = OPEN
 M1-PQ50-V108-A                         = CONTEXT_ONLY / NOT A0
+
+X1 definition                          = ESTABLISHED v1
+X2 definition                          = ESTABLISHED v1
+X3 definition                          = ESTABLISHED v1
+X1/X2/X3 physical overlap              = ALLOWED
+Physical-Gap promotion gate            = ESTABLISHED v1
+
 PG-1                                   = HYPOTHESIS
 PG-2                                   = HYPOTHESIS / STRONG SIGNAL
 PG-3                                   = OPEN
 PG-4                                   = HYPOTHESIS
+
 Nine-family mechanism extraction       = COMPLETE v1
-Mechanism pool MP-A...MP-F              = ESTABLISHED FOR SCREENING
-PG × Mechanism compatibility           = NEXT
+Nine-family X1/X2/X3 normalization     = COMPLETE v1
+Nine-family role                       = ARCHITECTURE COVERAGE MAP
+Ontology L1/L2/L3/L4                   = ESTABLISHED v1
+MP-A...MP-F same-level ontology        = REJECTED
+Raw L3 mechanism inventory PM-R1...R13 = ESTABLISHED / NOT YET DEDUPLICATED
+L3 mechanism deduplication             = NEXT
+PG × Physical-Mechanism compatibility  = DEFERRED UNTIL L3 DICTIONARY
 Mechanism combination                  = NOT YET EXECUTED
-A1                                     = FAIR BENCHMARK AFTER COMPATIBILITY/MINIMUM EVIDENCE
+A1                                     = FAIR BENCHMARK AFTER L3 NORMALIZATION / MINIMUM EVIDENCE
 Early fan-out benefit                  = NOT_PROVEN
 Active X2 benefit                      = NOT_PROVEN
 Candidate #10                          = HOLD / NOT_ASSIGNED
