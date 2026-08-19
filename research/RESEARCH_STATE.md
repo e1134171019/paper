@@ -33,7 +33,35 @@ P_saved > P_added
 
 ---
 
-## 2. Functional coordinates
+## 2. Research-object correction — CRITICAL
+
+ASP-2000 R52 is:
+
+```text
+A0 real-product benchmark
+physical-evidence source
+falsification reference
+```
+
+It is **not**:
+
+```text
+the product to optimize
+an ASP redesign project
+a component-replacement project
+```
+
+A0 work is now allowed only when it discriminates a topology-level physical-gap hypothesis.
+
+Authoritative screen:
+
+```text
+research/25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md
+```
+
+---
+
+## 3. Functional coordinates / family set
 
 ```text
 X1 = first major impedance/current-domain transformation region
@@ -41,23 +69,7 @@ X2 = local 2ω / bidirectional buffer / recycling coordinate
 X3 = complete AC-synthesis region
 ```
 
-Preferred ordering:
-
-```text
-extreme-LV full-current domain
-↓
-X1
-↓
-reduced-current domain
-↓
-[X2 only if net-beneficial]
-↓
-X3
-```
-
----
-
-## 3. Working power-path families
+Working families:
 
 ```text
 #01 Low-Frequency Transformer Inverter
@@ -71,19 +83,22 @@ X3
 #09 Direct High-Frequency-Link DC–AC
 ```
 
-Current emphasis:
+Current benchmark emphasis:
 
 ```text
-#02 = A0/A1 magnetic benchmark
-#03 = active-HFT benchmark
-#04 = non-isolated/current-distribution benchmark
-#09 = direct-HFL benchmark
-Candidate #10 = NOT_ASSIGNED
+#02 → A0/A1 magnetic benchmark
+#03 → active-HFT benchmark
+#04 → non-isolated/high-gain/current-distribution benchmark
+#09 → direct-HFL benchmark
+```
+
+```text
+Candidate #10 = HOLD / NOT_ASSIGNED
 ```
 
 ---
 
-## 4. Working architecture — KEEP
+## 4. Working architecture — still only a hypothesis
 
 ```text
 12 V source
@@ -108,18 +123,18 @@ X3
 Status:
 
 ```text
-very-short common path = KEEP
-local decoupling = KEEP
-early fan-out = HYPOTHESIS / NOT_AUTOMATIC_LOSS_REDUCTION
+very-short common path = KEEP / physical constraint
+local decoupling = KEEP / must prove local-loop benefit
+early fan-out = HYPOTHESIS / NOT automatic loss reduction
 branch switching + X1 = CORE RESEARCH REGION
 active X2 = OPTIONAL / NOT_PROVEN
 ```
 
 ---
 
-## 5. A0 real-product benchmark — ASP-2000 R52
+## 5. A0 structural baseline — ASP-2000 R52
 
-### 5.1 Positive-side current distribution
+### Positive distribution
 
 ```text
 BAT+
@@ -127,373 +142,384 @@ BAT+
 └─ F7/F8/F9/F10 → local LV bulk → T2 center tap
 ```
 
-Both PQ5050 primaries:
+### Primary switching
 
 ```text
-pin9 = A
-pin8 = center tap
-pin7 = C
+A node = T1-A + T2-A → 10 parallel MOS → B
+C node = T1-C + T2-C → 10 parallel MOS → B
 ```
 
-### 5.2 Primary switch architecture — RESOLVED
+All 20 main MOS sources return to common `B`.
+
+Q19 is verified connected; the old 9+10 model is superseded.
+
+Gate architecture:
 
 ```text
-A node = NetC62_1
-→ T1 A + T2 A
-→ 10 parallel MOS
-→ B
-
-C node = NetC65_1
-→ T1 C + T2 C
-→ 10 parallel MOS
-→ B
+4 local driver subgroups
+2 logical A/C functions
 ```
 
-Q19 drain is verified in compiled PCB; old `9+10` model is superseded.
+R52 also contains a U5-compatible buffered distribution path and direct 0Ω bypass options. Production stuffing remains open; do not treat the bypass or U5 option as a measured timing fact.
 
-Gate structure:
-
-```text
-DA1 + DA2 → A function
-DB1 + DB2 → C function
-4 physical driver subgroups
-2 logical commands
-```
-
-Correct current variables:
-
-```text
-I_T1/I_T2 = transformer feed currents
-I_A,total/I_C,total = electrical switch currents
-I_DA1/I_DA2/I_DB1/I_DB2 = local silicon-subgroup currents
-```
-
-Do not equate DA1/DA2 with T1/T2 currents.
-
----
-
-## 6. Battery-negative protection/sensing interface
+### Battery negative interface
 
 ```text
 B
 ↓
-Q39 Q40 Q41 Q42 Q63 Q64 Q65
+7 × CSD18510KCS
 ↓
 BAT-
 ```
 
-Verified hardware:
-
-```text
-Source → B
-Drain → BAT-
-12VP → individual 68.1Ω → Gate
-Gate → individual 47.5kΩ → B
-```
-
-Independent ASP product specification explicitly lists:
+ASP product function:
 
 ```text
 Input reverse polarity protection (AUTO-RECOVERY)
+= VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
 ```
 
-Status:
+Q39...Q65 as low-side ideal-diode-style implementation:
 
 ```text
-ASP reverse-polarity product function = VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
-Q39...Q65 ideal-diode-style implementation = STRONGLY_SUPPORTED
-full commandable disconnect by this bank = NOT_SUPPORTED
+STRONGLY_SUPPORTED
 ```
 
-### BOCP
-
-MAIN-board U4 (`LM2904`) senses the same B↔BAT− boundary.
+BOCP analog relation:
 
 ```text
 ΔV_M5 = V_B - V_BAT-
 V_BOCP - V_B ≈22.1 × ΔV_M5
 ```
 
-Status:
+This bank is product-interface protection/sensing overhead, not intrinsic X1 loss.
+
+### X1→HV
 
 ```text
-BOCP analog transfer = VERIFIED_FROM_MAIN_BOARD
-BOCP measured gain/offset = OPEN
-BOCP receiver/trip/control action = OPEN / EVIDENCE_BLOCKED
-```
-
-Formal loss evidence remains direct `I_source × ΔV_M5` with temperature.
-
----
-
-## 7. X1→HV structure — RL1 ROLE RESOLVED
-
-```text
-T1 pin5 = T2 pin2      ← secondary series junction
-
-T1 outer → D1/D5 bridge leg
-
-T2 pin5
-│
-├─ RL1 power contact ─────────────┐
-└─ R40 1k/5W || R41 1k/5W =500Ω ─┤
-                                  ↓
-                           D2/D6 bridge leg
+T1 + T2 PQ5050 magnetic transformation
 ↓
-BUS+ / BUS-
+secondary collective/series formation
+↓
+RL1 + R40/R41 precharge/bypass region
+↓
+D1/D5 + D2/D6 rectification
 ↓
 HV DC-link
 ↓
 X3
 ```
 
-RL1:
+RL1 precharge/bypass role is resolved at connectivity/net-name level. Startup precharge energy is not ordinary steady-state X1 loss.
+
+### Primary commutation network
+
+Direct A/C adjacency establishes two passive series-RC snubber branches across the primary switched nodes.
 
 ```text
-OZ-SS-112LM1
-240Vac /16A contact annotation
-12Vdc coil
-control net = RELAY_SS1
+direct primary-node damping
+= passive dissipative RC network
 ```
 
-Decision:
-
-```text
-RL1 HV-secondary precharge / soft-start bypass
-= VERIFIED_AT_CONNECTIVITY_AND_NETNAME_LEVEL
-```
-
-Loss classification:
-
-```text
-R40/R41 startup energy = precharge/inrush overhead / NOT steady-state X1 loss
-RL1 normal contact loss = MEASUREMENT_NEEDED
-```
+Actual snubber watts and total commutation loss remain open.
 
 ---
 
-## 8. PCB copper manufacturing correction — CRITICAL
+## 6. Manufacturing-copper correction — ACTIVE
 
-Earlier geometry work used PcbDoc stack metadata:
-
-```text
-Top/Bottom =1.4 mil ≈35.56 µm
-```
-
-The R52 manufacturing specification tied to `PB-2200-0038-D_R52.RAR` instead requires:
+R52 manufacturing specification tied to the same Gerber requires:
 
 ```text
-FR4 / 1.6 mm / 2 layer
+2 layers
 base copper =2.0 oz
-finished copper thickness >82 µm
+finished copper >82 µm
 ```
 
-Formal decision:
+Therefore the old 35.56 µm as-built assumption is superseded.
+
+Current geometry-only conservative bounds at the 12 V / 2 kW reference:
 
 ```text
-35.56 µm as-built assumption = SUPERSEDED
-R52 finished copper >82 µm = CURRENT MANUFACTURING BOUND
+BAT+ common PCB            ≤~3.32 W
+T1 local PCB               ≤~1.17 W
+T2 PCB excluding J8        ≤~0.48 W
+partial positive PCB-only  ≤~4.98 W
 ```
 
-Using 82 µm as the conservative minimum and the same reconstructed geometry:
-
-```text
-R_sheet,1layer,max ≈0.210 mΩ/square
-R_sheet,2layer,ideal,max ≈0.105 mΩ/square
-
-BAT+ common PCB:
-R≤~0.108 mΩ
-P@175.4A≤~3.32 W
-
-T1 local PCB:
-R≤~0.152 mΩ
-P@87.7A≤~1.17 W
-
-T2 PCB excluding J8:
-R≤~0.0624 mΩ
-P@87.7A≤~0.48 W
-
-partial positive PCB-only:
-R_eq≤~0.162 mΩ
-P@175.4A≤~4.98 W
-```
-
-All are:
+Status:
 
 ```text
 MANUFACTURING_GEOMETRY_BOUND / NOT_MEASURED
 ```
 
-Superseded values:
-
-```text
-BAT+ common ≈7.67 W
-partial positive PCB ≈11.5 W
-```
-
 Research consequence:
 
-> PCB distribution remains material, but the former conclusion that BAT+ copper is approximately comparable to the entire main-MOS conduction bucket is no longer supported.
+```text
+PCB distribution = MATERIAL / MUST NOT IGNORE
+PCB distribution = NOT PROVEN DOMINANT
+```
 
 ---
 
-## 9. Other current numerical bounds — NOT MEASURED
+## 7. Other current non-measured scales
 
-### Main A/C MOS
+Main A/C MOS:
 
 ```text
-CSD18542KCS @12V
+20 × CSD18542KCS total
 10 MOS per logical switch
-R_A,eq≈R_C,eq≈0.400 mΩ @25C max-data scale
-P_mainMOS,cond≈12.3 W
+simplified 25°C max-RDS conduction scale ≈12.3 W
 ```
 
-### Battery interface
+Battery interface:
 
 ```text
-7 × CSD18510KCS ideal parallel
-Req≈0.243 mΩ
-P@175.4A≈7.47 W
+7 × CSD18510KCS
+simplified 25°C max-RDS scale ≈7.47 W
 ```
 
-Do not sum mixed evidence classes into a product-loss claim.
+Do not sum these with geometry bounds into a claimed measured product total.
 
 ---
 
-## 10. Transformer parameter evidence gate
+## 8. Transformer evidence gate
 
-R52 files verify only:
+Verified:
 
 ```text
 T1/T2 = PQ5050
-PCB model = DTRF-PQ5050-V
 center-tapped primary connectivity
 secondary series relationship
 ```
 
-Current files do NOT establish:
+Open for the actual A0 population:
 
 ```text
-populated transformer internal P/N
+production transformer P/N
 turns ratio
-A0 Lm/Lk
-winding DCR/Rac
+Lm / Lk
+winding DCR / Rac
 core material / Ae / Ve
+actual magnetic watts
 ```
 
-Drive contains `M1-PQ50-V121-A` test data with Lm/Lk measurements, but model-matrix evidence ties that transformer to `ASP-3000W-24V-200ac-S9C`, not A0.
+`M1-PQ50-V121-A` belongs to another ASP-3000/24 V variant and remains context-only.
 
 Therefore:
 
 ```text
-M1-PQ50-V121-A data = CONTEXT_ONLY / DIFFERENT VARIANT
-A0 transformer numerical parameters = OPEN
+A0 magnetic burden = OPEN
 ```
 
-The R52 component-coordinate export and PCB-layout JPG also identify T1/T2 only as `PQ5050`; no production transformer P/N has been recovered from currently accessible R52 files.
+not `magnetics are the problem`.
 
-Preferred closure:
+---
+
+## 9. Product-engineering items — STOP as independent research targets
+
+The following may be measured/count under a matched product contract, but do not by themselves establish a topology research gap:
 
 ```text
-1. correct ASP-2000 BOM / transformer label / magnetic drawing
-2. power-off LCR characterization
-3. low-energy turns-ratio test
-4. Kelvin winding DCR
-5. core/material specification
+PCB / bus / connector geometry
+Fuse / J8 / contact resistance
+battery reverse-protection MOS implementation
+BOCP circuit
+RL1 / precharge implementation
+U5 / R212 / R213 stuffing
+exact RC snubber value tuning
+```
+
+Continue tracing any of them only if the result discriminates PG-1…PG-4 below.
+
+---
+
+## 10. Current physical-gap hypotheses
+
+### PG-1 — extreme-LV conduction exposure before X1
+
+Question:
+
+> How much loss remains structurally unavoidable while power is still processed in the 12 V / hundred-ampere domain before the first major transformation?
+
+Status:
+
+```text
+HYPOTHESIS / TOPOLOGY-RELEVANT
+```
+
+A0 signal:
+
+```text
+~175 A reference input current
+heavy copper already used
+20 main LV MOS already used
+~12.3 W simplified main-MOS conduction scale
+```
+
+Need fair A1 before claiming a gap.
+
+### PG-2 — dissipative commutation / leakage-energy handling
+
+Question:
+
+> Is a material amount of X1 switching/leakage/Coss energy disposed dissipatively, and can another mechanism reduce/recover it with lower total added loss?
+
+A0 signal:
+
+```text
+passive A↔C RC damping network = VERIFIED
+```
+
+Status:
+
+```text
+HYPOTHESIS / STRONG STRUCTURAL SIGNAL
+```
+
+Need:
+
+```text
+P_snubber
+P_switching overlap
+commutation significance
+```
+
+### PG-3 — magnetic transformation burden at extreme ratio
+
+Question:
+
+> After fair optimization, does magnetic X1 retain a first-order copper/core/leakage burden versus alternative X1 mechanisms?
+
+Status:
+
+```text
+OPEN / NOT YET A GAP
+```
+
+### PG-4 — single-phase 2ω energy reflection into LV source
+
+Question:
+
+> How much unavoidable 2ω pulsating energy returns through the expensive LV source path, and is local buffering net-beneficial?
+
+Status:
+
+```text
+HYPOTHESIS / NOT_ESTABLISHED
+active X2 = OPTIONAL / NOT_PROVEN
 ```
 
 ---
 
-## 11. Fair comparison contracts
+## 11. Things that are not research gaps
 
 ```text
-Contract P — product level
-match reverse-polarity protection, required sensing/fusing and HV precharge/inrush functionality; count losses.
-
-Contract C — steady-state core converter
-exclude battery-interface overhead and startup-only precharge energy equally across A0/A1/candidate.
+early fan-out = DESIGN DIMENSION
+more parallel MOS = DESIGN DIMENSION
+earlier voltage rise = STRATEGY
+active X2 = SOLUTION HYPOTHESIS
+remove HV DC bus = ARCHITECTURE OPTION
 ```
 
-Never delete A0 product functions only on the candidate side and call removed watts a topology advantage.
+None of them is a novelty or research-gap claim by itself.
 
 ---
 
-## 12. Current hardware gates
+## 12. Minimum hypothesis-driven evidence gate
 
-Static/Kelvin:
+The research no longer requires an exhaustive ASP loss audit before mechanism comparison.
 
-```text
-M0 BAT+ distribution
-M1 fuse banks
-M2 T1 local feed
-M3 J8
-M4 T2 local feed
-M5 B↔BAT− battery-interface bank
-M6 B return copper
-```
+Only collect A0 evidence that discriminates the four PGs.
 
-First hardware priority:
+### H1 → PG-1
 
 ```text
-M5 load sweep:
 I_source
-ΔV_M5
-V_BOCP relative B/SIG
-12VP
-MOS-bank temperature
+I_T1 / I_T2 if accessible
+A/C on-state VDS/current evidence
+switch temperature
 ```
 
-Dynamic/HFT:
+### H2 → PG-2
 
 ```text
 fs / duty / dead time
-actual VGS
 V_A-B / V_C-B
-I_T1 / I_T2
-synchronous switch-region v×i
-primary volt-second
-T1/T2 temperature
-correct-transformer L/ratio/DCR/material data
+relevant switch current
+V_R110 / V_R119
 ```
+
+Output:
+
+```text
+P_switching scale
+P_snubber
+```
+
+### H3 → PG-3
+
+```text
+T1/T2 RMS current
+primary volt-second
+transformer temperature
+correct L/ratio/DCR/material when obtainable
+```
+
+### H4 → PG-4
+
+```text
+source current waveform/spectrum at100/120 Hz
+HV DC-link ripple
+```
+
+These are research-hypothesis measurements, not ASP optimization measurements.
 
 ---
 
-## 13. Benchmark stack
+## 13. Cross-X1 mechanism comparison axes
+
+After H1–H4, compare surviving gaps across A1 / Direct-HFL / non-isolated high-gain using:
 
 ```text
-A0 — actual ASP-2000 R52
+M1 extreme-LV RMS/conduction exposure before X1
+M2 switching / commutation / dissipative-clamp energy
+M3 magnetic or alternative energy-storage burden
+M4 internal circulating / reactive RMS
+M5 2ω energy reflected to LV source
+M6 added active processing stages/functions
+M7 matched isolation/protection/product contract
+```
+
+No architecture wins merely by deleting a stage or product function.
+
+---
+
+## 14. Benchmark stack / next sequence
+
+```text
+A0 — actual ASP-2000 structural evidence
 A1 — fair optimized magnetic HFT
 B  — Direct HFL
-C  — non-isolated current-distribution/high-gain
-D  — working candidate architecture
+C  — non-isolated high-gain/current-distribution
+D  — later candidate only if a gap survives
 ```
 
-A1 remains blocked from a claimed quantitative advantage until A0 loss localization is sufficiently closed.
-
----
-
-## 14. Current unresolved items
+Current sequence:
 
 ```text
-M0–M6 actual mV/current data
-M5 measured hot loss
-BOCP receiver/trip logic
-fs / duty / dead time
-silicon subgroup sharing
-T1/T2 current balance
-fuse sharing/hot resistance
-J8 conductor/resistance
-hot main-MOS RDS(on)
-B-return copper loss
-A0 transformer populated P/N
-A0 turns ratio / Lm / Lk / Rac / core material
-RL1 contact resistance / RELAY_SS1 timing
-source 100/120Hz ripple
-HV DC-link ripple
-A0 dynamic switch/HFT loss
-A0 total BAT→X1 loss
-A1 total loss
-candidate superiority
+A0 structural evidence freeze
+↓
+Physical-gap screen                         ← CURRENT
+↓
+minimum H1–H4 discriminating evidence
+↓
+A1 / B / C X1 mechanism comparison
+↓
+reject gaps that disappear under fair optimization
+↓
+Topology synthesis only for surviving gap
+↓
+Candidate #10 only if existing #01–#09 do not already cover the solution path
 ```
 
 ---
@@ -502,26 +528,36 @@ candidate superiority
 
 ```text
 Research phase                         = Physical Gap Validation
-A0 main power/current graph            = SUBSTANTIALLY_RECONSTRUCTED
-A logical switch                       = 10 MOS / VERIFIED
-C logical switch                       = 10 MOS / VERIFIED
-4 drivers /2 logical commands          = VERIFIED_AT_CONNECTIVITY_LEVEL
+A0 role                                = REAL-PRODUCT EVIDENCE / NOT OPTIMIZATION TARGET
+A0 structural reverse engineering      = SUFFICIENT_FOR_GAP_SCREEN
 R52 finished copper                    = >82 µm / VERIFIED_FROM_MANUFACTURING_SPEC
-old 35.56 µm PCB loss model            = SUPERSEDED
-BAT+ common PCB geometry bound         = ≤~3.32 W / NOT_MEASURED
+old 35.56 µm PCB model                 = SUPERSEDED
 partial positive PCB geometry bound    = ≤~4.98 W / NOT_MEASURED
-ASP reverse-polarity function          = VERIFIED_AT_PRODUCT_FUNCTION_LEVEL
-Q39...Q65 implementation               = STRONGLY_SUPPORTED
-BOCP analog gain                       = ~22.1 V/V / VERIFIED_FROM_CIRCUIT
-RL1 precharge/bypass role              = VERIFIED_AT_CONNECTIVITY_AND_NETNAME_LEVEL
+main-MOS conduction scale              = ~12.3 W / DATASHEET_BOUND
+battery-interface scale                = ~7.47 W / PRODUCT-INTERFACE DATASHEET_BOUND
+A/C passive RC damping                 = VERIFIED
 A0 transformer numerical parameters    = OPEN
-M1-PQ50-V121-A cross-model data         = CONTEXT_ONLY
-A0 measured distribution loss          = OPEN
-A0 dynamic switch/HFT loss             = OPEN
-A0 total BAT→X1 loss                   = OPEN
-A1 matched model                       = BLOCKED_UNTIL_A0_LOSS_LOCALIZATION
-Early fan-out benefit                  = NOT_PROVEN
-Active X2 benefit                      = NOT_PROVEN
-Candidate #10                          = NOT_ASSIGNED
+
+PG-1 extreme-LV conduction exposure    = HYPOTHESIS
+PG-2 dissipative commutation handling  = HYPOTHESIS / STRONG SIGNAL
+PG-3 magnetic burden                   = OPEN
+PG-4 2ω source reflection              = HYPOTHESIS
+
+fan-out benefit                        = NOT_PROVEN
+active X2 benefit                      = NOT_PROVEN
+A1                                     = NEXT FAIR MECHANISM BENCHMARK AFTER MINIMUM EVIDENCE
+Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
+```
+
+Detailed records:
+
+```text
+11_WORKING_ARCHITECTURE_LOSS_AUDIT.md
+20_ASP2000_A0_RL1_HV_PRECHARGE_BYPASS.md
+21_ASP2000_A0_TRANSFORMER_PARAMETER_EVIDENCE_GATE.md
+22_ASP2000_A0_R52_MANUFACTURED_COPPER_CORRECTION.md
+23_ASP2000_A0_PRIMARY_SNUBBER_AND_GATE_DRIVER_BOUNDARY.md
+24_ASP2000_A0_U5_DRIVER_VARIANT_AND_SAVPP_GATE.md
+25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md
 ```
