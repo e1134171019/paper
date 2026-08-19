@@ -30,6 +30,14 @@ X3 AC synthesis
 
 This is a loss-routing hypothesis, not a claimed high-efficiency topology.
 
+The current research target is **not** to optimize the ASP-2000 product. A0 is a real-product evidence source used to identify or falsify cross-architecture physical gaps.
+
+Authoritative physical-gap screen:
+
+```text
+research/25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md
+```
+
 ---
 
 ## 2. Important terminology correction
@@ -74,7 +82,7 @@ busbar / PCB copper I²R
 parasitic-inductance switching overshoot
 ```
 
-At 12 V / 2 kW the average current cannot be removed before X1; therefore the only available lever in this common region is to minimize impedance and physical exposure.
+At 12 V / 2 kW the average source current cannot be removed before X1. The research variable is therefore not whether hundred-ampere current exists, but how much RMS/current-path exposure and irreversible loss remain before the first major transformation.
 
 ### 3.2 Local bulk + HF decoupling
 
@@ -95,59 +103,33 @@ inrush / precharge burden
 local capacitor RMS current
 ```
 
-The intended loss migration is:
-
-```text
-HF RMS current in expensive common LV path ↓
-local capacitor-loop RMS ↑
-```
-
-Retain only if the local-loop loss and practical burden are lower than the bus/source loss avoided.
+Retain only if local-loop loss is lower than the source/bus loss avoided.
 
 ### 3.3 Early current distribution / N-way fan-out
 
-Purpose:
-
-```text
-reduce per-device / per-cell current stress
-allow X1 to be physically close to each branch
-increase usable semiconductor / copper conductance
-shorten commutation loops
-```
-
-Critical correction:
+Critical rule:
 
 ```text
 current splitting alone does NOT automatically reduce I²R loss
 ```
 
-If total copper cross-section is unchanged, splitting one conductor into N smaller conductors can leave total copper loss approximately unchanged.
-
-Added losses / penalties:
+Added penalties include:
 
 ```text
 more branch interconnect
 current-sharing error
-parasitic-inductance mismatch
+parasitic mismatch
 more gate-drive power
 more total Coss / Qoss / Qg
-more control channels
-possible branch-to-branch circulating current
-EMI / synchronization burden
+control / EMI burden
+possible circulating current
 ```
 
-Therefore N is an optimization variable, not a monotonic efficiency lever.
+Therefore fan-out is a design dimension for PG-1, not an independent research gap or novelty claim.
 
 ### 3.4 Branch switching + X1
 
-This is the core research region.
-
-Purpose:
-
-```text
-convert low-voltage high-current branch energy
-into a higher-voltage / lower-current domain as early as practical
-```
+This remains the core research region.
 
 If X1 is magnetic HFT:
 
@@ -155,8 +137,7 @@ If X1 is magnetic HFT:
 MOS conduction
 MOS switching
 Coss / gate drive
-primary copper
-secondary copper
+primary / secondary copper
 core loss
 skin / proximity effect
 leakage
@@ -186,18 +167,11 @@ commutation loss
 HF circulating RMS
 ```
 
-The real comparison is the total X1 mechanism loss under the same operating boundary.
+The real comparison is the total X1 mechanism loss under the same boundary, not whether one ASP component can be improved.
 
 ### 3.5 Reduced-current energy node
 
 This is a functional domain, not necessarily a mandatory DC-link stage.
-
-Purpose:
-
-```text
-place downstream switching / storage / AC synthesis
-in a lower-current domain than the 12 V source region
-```
 
 If implemented as an HV DC bus, added losses include:
 
@@ -208,7 +182,7 @@ HV interconnect loss
 precharge / balancing / bleeder losses if present
 ```
 
-A Direct-HFL architecture may not contain a complete HV DC bus at all.
+A Direct-HFL architecture may not contain a complete HV DC bus.
 
 ### 3.6 X2 active 2ω buffer
 
@@ -218,70 +192,23 @@ Status:
 OPTIONAL / NOT YET PROVEN
 ```
 
-Purpose:
-
-```text
-keep single-phase 2ω pulsating energy
-circulating locally after X1
-instead of reflecting through the 12 V full-current source path
-```
-
-Potential added losses:
-
-```text
-bidirectional switch conduction
-switching / gate drive
-buffer inductor copper / core
-buffer capacitor ESR / dielectric
-buffer RMS current
-extra commutation / circulating current
-sensing / control / auxiliary power
-```
-
 Retention rule:
 
 ```text
 P_LV,saved > P_X2,added
 ```
 
-Required ablation:
-
-```text
-Buffer OFF
-vs
-Buffer ON
-```
-
-If the existing passive HV DC-link already suppresses source 2ω sufficiently, an active X2 may be net-negative and must be removed.
+Required research question is PG-4: how much 2ω energy actually reflects to the extreme-LV source path. Active buffering is only a solution hypothesis if PG-4 survives.
 
 ### 3.7 X3 AC synthesis
 
 X3 is functionally unavoidable somewhere in the DC→AC system.
 
-Purpose of the current placement:
-
-```text
-perform complete low-frequency AC synthesis
-only after the system has entered a reduced-current domain
-```
-
-Added / unavoidable losses:
-
-```text
-HV switch conduction
-switching / Coss / recovery / dead-time
-gate drive
-output-inductor copper / core
-filter-capacitor ESR
-```
-
-The research question is not whether X3 exists, but **where** it exists.
+The research question is not whether X3 exists, but where complete AC synthesis occurs and what current domain it occupies.
 
 ---
 
 ## 4. Why this ordering is retained
-
-The structure is not a collection of fashionable techniques. Each region is tied to a distinct loss mechanism:
 
 ```text
 very-short common LV path
@@ -290,14 +217,14 @@ very-short common LV path
 local decoupling
 → localize switching / commutation RMS
 
-early current distribution
-→ reduce device stress and allow modular X1 placement
+early distribution
+→ enable practical current handling, not automatic loss reduction
 
 X1 early
-→ leave the 12 V hundred-ampere domain as soon as net loss permits
+→ leave the 12 V hundred-ampere domain only when net loss is reduced
 
 X2 after X1, if justified
-→ prevent avoidable 2ω RMS from returning through the expensive LV path
+→ keep 2ω energy out of the expensive LV path only if net-positive
 
 X3 after X1
 → avoid complete AC synthesis in the extreme-current domain
@@ -305,60 +232,99 @@ X3 after X1
 
 Working principle:
 
-> Place each necessary current / energy component in the voltage-current domain where its irreversible loss is cheapest, while minimizing the number of extra processing stages.
+> Place each necessary current / energy component in the voltage-current domain where its irreversible loss is cheapest, while minimizing extra processing functions.
 
 ---
 
-## 5. Product reality check from ASP-2000 R52
+## 5. Product reality check from ASP-2000 R52 — CORRECTED
 
-The ASP-2000 R52 product baseline already contains:
+Current A0 reconstruction establishes:
 
 ```text
-two PQ5050 HFT modules
-four low-side switch banks of five parallel MOS devices
-eight high-current input fuse positions
-two groups of LV bulk capacitance
+two separately fused/local-bulk center-tap feeds
+2 × PQ5050 HFT
+A logical switch = 10 parallel MOS
+C logical switch = 10 parallel MOS
+all 20 main MOS sources → common B
+four local driver subgroups / two logical A-C functions
+manufactured PCB finished copper >82 µm
+secondary collective/series voltage formation
+passive A↔C RC snubber/damping network
 HV rectification
-HV DC-link storage
+HV DC-link
 separate HV AC-synthesis stage
 ```
 
-Therefore:
+The old shorthand "four independent five-MOS power banks" is superseded.
+
+ASP therefore already uses substantial conventional extreme-LV engineering:
 
 ```text
-parallel MOS
-current sharing
-multiple HFT power paths
-early distribution
+heavy copper
+heavy silicon paralleling
+split/local gate drive
+multiple magnetic paths
+early magnetic X1
 ```
 
-cannot be treated as candidate novelty or automatic loss advantage.
-
-The candidate must outperform both:
+Consequences:
 
 ```text
-A0 = actual ASP product abstraction
-A1 = fair optimized modular-HFT benchmark
+parallel MOS ≠ novelty
+multiple HFT paths ≠ novelty
+early distribution ≠ novelty
+heavier copper ≠ topology research contribution
+snubber-value optimization ≠ topology research contribution
 ```
 
-before a non-magnetic or alternative X1 mechanism can claim a structural benefit.
+A0 is not assumed inefficient and is not the product to be redesigned.
 
 ---
 
-## 6. Immediate falsifiers
+## 6. Physical-gap hypotheses retained after A0 screen
 
-Reject or reframe a proposed change if any of the following occurs:
+Detailed authority: `research/25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md`.
 
 ```text
-fan-out lowers branch current but total I²R does not fall
+PG-1 — minimum extreme-LV full-current conduction exposure before X1
+        = HYPOTHESIS / TOPOLOGY-RELEVANT
 
-more parallel MOS reduces conduction but added gate/Coss/commutation loss exceeds the saving
+PG-2 — dissipative switching/leakage/Coss commutation handling at X1
+        = HYPOTHESIS / STRONG STRUCTURAL SIGNAL
 
-X1 raises voltage early but creates excessive circulating / magnetic / capacitor RMS
+PG-3 — magnetic transformation copper/core/leakage burden at extreme ratio
+        = OPEN / NOT YET A GAP
 
-active X2 reduces 2ω source ripple but its own loss exceeds saved LV I²R
+PG-4 — single-phase 2ω energy reflection into the LV domain
+        = HYPOTHESIS / NOT ESTABLISHED
+```
 
-Direct-HFL removes stages but increases HF RMS / commutation loss beyond the removed rectifier/VSI loss
+Items such as PCB trace width, fuse/J8/contact loss, reverse-protection MOS, BOCP, RL1 and U5 stuffing remain product-engineering evidence unless needed to discriminate one of PG-1…PG-4.
+
+---
+
+## 7. Immediate falsifiers
+
+Reject or reframe a proposed research direction if:
+
+```text
+PG-1:
+a fair optimized HFT A1 reduces extreme-LV conduction enough that alternative X1 adds more loss than it saves
+
+PG-2:
+measured snubber + avoidable commutation loss is too small to justify recovery/soft-commutation overhead
+
+PG-3:
+correct A0/A1 magnetic loss is not a first-order burden after fair optimization
+
+PG-4:
+passive HV-link storage already keeps source 2ω sufficiently small
+
+fan-out:
+branch current falls but total declared I²R does not
+
+active X2:
+source ripple falls but buffer loss/circulation exceeds saved LV loss
 ```
 
 Core rule remains:
@@ -369,28 +335,48 @@ P_saved > P_added
 
 ---
 
-## 7. Next validation questions
+## 8. Next validation questions — REFOCUSED
 
-The next modeling work should answer only three mechanism questions before detailed topology invention:
+Do not attempt to close every ASP watt before mechanism comparison.
+
+Use minimum hypothesis-discriminating evidence:
 
 ```text
-Q1 — Does early current distribution reduce total declared R_eq / I²R,
-     compared with the real ASP A0 and a fair A1 magnetic benchmark?
+H1 / PG-1
+→ actual pre-X1 conduction exposure
 
-Q2 — How much LV RMS remains after each candidate X1,
-     decomposed into avg / 2ω / switching / circulating / reactive / commutation components?
+H2 / PG-2
+→ A/C switching overlap + RC snubber watts
 
-Q3 — Does active post-X1 X2 buffering produce positive net saved loss,
-     compared with the existing passive DC-link case?
+H3 / PG-3
+→ T1/T2 RMS / volt-second / magnetic burden
+
+H4 / PG-4
+→ source 100/120 Hz ripple + HV-link ripple
 ```
+
+Then compare the surviving mechanisms across:
+
+```text
+A1 optimized magnetic HFT
+B Direct HFL
+C non-isolated high-gain/current-distribution
+```
+
+Candidate synthesis remains on HOLD until at least one physical gap survives fair existing-family comparison.
 
 Formal status:
 
 ```text
 working architecture = KEEP
-A0 product baseline = ESTABLISHED
-fan-out benefit = NOT YET PROVEN
-active X2 benefit = NOT YET PROVEN
-candidate X1 winner = NOT ESTABLISHED
-novelty = NOT ESTABLISHED
+A0 structural baseline = SUFFICIENT_FOR_GAP_SCREEN
+A0 optimization campaign = NOT THE RESEARCH TASK
+PG-1 = HYPOTHESIS
+PG-2 = HYPOTHESIS
+PG-3 = OPEN
+PG-4 = HYPOTHESIS
+fan-out benefit = NOT PROVEN
+active X2 benefit = NOT PROVEN
+Candidate #10 = HOLD / NOT_ASSIGNED
+novelty = NOT_ESTABLISHED
 ```
