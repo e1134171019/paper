@@ -61,15 +61,63 @@ research/25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md
 
 ---
 
-## 3. Functional coordinates / family set
+## 3. Functional coordinates / family set — DEFINITION GATE v1
+
+Authoritative definition:
 
 ```text
-X1 = first major impedance/current-domain transformation region
-X2 = local 2ω / bidirectional buffer / recycling coordinate
-X3 = complete AC-synthesis region
+research/28_X1_X2_X3_AND_PHYSICAL_GAP_DEFINITION_V1.md
 ```
 
-Working families:
+Functional coordinates are now explicitly defined as **functions / regions**, not fixed components or mandatory serial stages:
+
+```text
+X1 = first major voltage/current-domain transformation region
+X2 = 2ω / bidirectional energy-buffer and routing coordinate
+X3 = complete single-phase AC-synthesis region
+```
+
+Formal rules:
+
+```text
+X1 ≠ transformer by definition
+X2 ≠ capacitor by definition
+X3 ≠ H-bridge by definition
+
+X1 / X2 / X3 MAY overlap physically
+but MUST remain distinguishable by function and loss accounting
+```
+
+X1 operational boundary:
+
+```text
+start
+= first main-path processing region that begins creating a new voltage/current domain
+
+completion
+= first boundary where majority main-path power is demonstrably in a sustained reduced-current domain
+```
+
+Normalized X1 quantities:
+
+```text
+G_V,X1 = V_domain,after / V_source
+ρ_I,X1 = I_rms,after / I_source,rms
+P_X1   = main-path power transferred through X1
+η_X1   = P_after / P_before under declared boundary
+```
+
+PG-1 pre-X1 exposure is now operationalized primarily as:
+
+```text
+P_preX1,cond
+≈ Σ(I_rms,k² · R_eff,k)
+ + Σ(P_semiconductor,cond,k)
+```
+
+with product-interface / startup / packaging losses separated from intrinsic conversion loss.
+
+Working families remain:
 
 ```text
 #01 Low-Frequency Transformer Inverter
@@ -92,7 +140,15 @@ Current benchmark emphasis:
 #09 → direct-HFL benchmark
 ```
 
-Mechanism extraction from #01–#09 is now recorded in:
+Definition cross-test completed at v1:
+
+```text
+A0 / #02 magnetic HFT path      = PASS
+#04 distributed high-gain path  = PASS
+#09 direct HFL path              = PASS
+```
+
+Mechanism extraction records:
 
 ```text
 research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
@@ -135,6 +191,13 @@ local decoupling = KEEP / must prove local-loop benefit
 early fan-out = HYPOTHESIS / NOT automatic loss reduction
 branch switching + X1 = CORE RESEARCH REGION
 active X2 = OPTIONAL / NOT_PROVEN
+```
+
+Important correction from Definition Gate:
+
+```text
+this drawing is a working architecture hypothesis
+NOT a universal requirement that X1 / X2 / X3 be three separate serial stages
 ```
 
 ---
@@ -204,7 +267,11 @@ This bank is product-interface protection/sensing overhead, not intrinsic X1 los
 ### X1→HV
 
 ```text
+A/C LV switching begins X1 processing
+↓
 T1 + T2 PQ5050 magnetic transformation
+↓
+secondary high-voltage / reduced-current domain establishes X1 completion
 ↓
 secondary collective/series formation
 ↓
@@ -355,11 +422,38 @@ Continue tracing any of them only if the result discriminates PG-1…PG-4 below.
 
 ## 10. Current physical-gap hypotheses
 
+Physical-Gap promotion is now governed by `research/28_X1_X2_X3_AND_PHYSICAL_GAP_DEFINITION_V1.md`:
+
+```text
+OBSERVATION
+↓
+TOPOLOGY-STRUCTURAL SIGNAL
+↓
+PHYSICAL-GAP HYPOTHESIS
+↓
+FAIR-FALSIFICATION TEST
+↓
+SURVIVES / REJECTED
+↓
+VERIFIED PHYSICAL GAP only if all gates pass
+```
+
+Promotion requires:
+
+```text
+G1 measurable physical quantity
+G2 survives abstraction from A0 product details
+G3 fair existing-method falsifier
+G4 matched comparison boundary
+G5 materiality criterion
+G6 loss-shifting audit with P_saved > P_added
+```
+
 ### PG-1 — extreme-LV conduction exposure before X1
 
 Question:
 
-> How much loss remains structurally unavoidable while power is still processed in the 12 V / hundred-ampere domain before the first major transformation?
+> Under a matched contract, how much source-domain RMS / conduction burden is required before different X1 mechanisms complete the first major voltage/current-domain transformation, and can that burden be reduced with lower total added loss?
 
 Status:
 
@@ -376,7 +470,16 @@ heavy copper already used
 ~12.3 W simplified main-MOS conduction scale
 ```
 
-Need fair A1 before claiming a gap.
+Operational quantities now include:
+
+```text
+P_preX1,cond
+I_source,rms
+source-domain semiconductor conduction
+source-domain current-path burden
+```
+
+Need fair A1 / alternative-X1 falsification before claiming a verified gap.
 
 ### PG-2 — dissipative commutation / leakage-energy handling
 
@@ -402,13 +505,16 @@ Need:
 P_snubber
 P_switching overlap
 commutation significance
+soft-commutated A1 / active-HFT falsifier
 ```
 
-### PG-3 — magnetic transformation burden at extreme ratio
+RC-snubber existence proves a dissipative path, not gap materiality.
+
+### PG-3 — total transformation burden at extreme ratio
 
 Question:
 
-> After fair optimization, does magnetic X1 retain a first-order copper/core/leakage burden versus alternative X1 mechanisms?
+> After fair optimization, does magnetic X1 retain a first-order total transformation burden versus alternative X1 mechanisms when all alternative inductor/capacitor/diode/charge-transfer/circulating losses are counted symmetrically?
 
 Status:
 
@@ -416,17 +522,34 @@ Status:
 OPEN / NOT YET A GAP
 ```
 
+Important correction:
+
+```text
+PG-3 comparison quantity = TOTAL TRANSFORMATION BURDEN
+not magnetic loss alone
+```
+
 ### PG-4 — single-phase 2ω energy reflection into LV source
 
 Question:
 
-> How much unavoidable 2ω pulsating energy returns through the expensive LV source path, and is local buffering net-beneficial?
+> How much unavoidable 2ω pulsating energy returns through the expensive LV source path, and is local/post-X1 buffering net-beneficial?
 
 Status:
 
 ```text
 HYPOTHESIS / NOT_ESTABLISHED
 active X2 = OPTIONAL / NOT_PROVEN
+```
+
+Operational observables:
+
+```text
+P_2ω,source
+I_2ω,source
+E_2ω,buffer
+ΔV_buffer,2ω
+P_X2,added
 ```
 
 ---
@@ -436,9 +559,10 @@ active X2 = OPTIONAL / NOT_PROVEN
 ```text
 early fan-out = DESIGN DIMENSION
 more parallel MOS = DESIGN DIMENSION
-earlier voltage rise = STRATEGY
+earlier voltage rise / early X1 = STRATEGY
 active X2 = SOLUTION HYPOTHESIS
 remove HV DC bus = ARCHITECTURE OPTION
+continuous-input current = RESULTING PROPERTY unless tied to a quantified mechanism
 ```
 
 None of them is a novelty or research-gap claim by itself.
@@ -458,6 +582,12 @@ I_source
 I_T1 / I_T2 if accessible
 A/C on-state VDS/current evidence
 switch temperature
+```
+
+Output:
+
+```text
+measured/bounded P_preX1,cond scale
 ```
 
 ### H2 → PG-2
@@ -496,14 +626,14 @@ These are research-hypothesis measurements, not ASP optimization measurements.
 
 ---
 
-## 13. Cross-X1 mechanism comparison axes
+## 13. Cross-X1 comparison axes
 
-After H1–H4, compare surviving gaps across A1 / Direct-HFL / non-isolated high-gain using:
+Compare surviving gaps across A1 / Direct-HFL / non-isolated high-gain using:
 
 ```text
 M1 extreme-LV RMS/conduction exposure before X1
 M2 switching / commutation / dissipative-clamp energy
-M3 magnetic or alternative energy-storage burden
+M3 total transformation / storage burden
 M4 internal circulating / reactive RMS
 M5 2ω energy reflected to LV source
 M6 added active processing stages/functions
@@ -514,7 +644,7 @@ No architecture wins merely by deleting a stage or product function.
 
 ---
 
-## 14. Mechanism extraction checkpoint — ACTIVE
+## 14. Mechanism extraction / ontology checkpoint — ACTIVE
 
 Nine-family mechanism extraction is complete at v1.
 
@@ -524,7 +654,7 @@ Detailed matrix:
 research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
 ```
 
-Current screening pools:
+Historical screening pools remain:
 
 ```text
 MP-A — Early X1 / leave extreme-LV domain early
@@ -535,10 +665,37 @@ MP-E — Intentional 2ω energy routing
 MP-F — Continuous-input / ripple-current shaping
 ```
 
+Definition Gate correction:
+
+```text
+MP-A...MP-F are NOT six same-level physical mechanisms
+```
+
+Ontology is now separated into:
+
+```text
+L1 Architecture / Main Circuit Graph
+L2 Strategy
+L3 Physical Mechanism
+L4 Resulting Property / Observable
+```
+
+Current pool reclassification:
+
+```text
+MP-A = Strategy pool
+MP-B = Physical-mechanism pool
+MP-C = Mechanism-family / strategy hybrid
+MP-D = Architecture / integration-strategy pool
+MP-E = Energy-routing function / physical-mechanism pool
+MP-F = Resulting-property / control-strategy pool
+```
+
 Important gate:
 
 ```text
-mechanism name alone ≠ physical-gap solution
+technique name ≠ physical-gap solution
+screening pool ≠ same-level mechanism ontology
 ```
 
 Examples not admitted merely by label:
@@ -553,18 +710,18 @@ interleaving
 active X2 before PG-4 survives
 ```
 
-Combination rules are locked in `research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md`.
+Combination rules remain recorded in `research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md`, but direct `PG × MP-A...MP-F` execution is deferred until L3 mechanisms are normalized.
 
 Next action:
 
 ```text
-PG × Mechanism compatibility screen
+Normalize #01–#09 into one common X1/X2/X3 template
 ↓
-reject redundant / physically conflicting / loss-stacking pairs
+separate Architecture / Strategy / Physical Mechanism / Property
 ↓
-retain only 2–3 physically defensible combinations
+decompose MP pools into comparable L3 physical mechanisms
 ↓
-reclassify each against #01–#09
+then execute PG × Physical-Mechanism compatibility
 ```
 
 ---
@@ -586,19 +743,25 @@ A0 structural evidence freeze
 ↓
 Physical-gap screen
 ↓
-Nine-family mechanism extraction                 ✅ v1
+Nine-family mechanism extraction                         ✅ v1
 ↓
-PG × Mechanism compatibility screen              ← NEXT
+X1 / X2 / X3 + Physical-Gap Definition Gate              ✅ v1
+↓
+Normalize #01–#09 into common X1/X2/X3 template          ← NEXT
+↓
+Decompose MP pools into ontology-consistent L3 mechanisms
+↓
+PG × Physical-Mechanism compatibility screen
 ↓
 minimum H1–H4 evidence where needed to discriminate surviving PGs
 ↓
-A1 / B / C X1 mechanism comparison
+A1 / B / C X1 mechanism comparison / falsification
 ↓
 reject gaps that disappear under fair optimization
 ↓
-Topology synthesis only for surviving gap
+Topology synthesis only for surviving verified gap
 ↓
-Candidate #10 only if existing #01–#09 do not already cover the solution path
+Candidate #10 only if existing #01–#09 do not reasonably cover the resulting main energy path
 ```
 
 ---
@@ -618,18 +781,28 @@ A/C passive RC damping                 = VERIFIED
 A0 transformer numerical parameters    = OPEN
 M1-PQ50-V108-A                         = CONTEXT_ONLY / NOT A0
 
+X1 definition                         = ESTABLISHED v1 / FUNCTIONAL REGION
+X2 definition                         = ESTABLISHED v1 / ENERGY-ROUTING COORDINATE
+X3 definition                         = ESTABLISHED v1 / AC-SYNTHESIS REGION
+X1/X2/X3 physical overlap             = ALLOWED
+fixed three-stage interpretation      = REJECTED
+Physical-Gap promotion gate           = ESTABLISHED v1
+
 PG-1 extreme-LV conduction exposure    = HYPOTHESIS
 PG-2 dissipative commutation handling  = HYPOTHESIS / STRONG SIGNAL
-PG-3 magnetic burden                   = OPEN
+PG-3 total transformation burden       = OPEN
 PG-4 2ω source reflection              = HYPOTHESIS
 
 Nine-family mechanism extraction       = COMPLETE v1
-Mechanism pool MP-A...MP-F              = ESTABLISHED FOR SCREENING
-PG × Mechanism compatibility           = NEXT
+MP-A...MP-F historical screening pools = KEEP
+MP-A...MP-F same-level ontology        = REJECTED
+Ontology L1/L2/L3/L4                   = ESTABLISHED v1
+Nine-family X1/X2/X3 normalization      = NEXT
+PG × Physical-Mechanism compatibility  = DEFERRED ONE STEP
 Mechanism combination                  = NOT YET EXECUTED
 fan-out benefit                        = NOT_PROVEN
 active X2 benefit                      = NOT_PROVEN
-A1                                     = FAIR MECHANISM BENCHMARK AFTER COMPATIBILITY/MINIMUM EVIDENCE
+A1                                     = FAIR FALSIFICATION BENCHMARK AFTER NORMALIZATION / MINIMUM EVIDENCE
 Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
@@ -646,4 +819,5 @@ Detailed records:
 25_A0_EVIDENCE_TO_PHYSICAL_GAP_SCREEN.md
 26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
 27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
+28_X1_X2_X3_AND_PHYSICAL_GAP_DEFINITION_V1.md
 ```
