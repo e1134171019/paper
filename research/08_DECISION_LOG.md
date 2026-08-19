@@ -465,12 +465,12 @@ Every future combination must pass:
 ```text
 C1 each mechanism maps to a surviving PG
 C2 do not duplicate one function while stacking loss
-C3 actual circuit graph is physically compatible
+C3 actual circuit graph must be physically compatible
 C4 quantify new RMS / circulating / commutation burden
 C5 P_saved > P_added
-C6 reclassify completed circuit against #01...#09
+C6 reclassify the completed circuit graph against #01...#09
 C7 if it fits an existing family, it is not Candidate #10
-C8 discuss #10 only if the gap survives and existing families cannot reasonably describe the resulting main energy path
+C8 discuss #10 only if the physical gap survives and existing families cannot reasonably describe the resulting main energy path
 ```
 
 The old immediate-next wording `PG × Mechanism compatibility` is superseded by the Definition Gate and ontology normalization decisions below.
@@ -758,6 +758,189 @@ Mechanism combination                  = NOT YET EXECUTED
 A1                                     = FAIR BENCHMARK AFTER COMPATIBILITY / MINIMUM EVIDENCE
 Early fan-out benefit                  = NOT_PROVEN
 Active X2 benefit                      = NOT_PROVEN
+Candidate #10                          = HOLD / NOT_ASSIGNED
+Novelty                                = NOT_ESTABLISHED
+```
+
+---
+
+## 2026-08-19 — PG × canonical physical-mechanism compatibility screen completed v1 — CRITICAL
+
+Formal record:
+
+```text
+research/31_PG_PM_COMPATIBILITY_SCREEN.md
+```
+
+The valid same-level screening object is now fully executed:
+
+```text
+PG-1...PG-4 × PM-1...PM-7
+= 28 cells screened
+```
+
+Every cell is classified as one of:
+
+```text
+DIRECT
+CONDITIONAL
+TRADE-OFF
+RISK
+IRRELEVANT
+```
+
+Critical interpretation:
+
+```text
+compatibility ≠ benefit
+compatibility ≠ verified Physical Gap
+compatibility ≠ mechanism-combination authorization
+compatibility ≠ novelty
+```
+
+Primary retained pairs are narrowed to:
+
+```text
+PG-1 × PM-1  fair optimized magnetic-X1 falsifier
+PG-1 × PM-2  inductive alternative-X1 comparator
+PG-1 × PM-3  capacitive-transfer alternative-X1 comparator
+
+PG-2 × PM-4  reactive-energy-assisted commutation / H2-gated
+
+PG-3 × PM-1  magnetic transformation benchmark
+PG-3 × PM-2  inductive transformation alternative
+PG-3 × PM-3  capacitive-transfer transformation alternative
+
+PG-4 × PM-5  passive 2ω buffering
+PG-4 × PM-6  active storage-port routing / H4-gated
+```
+
+Conditional modifiers retained only for later accounting / complete-architecture evaluation:
+
+```text
+PG-1 × PM-4
+PG-2 × PM-2
+PG-2 × PM-7
+PG-3 × PM-4
+PG-3 × PM-7
+PG-4 × PM-2
+PG-4 × PM-7
+```
+
+Secondary trade-off comparator:
+
+```text
+PG-2 × PM-3
+```
+
+Rejected from primary research lines:
+
+```text
+PG-1 × PM-5 / PM-6 / PM-7
+PG-2 × PM-1 / PM-5 / PM-6
+PG-3 × PM-5 / PM-6
+PG-4 × PM-1 / PM-3 / PM-4
+```
+
+Hard gates:
+
+```text
+PG-2:
+H2 must show material P_snubber + avoidable P_switching
+before PM-4 becomes a research direction.
+
+PG-4:
+H4 must show material source-side 2ω reflection
+before PM-5/PM-6 work is justified.
+Active PM-6 additionally requires P_LV,saved > P_X2,added.
+```
+
+Cross-PG consequence:
+
+```text
+PG-1 primary question = PM-1 vs PM-2 vs PM-3 for minimum pre-X1 source-domain burden
+PG-2 primary question = whether PM-4 saves more commutation loss than reactive/circulating loss added
+PG-3 primary question = PM-1 vs PM-2 vs PM-3 total transformation burden under symmetric accounting
+PG-4 primary question = PM-5 vs PM-6 only if H4 survives
+```
+
+Mechanism combination remains closed. Do not combine retained mechanisms merely because they survived compatibility screening.
+
+The next valid action is:
+
+```text
+Build minimum falsification / evidence plan for retained primary pairs
+↓
+use H1/H2/H3/H4 only where discriminating
+↓
+assign fair A1 / B / C comparator roles
+↓
+reject PGs that fail materiality or P_saved > P_added
+↓
+only then topology synthesis
+```
+
+Candidate #10 remains:
+
+```text
+HOLD / NOT_ASSIGNED
+```
+
+Novelty remains:
+
+```text
+NOT_ESTABLISHED
+```
+
+---
+
+## Current decision state — after PG × PM compatibility v1
+
+This state supersedes the earlier `PG × canonical Physical Mechanism = NEXT` line above.
+
+```text
+Research phase                         = Physical Gap Validation
+A0 role                                = REAL-PRODUCT EVIDENCE / NOT OPTIMIZATION TARGET
+A0 structural reverse engineering      = SUFFICIENT_FOR_GAP_SCREEN
+R52 finished copper                    = >82 µm / VERIFIED_FROM_MANUFACTURING_SPEC
+old 35.56 µm geometry-loss model       = SUPERSEDED
+partial positive PCB geometry bound    = ≤~4.98 W / NOT_MEASURED
+main-MOS conduction scale              = ~12.3 W / DATASHEET_BOUND
+battery-interface scale                = ~7.47 W / PRODUCT-INTERFACE DATASHEET_BOUND
+A/C passive RC damping                 = VERIFIED
+A0 transformer numerical parameters    = OPEN
+M1-PQ50-V108-A                         = CONTEXT_ONLY / NOT A0
+
+X1 definition                          = ESTABLISHED v1
+X2 definition                          = ESTABLISHED v1
+X3 definition                          = ESTABLISHED v1
+X1/X2/X3 physical overlap              = ALLOWED
+Physical-Gap promotion gate            = ESTABLISHED v1
+
+PG-1                                   = HYPOTHESIS / TOPOLOGY-RELEVANT
+PG-2                                   = HYPOTHESIS / STRONG SIGNAL
+PG-3                                   = OPEN / NOT YET A GAP
+PG-4                                   = HYPOTHESIS / NOT_ESTABLISHED
+
+Nine-family mechanism extraction       = COMPLETE v1
+Nine-family X1/X2/X3 normalization     = COMPLETE v1
+Nine-family role                       = ARCHITECTURE COVERAGE MAP
+Ontology L1/L2/L3/L4                   = ESTABLISHED v1
+MP-A...MP-F same-level ontology        = REJECTED
+Raw L3 PM-R1...PM-R13 direct screening = SUPERSEDED
+Canonical L3 dictionary PM-1...PM-7   = ESTABLISHED v1
+Canonical L3 mechanism count           = 7
+Support primitive SP-1                 = ESTABLISHED
+PG × canonical Physical Mechanism      = COMPLETE v1 / 28 CELLS SCREENED
+Primary PG-1 mechanism set             = PM-1 / PM-2 / PM-3
+Primary PG-2 mechanism set             = PM-4 / H2-GATED
+Primary PG-3 mechanism set             = PM-1 / PM-2 / PM-3
+Primary PG-4 mechanism set             = PM-5 / PM-6 / H4-GATED
+Minimum falsification/evidence plan    = NEXT
+Mechanism combination                  = NOT YET EXECUTED
+A1                                     = FAIR FALSIFICATION BENCHMARK / PM-1
+Early fan-out benefit                  = NOT_PROVEN
+Active X2 benefit                      = NOT_PROVEN / H4-GATED
 Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
