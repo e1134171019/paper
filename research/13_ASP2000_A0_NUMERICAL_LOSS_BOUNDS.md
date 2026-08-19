@@ -2,7 +2,7 @@
 
 Status date: 2026-08-19  
 Role: `A0 NUMERICAL-BOUND / LOSS-LOCALIZATION SUPPORT`  
-Evidence status: `PCB STACK + COMPILED PCB NETS + OFFICIAL DEVICE DATA + PARAMETRIC MODELS`  
+Evidence status: `R52 PCB MANUFACTURING SPEC + COMPILED PCB NETS + OFFICIAL DEVICE DATA + PARAMETRIC MODELS`  
 Measurement status: `NOT HARDWARE-MEASURED`  
 Novelty relevance: `NONE — benchmark only`
 
@@ -14,10 +14,10 @@ Evidence classes:
 
 ```text
 VERIFIED
-= directly extracted from SchDoc/PcbDoc or official device data
+= directly extracted from product files / manufacturing documents or official device data
 
-GEOMETRY_BOUND
-= numerical result from reconstructed nominal PCB copper geometry
+MANUFACTURING_GEOMETRY_BOUND
+= PCB geometry model rescaled to the specified manufactured copper thickness
 
 DATASHEET_BOUND
 = device loss scale using official device data
@@ -31,33 +31,55 @@ MEASUREMENT_NEEDED
 
 ---
 
-## 2. PCB copper stack boundary
+## 2. PCB copper-thickness correction — MANUFACTURING SPEC SUPERSEDES PcbDoc STACK METADATA
 
-PcbDoc stack:
-
-```text
-Top copper     = 1.4 mil ≈ 35.56 um
-FR-4 dielectric
-Bottom copper  = 1.4 mil ≈ 35.56 um
-```
-
-Using nominal room-temperature copper resistivity:
+Earlier work used the PcbDoc stack metadata:
 
 ```text
-R_sheet,1layer ≈ 0.485 mOhm/square
+Top copper ≈ 1.4 mil ≈ 35.56 µm
+Bottom copper ≈ 1.4 mil ≈ 35.56 µm
 ```
 
-Ideal equal Top+Bottom parallel geometry:
+That value is no longer the authoritative as-manufactured thickness for A0.
+
+The R52 manufacturing specification tied to:
 
 ```text
-R_sheet,2layer,ideal ≈ 0.242 mOhm/square
+PB-2200-0038-D_R52.RAR
 ```
 
-This is not the actual BAT+ path resistance because current spreading, polygons, vias, contacts, solder reinforcement and assembly conductors matter.
+explicitly requires:
+
+```text
+FR4
+1.6 mm
+2-layer PCB
+base copper = 2.0 oz
+finished copper thickness > 82 µm
+```
+
+Formal evidence decision:
+
+```text
+PcbDoc 35.56 µm stack value
+= DESIGN_METADATA / SUPERSEDED_FOR_AS-BUILT_RESISTANCE_BOUND
+
+R52 finished copper >82 µm
+= AUTHORITATIVE MANUFACTURING MINIMUM FOR CURRENT GEOMETRY BOUND
+```
+
+Using room-temperature copper resistivity and `t = 82 µm` as the conservative minimum thickness:
+
+```text
+R_sheet,1layer,max ≈ 0.210 mΩ/square
+R_sheet,2layer,ideal,max ≈ 0.105 mΩ/square
+```
+
+Because the specification says `>82 µm`, actual copper-only sheet resistance may be lower. Contacts, current crowding, vias, solder, joints and temperature remain separate effects.
 
 ---
 
-## 3. Full-current copper scaling at 12 V / 2 kW
+## 3. Full-current copper scaling at 12 V / 2 kW — CORRECTED
 
 Anchor:
 
@@ -66,36 +88,34 @@ Iin,ideal = 166.7 A
 Iin@95% scaling ≈ 175.4 A
 ```
 
-At 175.4 A:
+At the 82 µm minimum-copper bound:
 
 ```text
-1 single-layer square ≈ 14.9 W
-ideal Top+Bottom effective square ≈ 7.46 W
+1 single-layer square @175.4 A ≤ ~6.47 W
+ideal Top+Bottom effective square ≤ ~3.23 W
 ```
 
-After ideal 50/50 split into T1/T2 feeds:
+After ideal 50/50 split into T1/T2 feeds (`~87.7 A`):
 
 ```text
-I_feed ≈ 87.7 A
-single-layer ≈ 3.73 W/square
-ideal Top+Bottom ≈ 1.87 W/square
+single-layer square ≤ ~1.62 W
+ideal Top+Bottom effective square ≤ ~0.81 W
 ```
 
-After ideal four-fuse split within one feed:
+After ideal four-fuse split within one feed (`~21.9 A`):
 
 ```text
-I_fuse ≈ 21.9 A
-single-layer ≈ 0.233 W/square
-ideal Top+Bottom ≈ 0.117 W/square
+single-layer square ≤ ~0.101 W
+ideal Top+Bottom effective square ≤ ~0.050 W
 ```
 
-Research implication:
+Research implication remains qualitative but is weaker than the old 35.56 µm model:
 
-> Loss is most expensive before the current is physically/electrically distributed. The value of fan-out depends on how quickly the full-current common exposure is terminated.
+> Common full-current copper is still worth minimizing, but the R52 manufacturing build uses much heavier copper than the PcbDoc metadata suggested. It is no longer defensible to claim that BAT+ PCB copper is automatically comparable to the entire main-MOS conduction bucket.
 
 ---
 
-## 4. Positive distribution geometry bounds
+## 4. Positive-distribution geometry bounds — CORRECTED TO ≥82 µm FINISHED COPPER
 
 Direct PCB primitive reconstruction identified:
 
@@ -106,121 +126,87 @@ Direct PCB primitive reconstruction identified:
 major Top/Bottom BAT+ polygons
 ```
 
-A converged nominal-copper 2D sheet model gave:
+The former 35.56 µm model values are superseded.
+
+Because resistance scales approximately inversely with copper thickness for the same 2D geometry, rescaling the existing geometry solution from `35.56 µm` to the conservative `82 µm` minimum gives:
 
 ```text
-R_BAT+,common,geometry ≈ 0.249 mOhm
-P @ 175.4 A ≈ 7.67 W
-average modeled drop ≈ 43.7 mV
-```
+BAT+ common:
+R_BAT+,common,geometry ≤ ~0.108 mΩ
+P @175.4 A ≤ ~3.32 W
+average modeled drop ≤ ~18.9 mV
 
-Post-fuse local PCB geometry models:
-
-```text
 T1 local PCB:
-R ≈ 0.351 mOhm
-P @ 87.7 A ideal share ≈ 2.70 W
+R_T1local,PCB ≤ ~0.152 mΩ
+P @87.7 A ideal share ≤ ~1.17 W
 
 T2 PCB excluding J8:
-R ≈ 0.144 mOhm
-P @ 87.7 A ideal share ≈ 1.10 W
+R_T2local,PCB ≤ ~0.0624 mΩ
+P @87.7 A ideal share ≤ ~0.48 W
 ```
 
-Under ideal 50/50 T1/T2 sharing, partial positive PCB-only equivalent:
+Under ideal 50/50 T1/T2 sharing, the partial positive PCB-only input-referred equivalent becomes:
 
 ```text
-R_eq,positive-PCB,partial ≈ 0.373 mOhm
-P @ 175.4 A ≈ 11.5 W
+R_eq,positive-PCB,partial ≤ ~0.162 mΩ
+P @175.4 A ≤ ~4.98 W
 ```
 
-This excludes connector/contact, fuse elements, J8 external link, hot-copper rise and assembly reinforcement.
+This still excludes:
+
+```text
+BAT+ connector/contact
+fuse elements and fuse contacts
+J8 external link/contact
+hot-copper rise
+assembly-specific reinforcement / solder / bus conductors
+```
 
 Status:
 
 ```text
-GEOMETRY_BOUND / NOT MEASURED
+MANUFACTURING_GEOMETRY_BOUND / NOT MEASURED
 ```
+
+These are conservative geometry-only values using the specified minimum finished copper thickness, not measured board resistance.
 
 ---
 
-## 5. Main low-side MOS connectivity — corrected
+## 5. Main low-side MOS connectivity — RESOLVED
 
-Compiled PCB resolves the previous Q19 ambiguity.
-
-### A logical switch
+Compiled PCB establishes:
 
 ```text
-Q3 Q4 Q5 Q6 Q33
-Q18 Q19 Q20 Q21 Q37
-```
-
-All ten drains:
-
-```text
-→ NetC62_1
-```
-
-All ten sources:
-
-```text
-→ B
-```
-
-### C logical switch
-
-```text
-Q11 Q12 Q13 Q14 Q36
-Q24 Q25 Q26 Q27 Q38
-```
-
-All ten drains:
-
-```text
-→ NetC65_1
-```
-
-All ten sources:
-
-```text
-→ B
-```
-
-Formal correction:
-
-```text
-A-side connected count = 10
-C-side connected count = 10
+A logical switch = 10 connected MOS → common source B
+C logical switch = 10 connected MOS → common source B
 Q19 drain connectivity = VERIFIED IN PCB
 ```
 
-The previous 9+10 model is superseded.
+The old 9+10 model is superseded.
 
 ---
 
-## 6. Updated 12 V main-MOS conduction bound
+## 6. 12 V main-MOS conduction bound
 
 12 V population:
 
 ```text
 CSD18542KCS
-VDS = 60 V
-RDS(on),max @ VGS=10 V = 4 mOhm
+RDS(on),max @ VGS=10 V = 4 mΩ
 Qg,typ = 44 nC
 ```
 
-With ten devices per logical switch:
+Ten devices per logical switch:
 
 ```text
-R_A,eq,25C,max ≈ 4/10 = 0.400 mOhm
-R_C,eq,25C,max ≈ 4/10 = 0.400 mOhm
+R_A,eq,25C,max ≈ 0.400 mΩ
+R_C,eq,25C,max ≈ 0.400 mΩ
 ```
 
-Using the same simplified alternating 50%-per-side sensitivity model and 175.4 A current scale:
+Using the simplified alternating 50%-per-side sensitivity model and 175.4 A scale:
 
 ```text
-P_mainMOS,cond
-≈ 0.5 I^2 (R_A + R_C)
-≈ 12.3 W
+P_mainMOS,cond,25C-bound ≈ 12.3 W
 ```
 
 Status:
@@ -229,30 +215,9 @@ Status:
 DATASHEET_BOUND / NOT MEASURED
 ```
 
-This is not a real product loss value. It excludes:
+It excludes hot `RDS(on)`, real primary current waveform, mismatch, package/interconnect, dead time, Coss, commutation and switching overlap.
 
-```text
-hot RDS(on)
-actual primary-current waveform
-magnetizing/ripple current
-subgroup mismatch
-package/contact/copper resistance
-dead time
-Coss / commutation
-switching overlap
-```
-
----
-
-## 7. Hot-RDS(on) sensitivity
-
-Define only as a planning parameter:
-
-```text
-kT = RDS(on,hot) / RDS(on,25C)
-```
-
-Using the corrected 12.3 W bound:
+Hot-resistance sensitivity:
 
 ```text
 kT = 1.0 → ~12.3 W
@@ -261,29 +226,17 @@ kT = 1.8 → ~22.1 W
 kT = 2.0 → ~24.6 W
 ```
 
-These are sensitivity scenarios, not datasheet claims about actual ASP junction temperature.
+These are sensitivity cases, not measured ASP losses.
 
 ---
 
-## 8. Gate-drive energy bound
+## 7. Gate-drive energy bound
 
-Twenty annotated/connected 12 V main MOS devices:
-
-```text
-N = 20
-Qg,typ = 44 nC
-```
-
-First-order gate-charge energy:
+For 20 connected main MOS:
 
 ```text
 P_gate ≈ N Qg VGS fs
-```
-
-At `VGS = 10 V`:
-
-```text
-P_gate ≈ 8.8e-6 × fs  [W, fs in Hz]
+≈ 8.8e-6 × fs  [W, fs in Hz, VGS=10 V]
 ```
 
 Examples:
@@ -294,70 +247,27 @@ Examples:
 100 kHz → ~0.880 W
 ```
 
-This excludes driver quiescent loss, Miller/overlap, Coss/Eoss, ringing and commutation.
-
-Gate-charge energy alone is therefore unlikely to be the dominant tens-of-watts BAT→X1 term; total switching loss remains open.
+Gate-charge energy alone is not the total switching loss.
 
 ---
 
-## 9. Four drivers / two logical switching functions
+## 8. Negative-side battery-interface MOS bound
 
-Physical driver groups:
-
-```text
-DA1 + DA2 → A power node
-DB1 + DB2 → C power node
-```
-
-Control trace:
-
-```text
-DR-A  ─ R213 = 0 ohm ─ DR-A2
-DR-B  ─ R212 = 0 ohm ─ DR-B2
-```
-
-Therefore first-order switching-loss closure should target:
-
-```text
-A electrical switch region
-C electrical switch region
-```
-
-not four fictitious independent converter branches.
-
-The four physical drivers still must be compared dynamically for propagation/gate mismatch.
-
----
-
-## 10. Negative-side full-current MOS bound
-
-Verified physical region:
+Verified region:
 
 ```text
 B
 ↓
-Q39 Q40 Q41 Q42 Q63 Q64 Q65
+7 × CSD18510KCS in parallel
 ↓
 BAT-
 ```
 
-Device annotation:
+Device max `RDS(on)=1.7 mΩ @ VGS=10 V` gives:
 
 ```text
-CSD18510KCS
-RDS(on),max @ VGS=10 V = 1.7 mOhm
-```
-
-Seven ideal parallel devices:
-
-```text
-R_eq,25C,max ≈ 1.7/7 ≈ 0.243 mOhm
-```
-
-At 175.4 A continuous-enhancement scaling:
-
-```text
-P ≈ 7.47 W
+R_eq,25C,max ≈ 0.243 mΩ
+P @175.4 A ≈ 7.47 W
 ```
 
 Status:
@@ -366,159 +276,105 @@ Status:
 DATASHEET_BOUND / NOT MEASURED
 ```
 
-Preferred hardware closure is direct:
+Preferred closure:
 
 ```text
 P_negativeBank = I_source × ΔV(B↔BAT-)
 ```
 
-with temperature recorded.
+with temperature and 12VP recorded.
 
 ---
 
-## 11. Switching loss remains OPEN
+## 9. Switching and transformer loss remain OPEN
 
-No defensible hardware switching-frequency scalar is yet measured.
-
-Required:
+Main switching requires synchronized:
 
 ```text
 fs / duty / dead time
-V_A-B(t)
-V_C-B(t)
-I_A,total(t)
-I_C,total(t)
-commutation / clamp behavior
-channel deskew
+V_A-B(t), V_C-B(t)
+I_A,total(t), I_C,total(t)
+commutation/clamp behavior
+deskew
 ```
 
-System-level electrical boundary:
+Transformer numerical loss remains open because the current R52 evidence does not identify the populated transformer P/N, turns ratio, A0 Lm/Lk, winding DCR/Rac or core material.
 
-```text
-p_A(t) = v_A-B(t) i_A,total(t)
-p_C(t) = v_C-B(t) i_C,total(t)
-
-P_switchRegion = average[p_A + p_C]
-```
-
-During stable conduction, transformer center-tap currents may support:
-
-```text
-i_A,total ≈ i_T1,A + i_T2,A
-
-i_C,total ≈ i_T1,C + i_T2,C
-```
-
-During switching transitions/dead time, displacement/body-diode/leakage currents require synchronized high-bandwidth evidence.
+The separate `M1-PQ50-V121-A` Drive test data belongs to another product variant and is `CONTEXT_ONLY`, not A0 input data.
 
 ---
 
-## 12. Fuse and J8 losses remain hardware-measurement items
-
-Fuse architecture:
-
-```text
-2 × 4 main fuses
-```
-
-No manufacturer resistance is locked strongly enough for benchmark loss.
-
-Use:
+## 10. Fuse / J8 / relay-contact items remain measurement gates
 
 ```text
 P_fuse = Σ I_fuse × ΔV_fuse
+P_J8   = I_T2 × ΔV_J8
+P_RL1,steady = I_secondary × ΔV_RL1
 ```
 
-T2 contains a separate J8 high-current link boundary whose conductor/contact resistance remains open.
-
-Use:
-
-```text
-P_J8 = I_T2 × ΔV_J8
-```
+RL1 is now classified as the HV precharge/soft-start bypass; R40/R41 startup dissipation is not ordinary steady-state X1 loss.
 
 ---
 
-## 13. Transformer loss remains OPEN
-
-Known:
-
-```text
-2 × PQ5050
-center-tapped primaries
-shared A/C switched nodes
-series/collective secondary formation
-```
-
-Still required:
-
-```text
-turns
-conductor geometry
-Rdc / Rac
-core material
-Ae / Ve
-fs
-volt-second / ΔB
-primary/secondary RMS currents
-temperature
-```
-
-Therefore:
-
-```text
-P_primary,Cu = OPEN
-P_core       = OPEN
-```
-
-Do not infer magnetic loss from core size alone.
-
----
-
-## 14. Current numerical picture
+## 11. Corrected numerical picture
 
 Current non-measured scales:
 
 ```text
-BAT+ common PCB geometry model       ≈ 7.7 W
-partial positive PCB geometry model  ≈ 11.5 W total
-main 20-MOS conduction bound         ≈ 12.3 W @ 25C/max-RDS simplified model
-negative 7-MOS bank bound            ≈ 7.5 W @ 25C/max-RDS simplified model
-ideal gate-charge energy             < 1 W over 20–100 kHz example range
+BAT+ common PCB manufacturing-geometry bound    ≤ ~3.32 W
+partial positive PCB manufacturing-geometry      ≤ ~4.98 W
+main 20-MOS conduction datasheet bound           ≈ 12.3 W @25C simplified
+negative 7-MOS battery-interface bound            ≈ 7.47 W @25C simplified
+ideal gate-charge energy                          < 1 W over 20–100 kHz examples
 ```
 
-These numbers must **not** be summed into a claimed ASP measured total because they use different boundaries and evidence classes and omit several terms.
+Do not sum them into a claimed product total because evidence classes and boundaries differ.
+
+Critical correction:
+
+```text
+OLD:
+BAT+ common PCB ≈7.7 W
+partial positive PCB ≈11.5 W
+based on 35.56 µm PcbDoc stack metadata
+
+CURRENT:
+BAT+ common PCB ≤~3.32 W
+partial positive PCB ≤~4.98 W
+based on R52 manufactured copper ≥82 µm
+```
+
+Therefore the earlier statement that common PCB copper and the entire main-MOS conduction bucket are approximately equal is superseded.
 
 ---
 
-## 15. Measurement priority
+## 12. Measurement priority
 
 ```text
 Priority 1 = actual positive distribution / fuse / J8 mV loss
-Priority 2 = B↔BAT- seven-MOS bank mV loss
-Priority 3 = A/C logical switch timing and hot conduction/switching
-Priority 4 = T1/T2 current and primary copper/core
+Priority 2 = B↔BAT- battery-interface mV loss
+Priority 3 = A/C logical switch timing + hot conduction/switching
+Priority 4 = T1/T2 current + correct-transformer magnetic parameters
 Priority 5 = source 100/120 Hz / HF ripple partition
 ```
 
-The corrected finding remains:
-
-> At 12 V / 2 kW, ordinary current-distribution resistance and heavily paralleled silicon are both first-order loss buckets. Neither can be treated as a minor layout detail.
+The heavy-copper correction reduces the expected PCB-only contribution, but it does not remove the need to measure contacts, fuses, J8 and hot current distribution.
 
 ---
 
-## 16. Formal status
+## 13. Formal status
 
 ```text
-Q19 anomaly                     = RESOLVED
-A-side MOS count                = 10
-C-side MOS count                = 10
-main-MOS 25C bound              ≈ 12.3 W
-positive PCB geometry bound     = ESTABLISHED / NOT MEASURED
-negative series bank bound      = ESTABLISHED / NOT MEASURED
-main switching loss             = OPEN
-transformer loss                = OPEN
-A0 dominant loss bucket         = NOT ESTABLISHED
-candidate advantage             = NOT ESTABLISHED
-novelty                         = NOT ESTABLISHED
+R52 base copper                         = 2.0 oz / VERIFIED_FROM_MANUFACTURING_SPEC
+R52 finished copper                    = >82 µm / VERIFIED_FROM_MANUFACTURING_SPEC
+PcbDoc 35.56 µm as-built assumption    = SUPERSEDED
+BAT+ common geometry bound             ≤~0.108 mΩ / ≤~3.32 W
+partial positive PCB geometry bound    ≤~0.162 mΩ / ≤~4.98 W
+main-MOS 25C conduction bound          ≈12.3 W / NOT_MEASURED
+battery-interface 25C bound            ≈7.47 W / NOT_MEASURED
+main switching loss                    = OPEN
+A0 transformer numerical loss          = OPEN
+A0 dominant loss bucket                = NOT_ESTABLISHED
+candidate advantage                    = NOT_ESTABLISHED
+novelty                                = NOT_ESTABLISHED
 ```
