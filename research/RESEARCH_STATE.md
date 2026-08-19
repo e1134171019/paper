@@ -171,6 +171,7 @@ Mechanism extraction records:
 research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
 research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
 research/30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
+research/31_PG_PM_COMPATIBILITY_SCREEN.md
 ```
 
 ```text
@@ -662,15 +663,16 @@ No architecture wins merely by deleting a stage or product function.
 
 ---
 
-## 14. Canonical L3 physical-mechanism checkpoint — ACTIVE
+## 14. PG × canonical physical-mechanism screen — COMPLETE v1
 
-Authoritative dictionary:
+Authoritative records:
 
 ```text
 research/30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
+research/31_PG_PM_COMPATIBILITY_SCREEN.md
 ```
 
-The raw inventory `PM-R1...PM-R13` has been normalized into seven canonical L3 mechanism classes:
+Canonical mechanisms remain:
 
 ```text
 PM-1 — Magnetic Flux-Linkage Transformation
@@ -682,31 +684,47 @@ PM-6 — Controlled Bidirectional Storage-Port Transfer
 PM-7 — Semiconductor Switching-State AC Synthesis
 ```
 
-Raw-item decisions:
+The 28-cell screen is complete using:
 
 ```text
-PM-R1  → PM-1
-PM-R2  → PM-2A
-PM-R3  → COMPOSITE(PM-1 + PM-2)
-PM-R4  → PM-3
-PM-R5  → COMPOSITE / architecture-conditioned L/C mechanism
-PM-R6  → PM-2B
-PM-R7  → PM-4
-PM-R8  → PM-5
-PM-R9  → PM-6
-PM-R10 → PM-7C
-PM-R11 → SP-1 support primitive
-PM-R12 → PM-7B
-PM-R13 → PM-7A
+DIRECT / CONDITIONAL / TRADE-OFF / RISK / IRRELEVANT
 ```
 
-Key ontology corrections:
+where compatibility does not imply benefit or a verified gap.
+
+Primary retained pairs:
 
 ```text
-coupled-inductor label ≠ independent primitive mechanism
-Z/qZ impedance-network label ≠ independent primitive mechanism
-rectification = real loss-bearing support primitive, not independent PG solution
-matrix / multilevel / bridge AC synthesis = PM-7 implementation variants
+PG-1 × PM-1  fair optimized magnetic-X1 falsifier
+PG-1 × PM-2  inductive alternative-X1 comparator
+PG-1 × PM-3  capacitive-transfer alternative-X1 comparator
+
+PG-2 × PM-4  direct commutation-loss mechanism
+
+PG-3 × PM-1  magnetic transformation benchmark
+PG-3 × PM-2  inductive transformation alternative
+PG-3 × PM-3  capacitive-transfer transformation alternative
+
+PG-4 × PM-5  passive 2ω buffering
+PG-4 × PM-6  active storage-port routing, H4-gated
+```
+
+Conditional modifiers retained only for accounting / later architecture evaluation:
+
+```text
+PG-1 × PM-4
+PG-2 × PM-2 / PM-7
+PG-3 × PM-4 / PM-7
+PG-4 × PM-2 / PM-7
+```
+
+Important stop-lines:
+
+```text
+PG-2 × PM-4 requires H2 materiality before becoming a research direction
+PG-4 × PM-6 requires H4 materiality before active X2 is justified
+PM-7 alone is not an X1 or X2 solution
+PM-5/PM-6 are not primary PG-1/PG-3 mechanisms
 ```
 
 Historical pools remain only as reasoning/search buckets:
@@ -724,10 +742,9 @@ Formal consequence:
 
 ```text
 PG × MP-A...MP-F = REJECTED
-PG × canonical PM-1...PM-7 = NEXT SCREENING OBJECT
+PG × canonical PM-1...PM-7 = COMPLETE v1
+Mechanism combination = STILL CLOSED
 ```
-
-No mechanism combination has been executed.
 
 ---
 
@@ -735,9 +752,9 @@ No mechanism combination has been executed.
 
 ```text
 A0 — actual ASP-2000 structural evidence
-A1 — fair optimized magnetic HFT
-B  — Direct HFL
-C  — non-isolated high-gain/current-distribution
+A1 — fair optimized magnetic HFT / PM-1 falsifier
+B  — Direct HFL architecture comparator
+C  — non-isolated high-gain/current-distribution architecture comparator
 D  — later candidate only if a gap survives
 ```
 
@@ -756,19 +773,28 @@ Nine-family common X1/X2/X3 normalization                ✅ v1
 ↓
 Canonical L3 physical-mechanism dictionary               ✅ v1
 ↓
-PG-1...PG-4 × PM-1...PM-7 compatibility screen          ← NEXT
+PG-1...PG-4 × PM-1...PM-7 compatibility screen          ✅ v1
 ↓
-attach pair-specific falsifier + added-loss terms
+Build minimum falsification / evidence plan for retained pairs ← NEXT
 ↓
-minimum H1–H4 evidence where needed to discriminate surviving PGs
+H1 / H2 / H3 / H4 only where they discriminate a surviving PG
 ↓
-A1 / B / C X1 mechanism comparison / falsification
+assign fair A1 / B / C comparator roles to retained PMs
 ↓
-reject gaps that disappear under fair optimization
+reject gaps that fail materiality or P_saved > P_added
 ↓
 Topology synthesis only for surviving verified gap
 ↓
 Candidate #10 only if existing #01–#09 do not reasonably cover the resulting main energy path
+```
+
+Immediate evidence logic:
+
+```text
+PG-1 → H1 establishes A0 pre-X1 conduction scale; compare PM-1 vs PM-2 vs PM-3
+PG-2 → H2 is a hard materiality gate before PM-4 research direction
+PG-3 → H3 prevents assuming magnetics are the problem; compare total PM-1/2/3 burden
+PG-4 → H4 is a hard prerequisite before PM-5/PM-6 X2 work; active X2 remains conditional
 ```
 
 ---
@@ -811,11 +837,16 @@ Canonical L3 dictionary PM-1...PM-7   = ESTABLISHED v1
 Canonical L3 mechanism count           = 7
 Support primitive SP-1                 = ESTABLISHED
 MP-A...MP-F direct PG crossing          = REJECTED
-PG × canonical Physical Mechanism      = NEXT
+PG × canonical Physical Mechanism      = COMPLETE v1 / 28 CELLS SCREENED
+Primary PG-1 mechanism set             = PM-1 / PM-2 / PM-3
+Primary PG-2 mechanism set             = PM-4 / H2-GATED
+Primary PG-3 mechanism set             = PM-1 / PM-2 / PM-3
+Primary PG-4 mechanism set             = PM-5 / PM-6 / H4-GATED
+Minimum falsification/evidence plan    = NEXT
 Mechanism combination                  = NOT YET EXECUTED
 fan-out benefit                        = NOT_PROVEN
-active X2 benefit                      = NOT_PROVEN
-A1                                     = FAIR FALSIFICATION BENCHMARK AFTER COMPATIBILITY / MINIMUM EVIDENCE
+active X2 benefit                      = NOT_PROVEN / H4-GATED
+A1                                     = FAIR FALSIFICATION BENCHMARK / PM-1
 Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
@@ -835,4 +866,5 @@ Detailed records:
 28_X1_X2_X3_AND_PHYSICAL_GAP_DEFINITION_V1.md
 29_NINE_FAMILY_X1_X2_X3_NORMALIZATION.md
 30_L3_PHYSICAL_MECHANISM_DICTIONARY.md
+31_PG_PM_COMPATIBILITY_SCREEN.md
 ```
