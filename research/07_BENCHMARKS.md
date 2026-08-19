@@ -20,7 +20,7 @@ semiconductor technology class
 switching-frequency scope
 thermal boundary
 auxiliary-loss policy
-protection/disconnect functionality
+battery-interface protection/sensing functionality
 measurement basis
 ```
 
@@ -31,6 +31,18 @@ Core rule:
 ```text
 P_saved > P_added
 ```
+
+Two comparison contracts are allowed:
+
+```text
+Contract P — product level
+→ matched required battery-interface/protection/sensing functions and their loss counted
+
+Contract C — core converter
+→ battery-interface overhead excluded from A0/A1/candidate equally
+```
+
+Never delete A0 product functionality only on the candidate side and call the saved watts a topology gain.
 
 ---
 
@@ -66,7 +78,11 @@ BAT+
 T1 A + T2 A → common A switched node → 10 parallel MOS → B
 T1 C + T2 C → common C switched node → 10 parallel MOS → B
 
-B → 7-device full-current MOS region → BAT-
+B
+↓
+7-MOS battery-interface protection/sensing bank
+↓
+BAT-
 
 T1/T2 magnetic transformation                         ← X1
 ↓
@@ -81,7 +97,7 @@ post-bus HV inverter                                  ← X3
 AC
 ```
 
-The two primary switch nodes are:
+Primary switches:
 
 ```text
 A node = 10 connected main MOS
@@ -89,37 +105,16 @@ C node = 10 connected main MOS
 common source/return = B
 ```
 
-Compiled PCB resolves the previous Q19 anomaly:
+Q19 is verified in the compiled PCB; old `19 connected / Q19 OPEN` wording is superseded.
 
-```text
-Q19 Drain → A node
-Q19 Source → B
-```
-
-Therefore:
-
-```text
-A-side connected count = 10
-C-side connected count = 10
-Total connected main LV MOS = 20
-```
-
-The earlier `19 connected / Q19 OPEN` statement is superseded.
-
-#### A0 gate-drive structure
-
-Physical driver groups:
+Gate structure:
 
 ```text
 DA1 + DA2 → A power node
 DB1 + DB2 → C power node
-```
 
-Control pairing:
-
-```text
-DR-A  ─ R213 = 0 Ω ─ DR-A2
-DR-B  ─ R212 = 0 Ω ─ DR-B2
+DR-A  ─ R213=0Ω ─ DR-A2
+DR-B  ─ R212=0Ω ─ DR-B2
 ```
 
 Thus:
@@ -127,32 +122,48 @@ Thus:
 ```text
 4 physical driver subgroups
 2 logical switching functions
-2 high-current switched power nodes
+2 high-current switched nodes
 ```
 
-The four-driver dynamic timing mismatch remains a measurement item.
-
-#### A0 current-variable correction
+Current variables:
 
 ```text
-I_T1 / I_T2
-= transformer center-tap / winding-feed currents
-
-I_A,total / I_C,total
-= currents through the two electrical switch functions
-
-I_DA1 / I_DA2 / I_DB1 / I_DB2
-= local silicon-subgroup currents
+I_T1 / I_T2 = transformer feed currents
+I_A,total / I_C,total = two electrical switch currents
+I_DA1 / I_DA2 / I_DB1 / I_DB2 = local silicon-subgroup currents
 ```
 
-During stable conduction:
+Do not equate DA1/DA2 with T1/T2 currents.
+
+#### A0 battery-interface function
+
+Seven `CSD18510KCS` devices connect:
 
 ```text
-I_A,total ≈ I_T1,A + I_T2,A
-I_C,total ≈ I_T1,C + I_T2,C
+Source → B
+Drain  → BAT-
+Gate   → common 12VP through individual 68.1Ω
+Gate   → B through individual 47.5kΩ
 ```
 
-Do not equate DA1/DA2 subgroup current with T1/T2 current; the two subgroups are electrically paralleled on the same A power node. The same applies to DB1/DB2 on C.
+No independent MAIN-board PWM/enable command was found for this bank.
+
+Function status:
+
+```text
+low-side reverse-polarity / ideal-diode-style role = STRONGLY SUPPORTED
+independent full-disconnect role = NOT SUPPORTED BY PRESENT CIRCUIT
+```
+
+U4 (`LM2904`) monitors `B` relative to `BAT-` and exports `BOCP` to CN4A pin 6:
+
+```text
+B↔BAT- voltage-drop sensing → BOCP = VERIFIED
+BOCP over-current / abnormal-drop protection role = STRONGLY SUPPORTED
+exact threshold / control response = OPEN
+```
+
+Therefore the seven-MOS loss is classified primarily as battery-interface protection/sensing overhead, not intrinsic magnetic-X1 loss.
 
 A0 details:
 
@@ -162,13 +173,14 @@ research/12_ASP2000_A0_POWER_PATH_AND_LOSS_BUDGET.md
 research/14_ASP2000_A0_DISTRIBUTION_AND_KELVIN_PLAN.md
 research/16_ASP2000_A0_DYNAMIC_SWITCHING_AND_HFT_MEASUREMENT_PROTOCOL.md
 research/17_ASP2000_A0_PRIMARY_SWITCH_CURRENT_BOUNDARY.md
+research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md
 ```
 
 A0 is used for real-product loss localization; it is not assumed inefficient.
 
 ### A1 — fair optimized magnetic benchmark
 
-Any new architecture using early distribution / multicell must also beat a magnetic architecture allowed equivalent engineering freedom:
+A1 may use equivalent engineering freedom:
 
 ```text
 12 V short / low-R bus
@@ -181,41 +193,41 @@ Any new architecture using early distribution / multicell must also beat a magne
 → X3
 ```
 
-A1 must also preserve equivalent required product functionality such as:
+Under product-level Contract P, A1 must also provide matched required battery-interface functions, specifically as applicable:
 
 ```text
-input protection
-battery disconnect / reverse-path function when required
+reverse-polarity / equivalent ideal-diode behavior
+battery-return current/fault information equivalent to A0 requirement
 fusing / fault isolation
 ```
 
-or those functions must be removed from all compared boundaries.
+Implementation does not need to copy A0. A lower-loss realization is allowed and should be counted as battery-interface engineering improvement.
 
-Forbidden comparison:
+Forbidden comparisons:
 
 ```text
-new candidate with protection/functionality removed
+candidate deletes battery protection/sensing
 vs
-A0/A1 carrying those product losses
+A0/A1 carrying that product overhead
 ```
 
-Also forbidden:
+and:
 
 ```text
 new modular candidate
 vs
-artificially monolithic or under-paralleled magnetic baseline
+artificially monolithic / under-paralleled magnetic baseline
 ```
 
 A1 answers:
 
-> If the same distribution, silicon-paralleling, driver-distribution, packaging and product-function freedom is applied to magnetic conversion, what candidate loss advantage remains?
+> If the same distribution, silicon-paralleling, driver-distribution, packaging and matched-product-function freedom is applied to magnetic conversion, what candidate loss advantage remains?
 
 ### A-class loss map
 
 ```text
 battery/source
-→ BAT+ connector / common LV copper
+→ BAT+ connector / common copper
 → fuse distribution
 → local T1/T2 feed + J8
 → local LV bulk ESR/ripple
@@ -225,7 +237,7 @@ battery/source
 → secondary copper
 → leakage/clamp/snubber
 → B return copper
-→ seven-device BAT- full-current region
+→ battery-interface protection/sensing overhead
 → HV rectifier
 → HV bus capacitor
 → HV inverter
@@ -242,7 +254,7 @@ subgroup-current mismatch if material
 fuse/J8 path loss
 common LV Rdc/Rac
 A/C MOS conduction/switching loss
-B↔BAT- region loss
+battery-interface loss or equal-boundary exclusion
 T1/T2 primary Rac + core loss
 rectifier loss
 HV DC-link ripple/capacitor RMS
@@ -271,15 +283,15 @@ LV DC
 → AC
 ```
 
-Relative to A0/A1 it may avoid the complete conventional chain:
+Relative to A0/A1 it may avoid:
 
 ```text
 HV rectifier → full HV DC bus → VSI
 ```
 
-This is a required modern benchmark. A candidate that only improves on a conventional two-stage architecture is insufficient.
+This is a required modern benchmark. Existing direct-HFL + AC-side power-decoupling prior art means keeping 2ω energy from fully returning to the LV source is not itself novel.
 
-Existing direct-HFL + AC-side power-decoupling prior art also means that keeping 2ω energy from fully returning to the LV source is not itself novel.
+Under Contract P, its battery-interface functions/loss must still be matched or bounded.
 
 ---
 
@@ -313,7 +325,7 @@ leakage/clamp
 rectifier/diode loss
 capacitor ESR/charge redistribution
 internal circulation
-required protection/disconnect loss
+matched battery-interface protection/sensing loss
 ```
 
 Direct 12 V / 2 kW / ~400 V hardware intersection remains not directly established by the current evidence set.
@@ -342,7 +354,7 @@ candidate superiority = NOT ASSUMED
 active X2 = OPTIONAL / MUST PASS ABLATION
 ```
 
-Required ablation:
+Required X2 ablation:
 
 ```text
 D0 — Buffer OFF
@@ -367,12 +379,13 @@ Vin                 matched      matched       matched         matched        ma
 Pout                matched      matched       matched         matched        matched
 Vout                matched      matched       matched         matched        matched
 Isolation           explicit     explicit      explicit        explicit       explicit
-Protection func.    documented   matched       matched/bound   matched/bound  matched
+Battery interface   documented   matched       matched/bound   matched/bound  matched
 I_common,RMS        measure/model model         model/report    model          measure/model
 I_branch,RMS        measure/model model         model/report    model          measure/model
 I_2ω                measure/model model         model/report    model          measure/model
 I_circulating       measure/model model         model/report    model          measure/model
 P_distribution      decomposed   decomposed    decomposed      decomposed     decomposed
+P_batt-interface    separated    matched/excl. matched/excl.   matched/excl.  matched/excl.
 P_cond              decomposed   decomposed    decomposed      decomposed     decomposed
 P_sw                decomposed   decomposed    decomposed      decomposed     decomposed
 P_mag               decomposed   decomposed    decomposed      decomposed     N/A/remaining
@@ -401,7 +414,9 @@ vs matched non-isolated high-gain when applicable
 Current order:
 
 ```text
-A0 measured/static + dynamic loss localization
+A0 measured static + dynamic loss localization
+↓
+separate battery-interface overhead from intrinsic X1 loss
 ↓
 A0 BAT→X1 Loss Budget v1
 ↓
