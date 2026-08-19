@@ -10,17 +10,15 @@ Novelty relevance: `NONE — benchmark only`
 
 This document defines the real ASP-2000 R52 `BAT → X1` power path and the loss terms that must be closed before A1 optimized-HFT synthesis.
 
-Raw source artifacts remain outside the public repository.
-
 Central question:
 
 > Where is A0 loss actually concentrated while the ~175 A-class source current is still in the expensive 12 V domain?
 
+Raw company source artifacts remain outside the public repository.
+
 ---
 
 ## 2. Verified positive-side power distribution
-
-### 2.1 Two separately fused center-tap feeds
 
 ```text
 BAT+
@@ -35,8 +33,6 @@ Main-fuse annotation:
 20 A / 32 V @24 V
 ```
 
-### 2.2 Center-tapped primaries
-
 Both PQ5050 primaries use:
 
 ```text
@@ -45,126 +41,52 @@ pin 8 = center tap
 pin 7 = C
 ```
 
-Compiled PCB mapping identifies:
-
-```text
-T1 center tap → NetC2_1
-T2 center tap → NetC28_1
-```
-
-These are separately supplied/local-bulk nodes.
+Compiled PCB mapping identifies separate center-tap supply/local-bulk nets for T1 and T2.
 
 ---
 
 ## 3. Verified primary switch power nodes
 
-### 3.1 A-side switched node
-
-Compiled PCB net:
+### A-side
 
 ```text
 NetC62_1
+→ T1 A + T2 A
+→ Q3 Q4 Q5 Q6 Q33
+→ Q18 Q19 Q20 Q21 Q37
 ```
 
-contains both transformer A ends and ten MOS drains:
+All ten sources → `B`.
 
-```text
-T1 A
-T2 A
-Q3 Q4 Q5 Q6 Q33
-Q18 Q19 Q20 Q21 Q37
-```
-
-All ten corresponding MOS sources connect to:
-
-```text
-B
-```
-
-Therefore:
-
-```text
-A logical switch function = 10 parallel MOS
-```
-
-### 3.2 C-side switched node
-
-Compiled PCB net:
+### C-side
 
 ```text
 NetC65_1
+→ T1 C + T2 C
+→ Q11 Q12 Q13 Q14 Q36
+→ Q24 Q25 Q26 Q27 Q38
 ```
 
-contains both transformer C ends and ten MOS drains:
-
-```text
-T1 C
-T2 C
-Q11 Q12 Q13 Q14 Q36
-Q24 Q25 Q26 Q27 Q38
-```
-
-All ten sources connect to:
-
-```text
-B
-```
+All ten sources → `B`.
 
 Therefore:
 
 ```text
-C logical switch function = 10 parallel MOS
+A logical switch = 10 parallel MOS
+C logical switch = 10 parallel MOS
+common source/return = B
 ```
 
-### 3.3 Q19 correction
+Q19 is physically connected to the A node in the compiled PCB; the old `Q19 OPEN / 9+10 MOS` model is superseded.
 
-Earlier SchDoc-only graph extraction made Q19 appear disconnected.
-
-Compiled PCB evidence resolves it:
+Four physical gate-driver groups are paired into two commands:
 
 ```text
-Q19 Drain → NetC62_1
-Q19 Source → B
+DR-A  ─ R213 = 0 Ω ─ DR-A2
+DR-B  ─ R212 = 0 Ω ─ DR-B2
 ```
 
-Formal status:
-
-```text
-Q19 connectivity = VERIFIED IN PCB
-A-side MOS count = 10
-C-side MOS count = 10
-```
-
-The old 9+10 / Q19-OPEN model is superseded.
-
----
-
-## 4. Four driver subgroups are not four power branches
-
-Physical gate groups:
-
-```text
-DA1-G → Q3 Q4 Q5 Q6 Q33
-DA2-G → Q18 Q19 Q20 Q21 Q37
-DB1-G → Q11 Q12 Q13 Q14 Q36
-DB2-G → Q24 Q25 Q26 Q27 Q38
-```
-
-Upstream controls:
-
-```text
-DR-A  ─ R213 = 0 ohm ─ DR-A2
-DR-B  ─ R212 = 0 ohm ─ DR-B2
-```
-
-Therefore:
-
-```text
-A command → DA1 + DA2 local drivers → 10 MOS on one A power node
-B command → DB1 + DB2 local drivers → 10 MOS on one C power node
-```
-
-Accurate abstraction:
+Thus:
 
 ```text
 4 physical driver subgroups
@@ -172,15 +94,36 @@ Accurate abstraction:
 2 high-current switched nodes
 ```
 
-The local SchDoc `DA1-E / DB1-E / DA2-E / DB2-E` labels must not be treated as four separate physical source-return power nets. Compiled PCB source pads and low-side driver references all return to `B`.
+---
+
+## 4. Correct current mapping
+
+Define:
+
+```text
+i_T1(t), i_T2(t)
+= transformer center-feed / winding currents
+
+i_A,total(t), i_C,total(t)
+= total current through the two electrical switch functions
+```
+
+During stable conduction:
+
+```text
+i_A,total ≈ i_T1,A + i_T2,A
+i_C,total ≈ i_T1,C + i_T2,C
+```
+
+Do not equate DA1/DA2 subgroup currents with T1/T2 currents. DA1 and DA2 are parallel silicon subgroups on the same A node; DB1 and DB2 are parallel subgroups on C.
+
+During switching/dead time, Coss/body-diode/leakage/clamp/ringing current requires synchronous high-bandwidth evidence.
 
 ---
 
-## 5. Verified negative full-current path
+## 5. Battery-negative full-current protection/sensing interface — FUNCTION NARROWED
 
-Main primary switching return `B` is not identical to battery negative.
-
-Seven TO-220 MOS devices bridge:
+The main switching return `B` reaches battery negative through seven parallel MOSFETs:
 
 ```text
 B
@@ -190,205 +133,193 @@ Q39 Q40 Q41 Q42 Q63 Q64 Q65
 BAT-
 ```
 
-All are annotated:
+All seven are `CSD18510KCS` with verified orientation:
 
 ```text
-CSD18510KCS
+Source → B
+Drain  → BAT-
+```
+
+Gate network for every device:
+
+```text
+12VP
+↓
+individual 68.1 Ω
+↓
+Gate
+↓
+individual 47.5 kΩ
+↓
+B
+```
+
+No independent MAIN-board PWM/enable command exists between `12VP` and this seven-MOS gate bank.
+
+The orientation and common gate bias are structurally consistent with:
+
+```text
+low-side reverse-polarity / ideal-diode-style battery interface
 ```
 
 Status:
 
 ```text
-negative-side full-current series MOS region = VERIFIED
-exact protection/disconnect role = OPEN
+reverse-polarity / ideal-diode-style role = STRONGLY SUPPORTED
+independent full-disconnect role of this bank = NOT SUPPORTED BY PRESENT CIRCUIT
 ```
 
-This region must be included or boundary-matched in any fair A0/A1/candidate loss comparison.
+The same electrical boundary is monitored by U4 (`LM2904`):
+
+```text
+U4 + input → B
+BAT- → R153=1 kΩ → U4 - input
+U4 output feedback → R152=22.1 kΩ → - input
+U4 output → R154=100 Ω → BOCP → CN4A pin 6
+```
+
+Therefore:
+
+```text
+B↔BAT- drop sensing → BOCP = VERIFIED
+BOCP over-current / abnormal-drop protection role = STRONGLY SUPPORTED
+exact threshold / polarity / control-board response = OPEN
+```
+
+Detailed evidence:
+
+```text
+research/18_ASP2000_A0_BATTERY_RETURN_PROTECTION_AND_BOCP.md
+```
+
+This seven-MOS loss is therefore classified primarily as `battery-interface protection/sensing overhead`, not as intrinsic magnetic-X1 loss.
 
 ---
 
 ## 6. Verified X1-to-HV path
 
-Secondary reconstruction establishes:
-
 ```text
-T1 pin 5 = T2 pin 2      ← direct series junction
+T1 pin 5 = T2 pin 2      ← secondary series junction
 T1 outer → D1/D5
 T2 outer → RL1 → D2/D6
-```
-
-Rectifier outputs:
-
-```text
 D1,D2 → BUS+
 D5,D6 → BUS-
-```
-
-Then:
-
-```text
-HV DC-link → HV inverter / X3 → AC
+↓
+HV DC-link
+↓
+HV inverter / X3
+↓
+AC
 ```
 
 `RL1` exact role remains open.
 
 ---
 
-## 7. Revised A0 power-path graph
+## 7. Revised A0 power path
 
 ```text
 BAT+
 │
-├─ four-fuse bank → local bulk → T1 center tap ─┐
-│                                               │
-└─ four-fuse bank → local bulk → T2 center tap ─┤
-                                                │
-T1/T2 A half-primaries → A node → 10 MOS ───────┤
-T1/T2 C half-primaries → C node → 10 MOS ───────┤
-                                                ↓
-                                                B
-                                                ↓
-                                      7-device BAT- MOS bank
-                                                ↓
-                                               BAT-
+├─ 4-fuse bank → local bulk → T1 center tap ─┐
+└─ 4-fuse bank → local bulk → T2 center tap ─┤
+                                              │
+T1/T2 A half-primaries → A node → 10 MOS ─────┤
+T1/T2 C half-primaries → C node → 10 MOS ─────┤
+                                              ↓
+                                              B
+                                              ↓
+                         7-MOS battery-interface protection/sensing bank
+                                              ↓
+                                             BAT-
 
-T1 + T2 magnetic transformation                 ← X1
+T1 + T2 magnetic transformation               ← X1
 ↓
-series/collective secondary formation
+secondary series / collective formation
 ↓
 HV bridge rectifier
 ↓
-BUS+ / BUS-
+HV DC-link                                    ← passive X2-capable node
 ↓
-HV DC-link                                       ← passive X2-capable node
-↓
-HV inverter                                      ← X3
+HV inverter                                   ← X3
 ↓
 AC
 ```
 
 ---
 
-## 8. Current mapping for loss analysis
-
-Define actual transformer center-tap/winding feed currents:
+## 8. Anchor current references
 
 ```text
-i_T1(t)
-i_T2(t)
-```
-
-During a stable A-side conduction interval:
-
-```text
-i_A,total(t) ≈ i_T1,A(t) + i_T2,A(t)
-```
-
-During a stable C-side conduction interval:
-
-```text
-i_C,total(t) ≈ i_T1,C(t) + i_T2,C(t)
-```
-
-But:
-
-```text
-i_DA1 != i_T1 in general
-i_DA2 != i_T2 in general
-```
-
-because DA1/DA2 are parallel switch subgroups on the same A drain/source power nodes.
-
-Similarly:
-
-```text
-i_DB1 + i_DB2 = i_C,total
-```
-
-while subgroup current division depends on hot silicon and interconnect/gate-drive parasitics.
-
-During dead-time/commutation, Coss/body-diode/leakage/clamp currents invalidate a simple current-sum model unless synchronous high-bandwidth waveform evidence is available.
-
----
-
-## 9. Anchor-current references
-
-Primary anchor:
-
-```text
-Vin  = 12 V
+Vin = 12 V
 Pout = 2 kW
-```
-
-Ideal source current:
-
-```text
 Iin,ideal = 166.7 A
+Iin@95% scaling ≈ 175.4 A
 ```
 
-95% scaling reference:
+Ideal equal-share references only:
 
 ```text
-Iin ≈ 175.4 A
+I_T1 ≈ I_T2 ≈ 87.7 A
+I_fuse ≈ 21.9 A per fuse
 ```
 
-Ideal equal T1/T2 average sharing reference only:
-
-```text
-I_T1 ≈ 87.7 A
-I_T2 ≈ 87.7 A
-```
-
-Ideal four-fuse-per-feed average reference only:
-
-```text
-I_fuse ≈ 21.9 A
-```
-
-These are scaling references, not measured RMS currents.
+They are not measured RMS currents.
 
 ---
 
-## 10. Updated main-MOS conduction bound
+## 9. Current numerical bounds
 
-12 V MOS population:
+### Main A/C MOS
+
+12 V population:
 
 ```text
 CSD18542KCS
-RDS(on),max @ VGS=10 V = 4 mOhm
+RDS(on),max @ VGS=10 V = 4 mΩ
 ```
 
-With ten connected devices per logical switch:
+Ten devices per logical switch:
 
 ```text
-R_A,eq,25C,max ≈ 0.400 mOhm
-R_C,eq,25C,max ≈ 0.400 mOhm
+R_A,eq ≈ R_C,eq ≈ 0.400 mΩ
 ```
 
-Using the same simplified alternating 50%-per-side / 175.4 A sensitivity model:
+Same simplified 175.4 A / 50%-per-side sensitivity model:
 
 ```text
-P_mainMOS,cond,25C-bound
-≈ 0.5 I^2 (R_A + R_C)
-≈ 12.3 W
+P_mainMOS,cond,25C-bound ≈ 12.3 W
 ```
 
-Status:
+`DATASHEET_BOUND / NOT MEASURED`.
+
+### Battery-interface seven-MOS bank
 
 ```text
-DATASHEET BOUND / NOT MEASURED
+CSD18510KCS
+RDS(on),max @ VGS=10 V = 1.7 mΩ
+7 ideal parallel → R_eq≈0.243 mΩ
+175.4 A scaling → ≈7.47 W
 ```
 
-This excludes hot RDS(on), dynamic current, package/contact/copper resistance and switching/commutation loss.
+`DATASHEET_BOUND / NOT MEASURED`.
+
+Actual interface loss should be measured as:
+
+```text
+P_batteryInterface = I_source × ΔV(B↔BAT-)
+```
+
+with temperature and 12VP recorded.
 
 ---
 
-## 11. BAT→X1 loss equation
+## 10. BAT→X1 loss equation — boundary corrected
 
-The physical boundary must include both source and return paths:
+For a **product-level** A0 loss budget:
 
 ```text
-P_A0,BAT→X1 =
+P_A0,BAT→X1/product =
     P_BAT+connector/commonCopper
   + P_fuseBanks
   + P_T1localFeed
@@ -400,10 +331,57 @@ P_A0,BAT→X1 =
   + P_core
   + P_commutation/clamp
   + P_BreturnCopper
-  + P_negativeSeriesBank
+  + P_batteryInterfaceProtection/Sensing
 ```
 
-Do not combine different evidence classes into a claimed measured total.
+For a **core-converter** comparison, the battery-interface protection/sensing term may be excluded only if it is excluded from A0, A1 and every candidate equally.
+
+Forbidden inference:
+
+```text
+remove Q39...Q65 functionality
+→ claim the removed watts as X1/topology improvement
+```
+
+If a candidate preserves equivalent product function with lower loss, classify that saving first as battery-interface/protection engineering improvement.
+
+---
+
+## 11. Measurement priorities
+
+Static/Kelvin:
+
+```text
+M0 BAT+ distribution
+M1 individual fuses
+M2 T1 local feed
+M3 J8
+M4 T2 local feed
+M5 B ↔ BAT- battery-interface bank
+M6 B return copper
+```
+
+For M5 record:
+
+```text
+I_source
+ΔV(B↔BAT-)
+12VP
+MOS temperature
+BOCP voltage/state if safely accessible
+```
+
+Dynamic:
+
+```text
+fs / duty / dead time
+V_A-B / V_C-B
+I_T1 / I_T2
+actual VGS
+switching-region v×i
+primary volt-second
+T1/T2 temperature
+```
 
 ---
 
@@ -411,62 +389,26 @@ Do not combine different evidence classes into a claimed measured total.
 
 | Region | Current boundary | Loss model | Evidence status |
 |---|---|---|---|
-| BAT+ common distribution | multi-terminal source/fuse currents | `Σ I_k ΔV_k` / geometry model | `PARTIAL GEOMETRY BOUND` |
-| 2 × four-fuse banks | individual fuse current | `Σ I_fuse ΔV_fuse` | `MEASUREMENT NEEDED` |
-| T1/T2 local feed + J8 | `I_T1`, `I_T2` | `I ΔV` | `PARTIAL GEOMETRY / J8 OPEN` |
-| A logical switch / 10 MOS | `i_A,total` | `avg(v_A-B i_A)` | `DYNAMIC MEASUREMENT NEEDED` |
-| C logical switch / 10 MOS | `i_C,total` | `avg(v_C-B i_C)` | `DYNAMIC MEASUREMENT NEEDED` |
-| T1/T2 primary | transformer winding current | copper + core | `Rac / fs / flux NEEDED` |
-| B return copper | source-return current | `I²R` / `IΔV` | `MEASUREMENT NEEDED` |
-| 7-device BAT- MOS bank | source current | `I ΔV` preferred | `REGION VERIFIED / LOSS BOUND` |
-| X1→rectifier | secondary current | copper + diode/commutation | `WAVEFORM NEEDED` |
+| BAT+ common distribution | multi-terminal branch currents | `Σ I_k ΔV_k` | partial geometry bound |
+| 2 × four-fuse banks | individual fuse current | `Σ I ΔV` | measurement needed |
+| T1/T2 local + J8 | `I_T1`,`I_T2` | `IΔV` | partial geometry / J8 open |
+| A logical switch / 10 MOS | `i_A,total` | `avg(v_A-B i_A)` | dynamic measurement needed |
+| C logical switch / 10 MOS | `i_C,total` | `avg(v_C-B i_C)` | dynamic measurement needed |
+| T1/T2 primary | winding current | copper + core | Rac/fs/flux needed |
+| B return copper | source-return current | `IΔV` | measurement needed |
+| battery-interface 7 MOS | `I_source` | `I×ΔV(B↔BAT-)` | function classified / loss not measured |
+| X1→rectifier | secondary current | copper + diode/commutation | waveform needed |
 
 ---
 
-## 13. What is verified
+## 13. Gate decision
+
+Current sequence remains:
 
 ```text
-two separately fused center-tap feeds
-local LV bulk at both feeds
-both transformer A ends share one power node
-both transformer C ends share one power node
-A node has 10 connected MOS drains
-C node has 10 connected MOS drains
-all 20 main MOS sources connect to B
-Q19 physical connectivity is verified
-four local drivers are paired into two logical commands by 0R links
-secondary series junction and HV bridge rectifier exist
-negative-side seven-MOS full-current region exists
-post-BUS X3 exists
-```
-
----
-
-## 14. What remains open
-
-```text
-dominant A0 loss bucket
-actual source/T1/T2 RMS and ripple
-subgroup current sharing DA1↔DA2 / DB1↔DB2
-exact fs / duty / dead time
-actual A/C switching loss
-hot fuse/contact/J8 loss
-B return copper loss
-T1/T2 Rac/core loss
-source 100/120 Hz ripple
-active X2 value
-candidate superiority
-novelty
-```
-
----
-
-## 15. Gate decision
-
-Current order remains:
-
-```text
-A0 distribution + dynamic loss measurement
+A0 static + dynamic loss measurement
+↓
+separate product-interface loss from intrinsic X1 loss
 ↓
 A0 BAT→X1 Loss Budget v1
 ↓
@@ -476,16 +418,19 @@ X1 mechanism comparison
 ↓
 X2 Buffer OFF/ON
 ↓
-Candidate topology synthesis only if a physical gap survives
+Candidate synthesis only if a physical gap survives
 ```
 
 Formal status:
 
 ```text
-A0 topology/current graph      = SUBSTANTIALLY RECONSTRUCTED
-Q19 anomaly                    = RESOLVED
-A0 numerical loss budget       = OPEN
-A1                             = BLOCKED UNTIL A0 LOSS LOCALIZATION
-Candidate superiority          = NOT ESTABLISHED
-Novelty                        = NOT ESTABLISHED
+A0 topology/current graph                 = SUBSTANTIALLY RECONSTRUCTED
+battery-interface power path              = VERIFIED
+reverse-polarity / ideal-diode role       = STRONGLY SUPPORTED
+B↔BAT- sensing → BOCP                     = VERIFIED
+exact BOCP response                       = OPEN
+A0 numerical loss budget                  = OPEN
+A1                                        = BLOCKED UNTIL A0 LOSS LOCALIZATION
+Candidate superiority                     = NOT ESTABLISHED
+Novelty                                   = NOT ESTABLISHED
 ```
