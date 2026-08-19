@@ -148,6 +148,23 @@ A0 / #02 magnetic HFT path      = PASS
 #09 direct HFL path              = PASS
 ```
 
+Nine-family normalization record:
+
+```text
+research/29_NINE_FAMILY_X1_X2_X3_NORMALIZATION.md
+```
+
+Key normalization findings:
+
+```text
+nine families = architecture coverage map
+NOT nine mutually-exclusive physical mechanisms
+
+#05 = energy-routing / architecture umbrella; X1 physics implementation-dependent
+#08 = composite switched-capacitor + multilevel umbrella
+#01/#06/#07/#08/#09 may contain physical X1/X3 overlap
+```
+
 Mechanism extraction records:
 
 ```text
@@ -648,10 +665,11 @@ No architecture wins merely by deleting a stage or product function.
 
 Nine-family mechanism extraction is complete at v1.
 
-Detailed matrix:
+Detailed records:
 
 ```text
 research/26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
+research/29_NINE_FAMILY_X1_X2_X3_NORMALIZATION.md
 ```
 
 Historical screening pools remain:
@@ -679,6 +697,26 @@ L2 Strategy
 L3 Physical Mechanism
 L4 Resulting Property / Observable
 ```
+
+Nine-family normalization is complete at v1. It establishes a raw L3 inventory:
+
+```text
+PM-R1  transformer magnetic flux / turns-ratio transformation
+PM-R2  inductor charge-discharge energy transfer
+PM-R3  coupled-inductor magnetic gain / energy transfer
+PM-R4  capacitor charge transfer / voltage stacking / multiplication
+PM-R5  impedance-network L/C energy exchange with shoot-through states
+PM-R6  leakage/series-inductance-mediated active power transfer
+PM-R7  resonant / ZVS / ZCS commutation using stored reactive energy
+PM-R8  passive capacitive 2ω energy buffering
+PM-R9  active bidirectional buffer charge/discharge / ripple-port transfer
+PM-R10 bidirectional matrix / cycloconverter HF-link-to-AC transfer
+PM-R11 semiconductor rectification / synchronous rectification
+PM-R12 multilevel voltage-state synthesis
+PM-R13 bridge polarity/amplitude synthesis
+```
+
+`PM-R* = RAW`; duplicates/support functions have not yet been removed.
 
 Current pool reclassification:
 
@@ -710,16 +748,18 @@ interleaving
 active X2 before PG-4 survives
 ```
 
-Combination rules remain recorded in `research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md`, but direct `PG × MP-A...MP-F` execution is deferred until L3 mechanisms are normalized.
+Combination rules remain recorded in `research/27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md`, but direct `PG × MP-A...MP-F` execution is rejected.
 
 Next action:
 
 ```text
-Normalize #01–#09 into one common X1/X2/X3 template
+Deduplicate / formalize PM-R1...PM-R13
 ↓
-separate Architecture / Strategy / Physical Mechanism / Property
+remove support functions and duplicate descriptions
 ↓
-decompose MP pools into comparable L3 physical mechanisms
+create ontology-consistent L3 mechanism dictionary
+↓
+map surviving L3 mechanisms to PG-1...PG-4
 ↓
 then execute PG × Physical-Mechanism compatibility
 ```
@@ -747,9 +787,9 @@ Nine-family mechanism extraction                         ✅ v1
 ↓
 X1 / X2 / X3 + Physical-Gap Definition Gate              ✅ v1
 ↓
-Normalize #01–#09 into common X1/X2/X3 template          ← NEXT
+Nine-family common X1/X2/X3 normalization                ✅ v1
 ↓
-Decompose MP pools into ontology-consistent L3 mechanisms
+Deduplicate / formalize ontology-consistent L3 mechanisms ← NEXT
 ↓
 PG × Physical-Mechanism compatibility screen
 ↓
@@ -781,12 +821,12 @@ A/C passive RC damping                 = VERIFIED
 A0 transformer numerical parameters    = OPEN
 M1-PQ50-V108-A                         = CONTEXT_ONLY / NOT A0
 
-X1 definition                         = ESTABLISHED v1 / FUNCTIONAL REGION
-X2 definition                         = ESTABLISHED v1 / ENERGY-ROUTING COORDINATE
-X3 definition                         = ESTABLISHED v1 / AC-SYNTHESIS REGION
-X1/X2/X3 physical overlap             = ALLOWED
-fixed three-stage interpretation      = REJECTED
-Physical-Gap promotion gate           = ESTABLISHED v1
+X1 definition                          = ESTABLISHED v1 / FUNCTIONAL REGION
+X2 definition                          = ESTABLISHED v1 / ENERGY-ROUTING COORDINATE
+X3 definition                          = ESTABLISHED v1 / AC-SYNTHESIS REGION
+X1/X2/X3 physical overlap              = ALLOWED
+fixed three-stage interpretation       = REJECTED
+Physical-Gap promotion gate            = ESTABLISHED v1
 
 PG-1 extreme-LV conduction exposure    = HYPOTHESIS
 PG-2 dissipative commutation handling  = HYPOTHESIS / STRONG SIGNAL
@@ -794,15 +834,20 @@ PG-3 total transformation burden       = OPEN
 PG-4 2ω source reflection              = HYPOTHESIS
 
 Nine-family mechanism extraction       = COMPLETE v1
+Nine-family X1/X2/X3 normalization     = COMPLETE v1
+Nine-family role                       = ARCHITECTURE COVERAGE MAP
+#05 unique X1 physics                   = REJECTED
+#08 single-ontology interpretation      = REJECTED
 MP-A...MP-F historical screening pools = KEEP
 MP-A...MP-F same-level ontology        = REJECTED
 Ontology L1/L2/L3/L4                   = ESTABLISHED v1
-Nine-family X1/X2/X3 normalization      = NEXT
-PG × Physical-Mechanism compatibility  = DEFERRED ONE STEP
+Raw L3 mechanism inventory PM-R1...R13 = ESTABLISHED / NOT YET DEDUPLICATED
+L3 mechanism deduplication             = NEXT
+PG × Physical-Mechanism compatibility  = DEFERRED UNTIL L3 DICTIONARY
 Mechanism combination                  = NOT YET EXECUTED
 fan-out benefit                        = NOT_PROVEN
 active X2 benefit                      = NOT_PROVEN
-A1                                     = FAIR FALSIFICATION BENCHMARK AFTER NORMALIZATION / MINIMUM EVIDENCE
+A1                                     = FAIR FALSIFICATION BENCHMARK AFTER L3 NORMALIZATION / MINIMUM EVIDENCE
 Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
@@ -820,4 +865,5 @@ Detailed records:
 26_NINE_FAMILY_MECHANISM_EXTRACTION_MATRIX.md
 27_MECHANISM_POOL_CHECKPOINT_AND_PQ50_CONTEXT.md
 28_X1_X2_X3_AND_PHYSICAL_GAP_DEFINITION_V1.md
+29_NINE_FAMILY_X1_X2_X3_NORMALIZATION.md
 ```
