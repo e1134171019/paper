@@ -718,52 +718,6 @@ candidate deletes A0 product functionality
 
 ---
 
-## Current decision state
-
-```text
-Research phase                         = Physical Gap Validation
-A0 role                                = REAL-PRODUCT EVIDENCE / NOT OPTIMIZATION TARGET
-A0 structural reverse engineering      = SUFFICIENT_FOR_GAP_SCREEN
-R52 finished copper                    = >82 µm / VERIFIED_FROM_MANUFACTURING_SPEC
-old 35.56 µm geometry-loss model       = SUPERSEDED
-partial positive PCB geometry bound    = ≤~4.98 W / NOT_MEASURED
-main-MOS conduction scale              = ~12.3 W / DATASHEET_BOUND
-battery-interface scale                = ~7.47 W / PRODUCT-INTERFACE DATASHEET_BOUND
-A/C passive RC damping                 = VERIFIED
-A0 transformer numerical parameters    = OPEN
-M1-PQ50-V108-A                         = CONTEXT_ONLY / NOT A0
-
-X1 definition                          = ESTABLISHED v1
-X2 definition                          = ESTABLISHED v1
-X3 definition                          = ESTABLISHED v1
-X1/X2/X3 physical overlap              = ALLOWED
-Physical-Gap promotion gate            = ESTABLISHED v1
-
-PG-1                                   = HYPOTHESIS
-PG-2                                   = HYPOTHESIS / STRONG SIGNAL
-PG-3                                   = OPEN
-PG-4                                   = HYPOTHESIS
-
-Nine-family mechanism extraction       = COMPLETE v1
-Nine-family X1/X2/X3 normalization     = COMPLETE v1
-Nine-family role                       = ARCHITECTURE COVERAGE MAP
-Ontology L1/L2/L3/L4                   = ESTABLISHED v1
-MP-A...MP-F same-level ontology        = REJECTED
-Raw L3 PM-R1...PM-R13 direct screening = SUPERSEDED
-Canonical L3 dictionary PM-1...PM-7   = ESTABLISHED v1
-Canonical L3 mechanism count           = 7
-Support primitive SP-1                 = ESTABLISHED
-PG × canonical Physical Mechanism      = NEXT
-Mechanism combination                  = NOT YET EXECUTED
-A1                                     = FAIR BENCHMARK AFTER COMPATIBILITY / MINIMUM EVIDENCE
-Early fan-out benefit                  = NOT_PROVEN
-Active X2 benefit                      = NOT_PROVEN
-Candidate #10                          = HOLD / NOT_ASSIGNED
-Novelty                                = NOT_ESTABLISHED
-```
-
----
-
 ## 2026-08-19 — PG × canonical physical-mechanism compatibility screen completed v1 — CRITICAL
 
 Formal record:
@@ -779,14 +733,13 @@ PG-1...PG-4 × PM-1...PM-7
 = 28 cells screened
 ```
 
-Every cell is classified as one of:
+Primary retained pairs are narrowed to:
 
 ```text
-DIRECT
-CONDITIONAL
-TRADE-OFF
-RISK
-IRRELEVANT
+PG-1 × PM-1 / PM-2 / PM-3
+PG-2 × PM-4 / H2-gated
+PG-3 × PM-1 / PM-2 / PM-3
+PG-4 × PM-5 / PM-6 / H4-gated
 ```
 
 Critical interpretation:
@@ -798,152 +751,7 @@ compatibility ≠ mechanism-combination authorization
 compatibility ≠ novelty
 ```
 
-Primary retained pairs are narrowed to:
-
-```text
-PG-1 × PM-1  fair optimized magnetic-X1 falsifier
-PG-1 × PM-2  inductive alternative-X1 comparator
-PG-1 × PM-3  capacitive-transfer alternative-X1 comparator
-
-PG-2 × PM-4  reactive-energy-assisted commutation / H2-gated
-
-PG-3 × PM-1  magnetic transformation benchmark
-PG-3 × PM-2  inductive transformation alternative
-PG-3 × PM-3  capacitive-transfer transformation alternative
-
-PG-4 × PM-5  passive 2ω buffering
-PG-4 × PM-6  active storage-port routing / H4-gated
-```
-
-Conditional modifiers retained only for later accounting / complete-architecture evaluation:
-
-```text
-PG-1 × PM-4
-PG-2 × PM-2
-PG-2 × PM-7
-PG-3 × PM-4
-PG-3 × PM-7
-PG-4 × PM-2
-PG-4 × PM-7
-```
-
-Secondary trade-off comparator:
-
-```text
-PG-2 × PM-3
-```
-
-Rejected from primary research lines:
-
-```text
-PG-1 × PM-5 / PM-6 / PM-7
-PG-2 × PM-1 / PM-5 / PM-6
-PG-3 × PM-5 / PM-6
-PG-4 × PM-1 / PM-3 / PM-4
-```
-
-Hard gates:
-
-```text
-PG-2:
-H2 must show material P_snubber + avoidable P_switching
-before PM-4 becomes a research direction.
-
-PG-4:
-H4 must show material source-side 2ω reflection
-before PM-5/PM-6 work is justified.
-Active PM-6 additionally requires P_LV,saved > P_X2,added.
-```
-
-Cross-PG consequence:
-
-```text
-PG-1 primary question = PM-1 vs PM-2 vs PM-3 for minimum pre-X1 source-domain burden
-PG-2 primary question = whether PM-4 saves more commutation loss than reactive/circulating loss added
-PG-3 primary question = PM-1 vs PM-2 vs PM-3 total transformation burden under symmetric accounting
-PG-4 primary question = PM-5 vs PM-6 only if H4 survives
-```
-
-Mechanism combination remains closed. Do not combine retained mechanisms merely because they survived compatibility screening.
-
-The next valid action is:
-
-```text
-Build minimum falsification / evidence plan for retained primary pairs
-↓
-use H1/H2/H3/H4 only where discriminating
-↓
-assign fair A1 / B / C comparator roles
-↓
-reject PGs that fail materiality or P_saved > P_added
-↓
-only then topology synthesis
-```
-
-Candidate #10 remains:
-
-```text
-HOLD / NOT_ASSIGNED
-```
-
-Novelty remains:
-
-```text
-NOT_ESTABLISHED
-```
-
----
-
-## Current decision state — after PG × PM compatibility v1
-
-This state supersedes the earlier `PG × canonical Physical Mechanism = NEXT` line above.
-
-```text
-Research phase                         = Physical Gap Validation
-A0 role                                = REAL-PRODUCT EVIDENCE / NOT OPTIMIZATION TARGET
-A0 structural reverse engineering      = SUFFICIENT_FOR_GAP_SCREEN
-R52 finished copper                    = >82 µm / VERIFIED_FROM_MANUFACTURING_SPEC
-old 35.56 µm geometry-loss model       = SUPERSEDED
-partial positive PCB geometry bound    = ≤~4.98 W / NOT_MEASURED
-main-MOS conduction scale              = ~12.3 W / DATASHEET_BOUND
-battery-interface scale                = ~7.47 W / PRODUCT-INTERFACE DATASHEET_BOUND
-A/C passive RC damping                 = VERIFIED
-A0 transformer numerical parameters    = OPEN
-M1-PQ50-V108-A                         = CONTEXT_ONLY / NOT A0
-
-X1 definition                          = ESTABLISHED v1
-X2 definition                          = ESTABLISHED v1
-X3 definition                          = ESTABLISHED v1
-X1/X2/X3 physical overlap              = ALLOWED
-Physical-Gap promotion gate            = ESTABLISHED v1
-
-PG-1                                   = HYPOTHESIS / TOPOLOGY-RELEVANT
-PG-2                                   = HYPOTHESIS / STRONG SIGNAL
-PG-3                                   = OPEN / NOT YET A GAP
-PG-4                                   = HYPOTHESIS / NOT_ESTABLISHED
-
-Nine-family mechanism extraction       = COMPLETE v1
-Nine-family X1/X2/X3 normalization     = COMPLETE v1
-Nine-family role                       = ARCHITECTURE COVERAGE MAP
-Ontology L1/L2/L3/L4                   = ESTABLISHED v1
-MP-A...MP-F same-level ontology        = REJECTED
-Raw L3 PM-R1...PM-R13 direct screening = SUPERSEDED
-Canonical L3 dictionary PM-1...PM-7   = ESTABLISHED v1
-Canonical L3 mechanism count           = 7
-Support primitive SP-1                 = ESTABLISHED
-PG × canonical Physical Mechanism      = COMPLETE v1 / 28 CELLS SCREENED
-Primary PG-1 mechanism set             = PM-1 / PM-2 / PM-3
-Primary PG-2 mechanism set             = PM-4 / H2-GATED
-Primary PG-3 mechanism set             = PM-1 / PM-2 / PM-3
-Primary PG-4 mechanism set             = PM-5 / PM-6 / H4-GATED
-Minimum falsification/evidence plan    = NEXT
-Mechanism combination                  = NOT YET EXECUTED
-A1                                     = FAIR FALSIFICATION BENCHMARK / PM-1
-Early fan-out benefit                  = NOT_PROVEN
-Active X2 benefit                      = NOT_PROVEN / H4-GATED
-Candidate #10                          = HOLD / NOT_ASSIGNED
-Novelty                                = NOT_ESTABLISHED
-```
+Candidate #10 remains `HOLD / NOT_ASSIGNED`; Novelty remains `NOT_ESTABLISHED`.
 
 ---
 
@@ -955,53 +763,28 @@ Formal record:
 research/32_MINIMUM_FALSIFICATION_EVIDENCE_PLAN.md
 ```
 
-The retained PG × PM pairs are now converted into explicit measurement, materiality, fair-falsifier and stop gates.
+The retained PG × PM pairs are converted into explicit measurement, materiality, fair-falsifier and stop gates.
 
-### Materiality decision
-
-No universal post-hoc percentage is allowed.
-
-Each PG must use a predeclared:
+No universal post-hoc percentage is allowed. Each PG must use a predeclared:
 
 ```text
 T_mat,PGk
 ```
 
-with all of the following properties:
-
-```text
-tied to the declared power/loss envelope
-above practical uncertainty floor
-large enough to affect architecture/thermal decision
-same rule for baseline and alternatives
-fixed before interpreting the final result
-```
-
-Therefore:
+with the rule:
 
 ```text
 nonzero loss ≠ material Physical Gap
 ```
 
-The existing 20 W LV-conduction budget remains a PG-1 reference, but no arbitrary fixed percentage of that budget is declared as the universal threshold.
-
-### Net-benefit decision
-
-Formal comparison remains:
+Net-benefit comparison:
 
 ```text
 ΔP_net = P_saved - P_added
-```
-
-and where uncertainty is available the preferred robust test is:
-
-```text
 ΔP_net,low = P_saved,low - P_added,high > 0
 ```
 
-### Comparator normalization
-
-The former generic architecture stack is refined:
+Comparator normalization:
 
 ```text
 A1  = optimized PM-1 magnetic falsifier
@@ -1012,147 +795,180 @@ X2-P = conditional PM-5 passive-buffer comparator after H4
 X2-A = conditional PM-6 active-buffer comparator after H4
 ```
 
-Key corrections:
+Hard stops:
 
 ```text
-one generic C cannot fairly represent both PM-2 and PM-3
-Direct HFL by name is not a primitive mechanism comparator
-A1/B/C alone cannot fairly test PM-5 vs PM-6
+H2: P_comm,avoidable not material → PG-2 MATERIALITY_FAIL → PM-4 CLOSED
+H4: source-side 2ω not material after passive buffering → PG-4 MATERIALITY_FAIL → active X2 CLOSED
 ```
 
-### H1 gate — PG-1
+---
 
-Minimum A0 evidence:
+## 2026-08-19 — Combination Loss Audit Gate established v1 — CRITICAL
+
+Formal record:
 
 ```text
-I_source avg/RMS
-A/C hot on-state VDS + current or defensible bounded equivalent
-switch temperature
-T1/T2 RMS where safely available
+research/33_COMBINATION_LOSS_AUDIT_GATE.md
 ```
 
-Stop conditions include:
+A missing accounting layer is now mandatory:
 
 ```text
-PG-1 burden not material
-fair A1 PM-1 removes the burden below materiality
-PM-2/PM-3 alternatives fail positive ΔP_net
+single-PM benefit ≠ combination benefit
+PG solved locally ≠ converter improved globally
 ```
 
-### H2 gate — PG-2
-
-Minimum A0 evidence:
+A future mechanism combination must use two distinct ledgers:
 
 ```text
-fs / duty / dead time
-V_A-B / V_C-B
-synchronized relevant switch current
-V_R110 / V_R119 or valid snubber-power observable
-actual VGS where timing interpretation requires it
+A. physical watt ledger
+   P_cond / P_sw / P_mag / P_cap / P_rect / P_circ / P_buffer / P_aux / P_other
+
+B. causal tags
+   REMOVED / REDUCED / RETAINED / RELOCATED /
+   INTRINSIC_NEW / INTERACTION_NEW / SUPPORT_NEW / AUXILIARY_NEW
 ```
 
-Hard stop:
+Causal tags are not a second additive watt total.
+
+Key decisions:
 
 ```text
-P_comm,avoidable not material
-→ PG-2 MATERIALITY_FAIL
-→ PM-4 research direction CLOSED
+INTERACTION_NEW = MANDATORY
+RELOCATED ≠ REMOVED
+target-PG improvement ≠ global net benefit
+stage deletion ≠ loss proof
 ```
 
-### H3 gate — PG-3
-
-PM-1 / PM-2 / PM-3 must terminate at a comparable reduced-current boundary and carry symmetric loss accounting.
-
-A0 context-only PQ50 values may not be substituted as actual A0 transformer parameters.
-
-Stop conditions include:
+Final combination-level loss authority:
 
 ```text
-unmatched boundaries
-no material burden difference
-optimized PM-1 not materially worse than alternatives
+P_loss,candidate < P_loss,baseline
 ```
 
-### H4 gate — PG-4
-
-Minimum A0 evidence:
+Preferred robust pass:
 
 ```text
-source current time waveform across enough line cycles
-100/120-Hz source-current component
-synchronized HV-link ripple
-output real power / line frequency context
+P_loss,candidate,high < P_loss,baseline,low
 ```
 
-Existing PM-5 HV-link buffering is the first falsifier.
+`CALG-0...CALG-12` is established covering surviving-PG authorization, minimality, graph resolution, matched contract, state/current closure, full loss ledger, interaction loss, relocation/double-count, cross-PG regression, total-loss gate, stress/feasibility and family reclassification.
 
-Hard stop:
+Mechanism combination remains:
 
 ```text
-source-side 2ω not material after existing passive buffering
-→ PG-4 MATERIALITY_FAIL
-→ active X2 CLOSED
+NOT EXECUTED / NOT AUTHORIZED BEFORE PG SURVIVAL
 ```
 
-Only if H4 survives may `X2-P` versus `X2-A` be compared.
+---
 
-### Evidence priority
+## 2026-08-19 — Executable H1/H2/H3/H4 Evidence-Acquisition Worksheet established v1 — CRITICAL
+
+Formal record:
 
 ```text
-Priority 1 — H2 + H4 hard materiality gates
-Priority 2 — H1 pre-X1 conduction scale
-Priority 3 — H3 total transformation burden
-Priority 4 — A1 / C2 / C3 comparator evidence
-Priority 5 — B Direct-HFL integration evidence
+research/34_H1_H2_H3_H4_EVIDENCE_ACQUISITION_WORKSHEET.md
 ```
 
-This is an information-efficiency order, not a claim of physical importance.
-
-Mechanism combination remains closed.
-
-Next valid action:
+The minimum falsification plan is now converted into a lab-executable acquisition worksheet with explicit fields for:
 
 ```text
-Create executable H1/H2/H3/H4 evidence-acquisition worksheet
-↓
-exact probe / signal
-instrument / method
+measurement point / boundary
+instrument and probe class
 operating point
 sample window / synchronization
 calculation
 uncertainty
-PASS / FAIL field
-↓
-separate A0-now measurements from external paper/model evidence
+invalidity conditions
+PASS / FAIL / EVIDENCE_INSUFFICIENT
+PG decision consequence
 ```
 
-Candidate #10 remains `HOLD / NOT_ASSIGNED`; Novelty remains `NOT_ESTABLISHED`.
+Key measurement decisions:
+
+```text
+H2 switching boundary = two actual A/C electrical switch functions
+not four fictional 5-MOS power branches
+
+actual VGS = Gate-to-own-Source / local B
+not arbitrary BAT-
+
+switching-energy integration requires synchronized deskewed V/I
+otherwise P_switching remains OPEN / BOUNDED
+
+H4 source current and HV-link ripple must be captured at the same declared operating point
+and the existing passive HV link is the first PG-4 falsifier
+```
+
+The worksheet separates:
+
+```text
+A0-NOW hardware acquisition
+from
+later comparator/model evidence A1 / B / C2 / C3 / X2-P / X2-A
+```
+
+No energized measurement is claimed to have occurred.
+
+Before H2/H4 energized acquisition, the following readiness gate is mandatory:
+
+```text
+T_mat,PG2 predeclared
+T_mat,PG4 predeclared
+actual A0 unit/population/rating confirmed
+probe/instrument voltage/current/common-mode/BW capability confirmed
+physical access to required nodes confirmed
+probe deskew and current-probe zero/degauss procedure confirmed
+```
+
+No numerical threshold, instrument model, device population or safe access condition may be invented merely to close readiness.
+
+Current next action:
+
+```text
+H2/H4 PRE-MEASUREMENT READINESS GATE
+```
+
+Hardware acquisition remains:
+
+```text
+NOT EXECUTED
+```
 
 ---
 
-## Current decision state — after minimum falsification plan v1
+## Current decision state — after worksheet v1
 
-This state supersedes the earlier `Minimum falsification/evidence plan = NEXT` line above.
+This state supersedes the earlier `Executable H1/H2/H3/H4 worksheet = NEXT` line.
 
 ```text
 Research phase                         = Physical Gap Validation
 PG × canonical Physical Mechanism      = COMPLETE v1 / 28 CELLS SCREENED
 Minimum falsification/evidence plan    = ESTABLISHED v1
+Combination Loss Audit Gate            = ESTABLISHED v1 / CALG-0...CALG-12
+Executable H1/H2/H3/H4 worksheet      = ESTABLISHED v1
+A0 hardware measurements              = NOT EXECUTED
+H2 acquisition definition             = READY_BY_PROTOCOL / HARD-GATE PRIORITY
+H4 acquisition definition             = READY_BY_PROTOCOL / HARD-GATE PRIORITY
+H1 acquisition definition             = READY_BY_PROTOCOL
+H3 acquisition definition             = READY_BY_PROTOCOL / PARAMETER-DEPENDENT
 T_mat,PG1...PG4 numerical values       = OPEN / MUST BE PREDECLARED
+T_mat,PG2 / T_mat,PG4 readiness        = NEXT
+instrument/probe actual capability     = OPEN / LAB READINESS NEEDED
+hardware rating/access approval        = OPEN / LAB READINESS NEEDED
 H1 PG-1 evidence                       = REQUIRED / NOT YET CLOSED
-H2 PG-2 materiality gate               = REQUIRED / HARD STOP
+H2 PG-2 materiality gate               = REQUIRED / HARD STOP / NOT MEASURED
 H3 PG-3 evidence                       = REQUIRED / NOT YET CLOSED
-H4 PG-4 materiality gate               = REQUIRED / HARD STOP
+H4 PG-4 materiality gate               = REQUIRED / HARD STOP / NOT MEASURED
 A1                                     = PM-1 FAIR FALSIFIER
 B                                      = DIRECT-HFL ARCHITECTURE COMPARATOR / DECOMPOSE PMs
 C2                                     = PM-2-DOMINANT COMPARATOR
 C3                                     = PM-3-DOMINANT COMPARATOR
 X2-P                                   = CONDITIONAL PM-5 COMPARATOR AFTER H4
 X2-A                                   = CONDITIONAL PM-6 COMPARATOR AFTER H4
-Executable H1/H2/H3/H4 worksheet      = NEXT
-Mechanism combination                  = NOT YET EXECUTED
-Early fan-out benefit                  = NOT_PROVEN
-Active X2 benefit                      = NOT_PROVEN / H4-GATED
+Mechanism combination                  = NOT EXECUTED / NOT AUTHORIZED BEFORE PG SURVIVAL
+Active X2                              = NOT_PROVEN / H4-GATED
 Candidate #10                          = HOLD / NOT_ASSIGNED
 Novelty                                = NOT_ESTABLISHED
 ```
