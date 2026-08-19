@@ -308,15 +308,148 @@ Candidate topology synthesis
 
 ---
 
+## 2026-08-19 — BAT+ PCB distribution receives a geometry-based loss bound
+
+Direct PcbDoc primitive reconstruction establishes:
+
+```text
+BAT+ connector
+→ Top/Bottom large copper polygons
+→ 8 main fuse-input pads
+```
+
+with sixteen BAT+ stitching vias in the local distribution region.
+
+A nominal-copper 2D sheet model, using the extracted 1.4 mil Top/Bottom copper stack and equal current per fuse as the balanced reference, gives:
+
+```text
+R_BAT+,common,geometry ≈ 0.249 mΩ
+P @ 175.4 A ≈ 7.67 W
+```
+
+Adding the modeled post-fuse PCB portions gives a partial positive-path PCB-only equivalent:
+
+```text
+R_eq,positive-PCB,partial ≈ 0.373 mΩ
+P @ 175.4 A ≈ 11.5 W
+```
+
+Status:
+
+```text
+GEOMETRY_MODEL / NOT MEASURED
+```
+
+This does not include connector/contact, fuse-element, hot-copper, solder reinforcement or the T2 external-link resistance.
+
+Research consequence:
+
+> ordinary low-voltage power distribution can already consume a material fraction of the 0.65 mΩ / 20 W research budget before main MOS/HFT conversion loss is counted.
+
+---
+
+## 2026-08-19 — T2 local feed contains an external-link boundary
+
+PcbDoc reconstruction shows two large same-net `J8` terminals separated by approximately 93 mm, with no ordinary reconstructed PCB polygon spanning the complete gap.
+
+Decision:
+
+```text
+external high-current link intent = STRONGLY SUPPORTED
+exact J8 conductor implementation = OPEN
+R_J8 = MEASUREMENT_NEEDED
+```
+
+Do not substitute a guessed copper-wire/busbar resistance for the physical assembly.
+
+---
+
+## 2026-08-19 — Negative battery return contains a seven-device full-current MOS bank
+
+Direct SchDoc/PcbDoc reconstruction establishes that battery negative and the main low-side switching return `B` are separated by seven TO-220 MOS positions:
+
+```text
+Q39 Q40 Q41 Q42 Q63 Q64 Q65
+```
+
+All seven are annotated `CSD18510KCS`.
+
+Verified electrical boundary:
+
+```text
+BAT−
+↔ seven-device MOS bank
+↔ B main low-side return
+```
+
+The exact protection/disconnect/control role remains open.
+
+Using the official 1.7 mΩ maximum `RDS(on)` @ 10 V as a datasheet boundary:
+
+```text
+7 ideal parallel devices → R_eq ≈ 0.243 mΩ
+175.4 A continuous-enhancement scaling → ≈ 7.47 W
+```
+
+Status:
+
+```text
+full-current series MOS region = VERIFIED
+dissipation value = DATASHEET_BOUND / NOT MEASURED
+```
+
+Critical benchmark rule:
+
+> A candidate may not claim a topology loss advantage by deleting a required protection/disconnect function that exists in A0. Equivalent product functionality must be matched or removed from both comparison boundaries.
+
+Detailed distribution/measurement gate:
+
+```text
+research/14_ASP2000_A0_DISTRIBUTION_AND_KELVIN_PLAN.md
+```
+
+---
+
+## 2026-08-19 — Kelvin/millivolt-drop measurement promoted ahead of A1
+
+The geometry model is now sufficient to identify priority measurements but not to close the A0 loss budget.
+
+Next gate:
+
+```text
+segmented Kelvin / millivolt-drop measurement
+```
+
+Priority segments:
+
+```text
+BAT+ → each fuse input
+individual fuse input→output
+T1 local feed
+J8 external link
+T2 local feed
+BAT− ↔ B across Q39...Q65
+B-return distribution
+```
+
+Reason:
+
+At mΩ-class resistance and ~175 A, small layout/contact/protection resistances produce multi-watt losses. Direct `I × ΔV` measurement is more defensible than extending the PCB geometry model into unknown assembly elements.
+
+---
+
 ## Current decision state
 
 ```text
-A0 main power graph       = SUBSTANTIALLY RECONSTRUCTED
-A0 numerical loss budget  = OPEN
-A1 matched model          = NEXT AFTER A0 LOSS BOUNDS
-Working architecture      = KEEP
-Early fan-out benefit     = NOT PROVEN
-Active X2 benefit         = NOT PROVEN
-Candidate #10             = NOT ASSIGNED
-Novelty                   = NOT ESTABLISHED
+A0 main power graph             = SUBSTANTIALLY RECONSTRUCTED
+A0 positive PCB geometry model  = ESTABLISHED AS NON-MEASURED BOUND
+A0 negative series MOS region   = VERIFIED / LOSS BOUND ESTABLISHED
+A0 measured distribution loss   = OPEN
+A0 numerical loss budget        = OPEN
+A1 matched model                = BLOCKED UNTIL A0 DISTRIBUTION BOUNDS / MEASUREMENT
+Working architecture            = KEEP
+Early fan-out benefit           = NOT PROVEN
+Active X2 benefit               = NOT PROVEN
+Candidate #10                   = NOT ASSIGNED
+Novelty                         = NOT ESTABLISHED
 ```
