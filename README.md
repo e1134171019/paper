@@ -20,8 +20,10 @@ Detailed reasoning is split into focused working documents:
 - [`research/06_VALIDATION_PLAN.md`](research/06_VALIDATION_PLAN.md) — analytical, PLECS, LTspice, Maxwell/Q3D and hardware gates.
 - [`research/07_BENCHMARKS.md`](research/07_BENCHMARKS.md) — benchmark architectures and comparison rules.
 - [`research/08_DECISION_LOG.md`](research/08_DECISION_LOG.md) — dated research decisions.
+- [`research/36_THEORETICAL_MECHANISM_COMBINATION_SCREEN_V1.md`](research/36_THEORETICAL_MECHANISM_COMBINATION_SCREEN_V1.md) — current pre-PG theoretical combination screen for R1–R9.
+- [`research/37_IEEE_PRIOR_ART_GATE_AND_NOVELTY_CONTROL_V1.md`](research/37_IEEE_PRIOR_ART_GATE_AND_NOVELTY_CONTROL_V1.md) — mandatory IEEE Xplore Gate A/B/C before deep simulation, graph promotion, or contribution claims.
 
-These documents are working research state, not final novelty claims. Candidate gaps remain provisional until closest-prior-art closure is complete.
+These documents are working research state, not final novelty claims. Candidate gaps remain provisional until closest-prior-art closure is complete. The current publication workflow treats IEEE Xplore as the primary prior-art corpus for research-effort control; an IEEE-only search pass is not a universal proof of novelty.
 
 ## What v0.1 does
 
