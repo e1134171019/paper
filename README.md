@@ -24,8 +24,9 @@ Detailed reasoning is split into focused working documents:
 - [`research/37_IEEE_PRIOR_ART_GATE_AND_NOVELTY_CONTROL_V1.md`](research/37_IEEE_PRIOR_ART_GATE_AND_NOVELTY_CONTROL_V1.md) — mandatory IEEE Xplore Gate A/B/C before deep simulation, graph promotion, or contribution claims.
 - [`research/41_R2_REFERENCE_RECLASSIFICATION_AND_ORIGINALITY_BOUNDARY_V1.md`](research/41_R2_REFERENCE_RECLASSIFICATION_AND_ORIGINALITY_BOUNDARY_V1.md) — reclassifies the Wu-type active-clamp work as `R2-REF1 / IEEE_REFERENCE_COMPARATOR`; changed parameters alone are not a project topology contribution.
 - [`research/42_R2_ORIGINAL_CANDIDATE_GATE_A_SCREEN_V1.md`](research/42_R2_ORIGINAL_CANDIDATE_GATE_A_SCREEN_V1.md) — first independent R2 candidate screen: `R2-C1` stopped at IEEE Gate A; `R2-C2` retained only as a possibly differentiated commutation-energy-routing concept pending graph/state verification.
+- [`research/43_MULTI_ASSISTANT_IEEE_PRIOR_ART_VERIFICATION_PROTOCOL_V1.md`](research/43_MULTI_ASSISTANT_IEEE_PRIOR_ART_VERIFICATION_PROTOCOL_V1.md) — mandatory multi-assistant/multi-route verification for every IEEE Gate A/B/C; a single assistant/search route cannot complete a formal prior-art decision.
 
-These documents are working research state, not final novelty claims. Candidate gaps remain provisional until closest-prior-art closure is complete. The current publication workflow treats IEEE Xplore as the primary prior-art corpus for research-effort control; an IEEE-only search pass is not a universal proof of novelty.
+These documents are working research state, not final novelty claims. Candidate gaps remain provisional until closest-prior-art closure is complete. The current publication workflow treats IEEE Xplore as the primary prior-art corpus for research-effort control; an IEEE-only search pass is not a universal proof of novelty. Formal IEEE Gate completion additionally requires the multi-assistant protocol in File 43.
 
 ## What v0.1 does
 
