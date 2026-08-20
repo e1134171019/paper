@@ -10,7 +10,7 @@ The current working memory for the low-voltage high-current DC↔AC loss/topolog
 
 - [`research/RESEARCH_STATE.md`](research/RESEARCH_STATE.md)
 
-> Current 2026-08-20 exploratory override: Ryan/R2 deep-dive is paused as comparator-only work. The topology-synthesis mainline is restored to the nine-family → X1/X2/X3 → PM-combination → actual-graph workflow. `R7 = PM1 + PM3 + PM7` is the immediate graph-synthesis branch; `R8` is retained as a dense-prior-art non-magnetic comparator/reserve. See File 49.
+> Current 2026-08-20 exploratory override: Ryan/R2 deep-dive is paused as comparator-only work. The topology-synthesis mainline is restored to the nine-family → X1/X2/X3 → PM-combination → actual-graph workflow. `R7 = PM1 + PM3 + PM7` remains the immediate graph-synthesis branch, but File 50 has now rejected both the obvious `HFT → active 3:1 series-parallel SC` cascade and the conventional `HFT → voltage-doubler rectifier` graph at Gate B. The next R7 synthesis must integrate PM1 and PM3 in the same secondary switching/rectification state sequence rather than cascade known blocks.
 
 Detailed reasoning is split into focused working documents:
 
@@ -33,6 +33,7 @@ Detailed reasoning is split into focused working documents:
 - [`research/47_R2_REF2_MODERN_MATCHED_LOSS_CONTRACT_AND_CROSSOVER_V1.md`](research/47_R2_REF2_MODERN_MATCHED_LOSS_CONTRACT_AND_CROSSOVER_V1.md) — normalizes A0/REF1/REF2 to modern matched silicon and quantifies the loss-location crossover; retained as comparator analysis, not the current topology-synthesis mainline.
 - [`research/48_R2_REF2_REDUCED_ORDER_SURROGATE_SIMULATION_V1.md`](research/48_R2_REF2_REDUCED_ORDER_SURROGATE_SIMULATION_V1.md) — reduced-order pre-PSIM Ryan/REF2 surrogate; useful comparator evidence only after the mainline restoration.
 - [`research/49_MAINLINE_RESTORE_R7_R8_MULTI_ASSISTANT_GATE_A_V1.md`](research/49_MAINLINE_RESTORE_R7_R8_MULTI_ASSISTANT_GATE_A_V1.md) — restores the original topology-synthesis intent, pauses Ryan deep-dive, runs multi-assistant Gate A on R7/R8, selects post-magnetic `R7` graph synthesis as the immediate NEXT, and deprioritizes R8 because its boost path remains in the ~175-A source domain.
+- [`research/50_R7_C1A_C1B_ACTUAL_GRAPH_AND_MULTI_ASSISTANT_GATE_B_V1.md`](research/50_R7_C1A_C1B_ACTUAL_GRAPH_AND_MULTI_ASSISTANT_GATE_B_V1.md) — executes two concrete R7 graphs and Gate B: `R7-C1A` (post-rectifier active 3:1 series-parallel SC) is rejected as a cascade/composition of known subgraphs, while `R7-C1B` (HFT + voltage-doubler rectifier) is rejected as a known secondary primitive. The next R7 graph must integrate PM1 and PM3 at the secondary-state level.
 
 These documents are working research state, not final novelty claims. Candidate gaps remain provisional until closest-prior-art closure is complete. The current publication workflow treats IEEE Xplore as the primary prior-art corpus for research-effort control; an IEEE-only search pass is not a universal proof of novelty. Formal IEEE Gate completion additionally requires the multi-assistant protocol in File 43.
 
