@@ -2,7 +2,7 @@
 
 Status: `AUTHORITATIVE CURRENT-MAINLINE OVERRIDE`
 
-This file supersedes stale phase/header language in `research/RESEARCH_STATE.md` when determining the immediate research mainline. It does **not** erase the historical evidence, physical baseline, or governance content in `RESEARCH_STATE.md`.
+This file supersedes stale phase/header language in `research/RESEARCH_STATE.md` when determining the immediate research mainline. It does **not** erase historical evidence or governance.
 
 ## 1. Research boundary and governance
 
@@ -11,7 +11,7 @@ Vin = 12–24 Vdc
 Pout = 1–3 kW
 anchor = 12 V / 2 kW
 Vout = 220 Vac / 1φ / 50 Hz
-canonical post-X1 comparison point = 350 Vdc-class
+canonical matched post-X1 comparison point = 350 Vdc-class
 ```
 
 Anchor scales:
@@ -21,6 +21,8 @@ Iin,ideal = 166.7 A
 Iin@95% reference ≈ 175.4 A
 350-V / 2-kW current scale = 5.714 A
 220-Vac / 2-kW output current = 9.09 Arms
+E2ω,pk = 3.183 J
+E2ω,pp = 6.366 J
 ```
 
 Evidence vocabulary:
@@ -33,15 +35,10 @@ Loss authority:
 
 ```text
 ΔP_total = P_loss,baseline - P_loss,candidate
+robust survive: P_loss,candidate,high < P_loss,baseline,low
 ```
 
-Preferred robust gate:
-
-```text
-P_loss,candidate,high < P_loss,baseline,low
-```
-
-Explicit current state:
+Explicit state:
 
 ```text
 Candidate #10 = HOLD / NOT_ASSIGNED
@@ -53,287 +50,269 @@ hardware = NOT EXECUTED
 
 ---
 
-## 2. Generic topology-generation dimensions already closed
+## 2. Generic novelty-generation dimensions already closed
 
-Files52–57 screened the representative X-coordinate overlap classes:
+Files52–57 screened representative `X1/X2/X3` overlap classes and closed generic overlap as a novelty generator.
 
-```text
-O0   = X1 | X2 | X3
-O13  = X1+X3 | X2
-O23  = X1 | X2+X3
-O12  = X1+X2 | X3
-O123 = X1+X2+X3
-```
-
-Result:
+File58 closed generic partial-power processing as a novelty generator while retaining:
 
 ```text
-GENERIC X1/X2/X3 OVERLAP
-= CLOSED AS A GENERIC NOVELTY GENERATOR
+αP / αS / αI / αV
 ```
 
-X1/X2/X3 remain mandatory functional coordinates.
+as mandatory edge-accounting dimensions.
 
-File58 then closed generic partial-power processing as a novelty generator and introduced the minimum auxiliary-edge ledger:
-
-```text
-αP = active processed-power ratio
-αS = apparent / VA / nonactive stress ratio
-αI = RMS-current exposure ratio
-αV = voltage-stress ratio
-```
-
-Hard conclusions retained:
-
-```text
-12→350-V series PPP: αP≈0.966 -> effectively full-power
-full 2ω decoupling: |Pbuf|pk=Pout; Prms=Pout/sqrt(2)
-post-X1 residual correction can be fractional, but generic PPP/master-slave/series-filter classes are prior-art rich
-```
+Files53–57 remain hard-comparator/prior-art maps; their graphs are not Candidate #10.
 
 ---
 
-## 3. File59 — A0 edge-loss / removability target selection
+## 3. Files59–61 — edge target and matched crossover
 
-Authoritative artifact:
-
-```text
-research/59_A0_EDGE_LOSS_REMOVABILITY_TARGET_SELECTION_V1.md
-```
-
-A0 edge map:
+File59 ranked A0 edges:
 
 ```text
-E1  source / primary LV conduction exposure
-E2  primary switching / commutation / RC-snubber dissipation
-E3  HFT isolation + main transformation
-E4  secondary rectification
-E5  HV-link / 2ω energy buffer
-E6  VSI / X3 AC synthesis
-E7  output filtering / current shaping
+E1 source/LV conduction
+E2 primary commutation/snubber
+E3 HFT
+E4 secondary rectification
+E5 HV-link / X2
+E6 VSI / X3
+E7 output filter
 ```
 
-Current mixed-evidence anchors:
+Current mixed-evidence anchors remain:
 
 ```text
-E1 main MOS conduction proxy  ≈ 12.31 W  MODELLED / DATASHEET PROXY
-E2 commutation bucket         ≈ 25.10 W  MODELLED / NOT MEASURED
-E4 rectifier matched floor    ≈ 17.14 W  MATCHED-TECH MODEL
-E3 HFT watts                  = OPEN
-E5 HV-link/X2 watts           = OPEN
-E6 VSI watts                  = OPEN
-E7 filter watts               = OPEN
+E1 main-MOS conduction proxy ≈ 12.31 W  MODELLED
+E2 commutation bucket        ≈ 25.10 W  MODELLED / NOT MEASURED
+E4 modern-matched rectifier  ≈ 17.14 W  MATCHED-TECH FLOOR
+E3/E5/E6/E7 actual watts     = OPEN or partially closed only
 ```
 
-Two rankings remain distinct:
+File60 compared:
 
 ```text
-strongest known LOSS TARGET
-= E2 commutation/snubber
-
-File59-selected SYNTHESIS-CROSSOVER TARGET
-= JOINT E4 + E6
+rectifier → HV-link/X2 → VSI
+vs
+known soft-switched direct-HF-link matrix/cycloconverter + explicit X2
 ```
 
----
+and found modern SiC conduction can survive, but only with roughly `7–15 W` nominal headroom before dynamic/X2/magnetic interaction.
 
-## 4. File60 — E4+E6 nominal matched-loss crossover
-
-Authoritative artifact:
+File61 added hot-device and transformer-current uncertainty:
 
 ```text
-research/60_E4_E6_POST_HFT_DOUBLE_PROCESSING_MATCHED_LOSS_CROSSOVER_V1.md
+40-mΩ SiC class robust conduction margin ≈ 2–4 W
+60-mΩ class can fail conduction before dynamic/X2 loss
+PDM direct-HF-link main transformer differential RMS ≈ 7.9 Arms @Vs≈350 V
+κ² buffer/main interaction sensitivity ≈ 0.26–0.80 for Vbuf≈200–350 V
 ```
-
-Compared paths:
-
-```text
-BASELINE:
-HFT secondary
-→ rectifier
-→ HV-link / passive X2
-→ VSI
-→ AC
-
-KNOWN MERGED REFERENCE:
-HFT / center-tapped HFT
-→ bidirectional matrix / cycloconverter
-→ AC
-+ center-tap/common-mode Lbuf/Cbuf X2 function
-```
-
-The merged graph is established prior art and is a hard comparator, not a proposed contribution.
-
-File60 nominal 25°C conduction result:
-
-```text
-matrix four-die path survives if matched RDS(on) < ~104 mΩ/die
-```
-
-For 15–60-mΩ classes, nominal remaining conduction headroom was about:
-
-```text
-~7–15 W
-```
-
-before matrix switching/commutation, X2 and magnetic interaction.
-
-File60 therefore classified:
-
-```text
-E4+E6 = CONDUCTION SURVIVOR / TOTAL-LOSS CROSSOVER_UNRESOLVED
-```
-
----
-
-## 5. File61 executed — thermal / dynamic / X2 / HFT uncertainty closure
-
-Authoritative artifact:
-
-```text
-research/61_E4_E6_CROSSOVER_UNCERTAINTY_CLOSURE_V1.md
-```
-
-### 5.1 A0-specific evidence remains incomplete
-
-The repository currently does not establish:
-
-```text
-actual populated A0 rectifier part number
-actual A0 X3 semiconductor part number
-actual A0 X3 switching frequency
-actual A0 X3 switching watts
-actual rectifier hot VF
-actual A0 transformer DCR/Rac and secondary RMS waveform
-actual A0 HV-link capacitor ESR/ripple watts
-```
-
-Those quantities remain `OPEN`.
-
-### 5.2 Rectifier temperature
-
-Matched SiC-diode sensitivity retained:
-
-```text
-VF,typ @25°C  ≈ 1.5 V -> ~17.14 W proxy
-VF,typ @150°C ≈ 1.8 V -> ~20.57 W proxy
-```
-
-The preferred robust baseline-low comparison continues to use the 17.14-W floor until A0 hot evidence exists.
-
-### 5.3 MOSFET hot RDS(on) collapses much of the nominal matrix margin
-
-Current 650-V SiC thermal sensitivities support approximately:
-
-```text
-40-mΩ class: ~1.5× RDS(on) near 175°C
-60-mΩ class: 60 mΩ -> ~98 mΩ near 175°C (~1.63×)
-```
-
-Preferred baseline-low / candidate-hot conduction envelope:
-
-| R25 | hot multiplier | robust conduction headroom |
-|---:|---:|---:|
-| 15 mΩ | 1.50 | ~12.18 W |
-| 40 mΩ | 1.50 | ~3.92 W |
-| 40 mΩ | 1.63 | ~2.20 W |
-| 60 mΩ | 1.50 | **−2.69 W** |
-| 60 mΩ | 1.63 | **−5.27 W** |
 
 Therefore:
 
 ```text
-nominal conduction SURVIVOR
-!=
-robust conduction survivor across the full practical device envelope
-```
-
-### 5.4 File60 transformer-current proxy corrected
-
-File60 used a simple 5.714-A main-current power scale.
-
-For a direct-HF-link PDM path, a better first-order differential transformer RMS is:
-
-```text
-IT,diff,rms² ≈ m Ipk² <|sin|³>
-<|sin|³> = 4/(3π)
-m = Vm/Vs
-```
-
-At `Vm=311.13 V`, `Vs=350 V`, `Ipk=12.856 A`:
-
-```text
-IT,diff,rms ≈ 7.90 A
-```
-
-For effective buffer voltage `Vbuf≈200–350 V`:
-
-```text
-Ibuf,rms ≈ 7.07 ... 4.04 A
-κ = Ibuf / 7.90 ≈ 0.895 ... 0.512
-κ² ≈ 0.80 ... 0.26
-```
-
-Thus the first-order transformer copper interaction is not fixed at 50%:
-
-```text
-ΔPT,Cu / PT,Cu,affected
-~ 0.26 ... 0.80
-```
-
-before waveform correlation / winding partition / Rac details.
-
-### 5.5 Lbuf/Cbuf threshold accounting
-
-For the buffer-current range:
-
-```text
-4.04 Arms -> ~61 mΩ equivalent series resistance causes 1 W
-7.07 Arms -> ~20 mΩ equivalent series resistance causes 1 W
-```
-
-Inductor core loss remains separate.
-
-The buffer cannot be assumed lossless, but multi-watt loss is component-design dependent rather than automatic.
-
-### 5.6 Nominal vs robust result
-
-At nominal 40-mΩ / 25°C conditions:
-
-```text
-Hcond,nom ≈ 10.53 W
-```
-
-so a total win remains possible if:
-
-```text
-ΔPdynamic + PLbuf/Cbuf + κ² PT,Cu,affected + Pother < 10.53 W
-```
-
-But under the preferred robust 40-mΩ baseline-low / candidate-hot envelope, only roughly `2–4 W` conduction margin remains before those terms are counted.
-
-Formal File61 verdict:
-
-```text
-E4+E6 nominal loss status = CONDITIONAL_SURVIVOR
-E4+E6 robust loss status  = NOT_ESTABLISHED
-E4+E6 novelty status      = PRIOR-ART-RICH / NOT A CANDIDATE
+E4+E6 nominal = CONDITIONAL_SURVIVOR
+E4+E6 robust win = NOT_ESTABLISHED
+E4+E6 novelty = PRIOR-ART-RICH / NOT A CANDIDATE
 E4+E6 topology-synthesis priority = DOWNGRADED FROM PRIMARY
 ```
 
 ---
 
-## 6. Current research phase
+## 4. File62 executed — A0-REAL post-X1 device graph recovered
 
-The project is no longer authorized to generate another generic topology graph.
-
-Current phase:
+Authoritative artifact:
 
 ```text
-A0 POST-X1 + HFT PARAMETER / EVIDENCE CLOSURE
+research/62_A0_POST_X1_AND_HFT_PARAMETER_CLOSURE_V1.md
 ```
 
-The purpose is to determine whether the actual A0 baseline makes E4+E6 physically worth returning to, or whether E2 commutation becomes the stronger remaining research target.
+Raw source:
+
+```text
+PB-2200-0038-D_ASP-2000-MAIN-R52.SchDoc
+Drive id = 11XKkK3mqinbyYSKlGpOrk8z4E-mLBzeW
+```
+
+### 4.1 Actual R52 rectifier design identity
+
+Recovered from raw SchDoc:
+
+```text
+D1/D2/D5/D6 = KSU60D60N
+```
+
+Manufacturer class:
+
+```text
+600-V / 60-A fast-recovery silicon diode
+```
+
+Status:
+
+```text
+DEVICE IDENTITY = SCHEMATIC-VERIFIED DESIGN INTENT
+actual physical-unit population = NOT HARDWARE-VERIFIED
+actual hot/waveform rectifier watts = OPEN
+```
+
+Critical correction:
+
+```text
+File60/61 SiC-Schottky ~17.14-W value
+= A0-MODERN-MATCHED comparator only
+!= physical R52 rectifier loss
+```
+
+### 4.2 Actual 220-V X3 design identity and graph
+
+Raw SchDoc annotates:
+
+```text
+IRG7PH35UDPBF @220-V population
+NGTB50N65FL2W @110-V population
+```
+
+The 220-V X3 bridge is:
+
+```text
+Q2 || Q31   left high switch
+Q10|| Q35   left low switch
+Q1 || Q32   right high switch
+Q9 || Q34   right low switch
+```
+
+Therefore:
+
+```text
+8 × IRG7PH35UDPBF total
+4 H-bridge switch positions
+2 parallel IGBTs per switch position
+```
+
+IRG7PH35UDPBF is a 1200-V trench IGBT with co-pack diode, not a 650-V SiC MOSFET.
+
+Status:
+
+```text
+X3 device/topology = SCHEMATIC-VERIFIED DESIGN INTENT
+X3 switching frequency = OPEN
+X3 modulation details = OPEN
+X3 switching watts = OPEN
+```
+
+A crude device-datasheet sensitivity shows that the unknown PWM carrier can easily move the X3 switching bucket by many watts, so recovering `fs` now has high information value. No sensitivity value is promoted to A0 measured loss.
+
+### 4.3 R52 passive X2 capacitor graph
+
+Raw SchDoc identifies:
+
+```text
+C8/C11/C89/C90 = 680 µF / 315 V
+all four connected directly across BUS+ ↔ BUS-
+```
+
+Hence schematic design capacitance:
+
+```text
+Cbus = 2720 µF
+```
+
+At the 2-kW/50-Hz energy requirement, small-ripple voltage swing is only several volts peak for a 300–350-V bus-class sensitivity.
+
+The total 100-Hz capacitor-current scale is roughly `4–4.7 Arms` over 350–300 V, or about `1.0–1.2 Arms/cap` under ideal equal sharing.
+
+Interpretation:
+
+```text
+large electrolytic removal can have strong volume/lifetime value
+but A0 passive-X2 watt saving is NOT established as large
+```
+
+Actual capacitor P/N and ESR remain OPEN.
+
+### 4.4 Actual A0 bus voltage remains OPEN
+
+Do not infer operating BUS voltage from the `315-V` capacitor marking.
+
+The project canonical matched point remains 350 V; the physical R52 operating BUS setpoint/variant must be recovered or measured separately.
+
+### 4.5 HFT numerical parameters remain OPEN
+
+Raw SchDoc confirms:
+
+```text
+T1 = PQ5050
+T2 = PQ5050
+```
+
+but does not establish direct A0 values for:
+
+```text
+part number / turns / ratio
+DCR / Rac
+Lm / Lk
+core material
+secondary RMS current
+copper/core watts
+```
+
+Other `M1-PQ50-*` Drive artifacts remain `CONTEXT_ONLY` until direct linkage to A0 T1/T2 is proven.
+
+---
+
+## 5. Dual-ledger rule is now mandatory
+
+### A0-REAL R52
+
+Use to localize loss in the physical legacy product:
+
+```text
+E4 = KSU60D60N bridge
+E5 = 2720-µF schematic HV-link bank
+E6 = 8× IRG7PH35UDPBF for 220-V design
+```
+
+### A0-MODERN-MATCHED
+
+Use for topology fairness:
+
+```text
+modern matched SiC rectifier/MOSFET baseline
+vs
+known soft-switched G13 comparator
+```
+
+Hard rule:
+
+```text
+legacy-device saving != topology saving
+```
+
+A future topology cannot claim structural efficiency merely by replacing old silicon FRDs/IGBTs with modern SiC.
+
+---
+
+## 6. Revised mainline decision
+
+```text
+E4+E6 as physical R52 modernization target = HIGH PRACTICAL INTEREST
+E4+E6 as new-topology research target      = CONDITIONAL / COMPARATOR BRANCH
+E4+E6 generic novelty                      = STOP / PRIOR-ART-RICH
+```
+
+No generic new graph is authorized.
+
+The remaining decision-dominant A0 evidence is now sharply reduced to:
+
+```text
+1. X3 PWM carrier / modulation / gate waveform
+2. actual BUS voltage at the same operating point
+3. T1/T2 DCR/Rac or direct winding-loss bound
+4. T1/T2 secondary RMS current waveform
+5. capacitor P/N/ESR if E5 watts become material
+6. physical-unit population confirmation
+```
 
 ---
 
@@ -342,46 +321,44 @@ The purpose is to determine whether the actual A0 baseline makes E4+E6 physicall
 Expected next artifact:
 
 ```text
-research/62_A0_POST_X1_AND_HFT_PARAMETER_CLOSURE_CONTRACT_V1.md
+research/63_A0_X3_SWITCHING_AND_HFT_COPPER_CLOSURE_V1.md
 ```
 
-Required closure order:
+Priority:
 
 ```text
-A. recover/identify actual A0 X3 semiconductor technology/part if possible
-B. recover/identify actual X3 switching frequency/modulation if possible
-C. recover actual A0 rectifier part or establish bounded hot-VF contract
-D. close A0 transformer secondary RMS + DCR/Rac / copper-loss range
-E. bound HV-link capacitor ESR/ripple loss
-F. establish matched reduced-order A0 vs G13-REF2 comparator model contract
+P1 recover X3 carrier from control source/firmware if available
+   OR acquire valid physical gate waveform
+P1 recover/measure actual BUS voltage
+P1 establish HFT DCR/Rac
+P1 acquire secondary RMS current waveform
+P2 identify HV-link capacitor P/N/ESR
 ```
 
-Only after A–F may the next mainline be selected among:
+If energized measurement is required, Files34–35 safety/metadata gates remain mandatory. No switching-energy integration is benchmark-grade without suitable probes, current measurement and deskew.
+
+After File63, rebuild three separate ledgers:
 
 ```text
-E4+E6 returns as a loss-driven synthesis target
-E2 commutation becomes the higher-value target
-neither supports a new topology contribution under the present boundary
+A0-REAL
+A0-MODERN-MATCHED
+G13-REF2 modern matched comparator
 ```
 
-Allowed:
+Then select among:
 
 ```text
-comparator-only analytical / reduced-order model work
-A0 evidence acquisition
-matched current-datasheet normalization
+E4+E6 conditional return
+E2 commutation branch
+or no new-topology branch under the present boundary
 ```
 
-Still not authorized:
+Current explicit state remains:
 
 ```text
-new-proposed-topology PSIM
-new-proposed-topology LTspice
-Candidate #10 assignment
-novelty claim
+Candidate #10 = HOLD / NOT_ASSIGNED
+Novelty = NOT_ESTABLISHED
+PSIM = NOT EXECUTED
+LTspice = NOT EXECUTED
+hardware = NOT EXECUTED
 ```
-
-R2/Ryan remains comparator-only.
-R7 remains weak/deferred.
-Generic X1/X2/X3 overlap remains closed as a novelty-generation method.
-Generic PPP remains an edge-rating framework.
