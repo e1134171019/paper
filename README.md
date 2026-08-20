@@ -10,6 +10,8 @@ The current working memory for the low-voltage high-current DC↔AC loss/topolog
 
 - [`research/RESEARCH_STATE.md`](research/RESEARCH_STATE.md)
 
+> Current 2026-08-20 exploratory override: Ryan/R2 deep-dive is paused as comparator-only work. The topology-synthesis mainline is restored to the nine-family → X1/X2/X3 → PM-combination → actual-graph workflow. `R7 = PM1 + PM3 + PM7` is the immediate graph-synthesis branch; `R8` is retained as a dense-prior-art non-magnetic comparator/reserve. See File 49.
+
 Detailed reasoning is split into focused working documents:
 
 - [`research/01_SCOPE.md`](research/01_SCOPE.md) — operating envelope and research question.
@@ -28,7 +30,9 @@ Detailed reasoning is split into focused working documents:
 - [`research/44_R2_C2_MULTI_ASSISTANT_GATE_B_TRIAL_V1.md`](research/44_R2_C2_MULTI_ASSISTANT_GATE_B_TRIAL_V1.md) — first multi-assistant Gate-B trial; stops `R2-C2-v0` before PSIM because the transition-only active shuttle risks relocating hard-switching loss into its auxiliary switch and sits in a mature resonant-commutation prior-art region.
 - [`research/45_R2_C3_MULTI_ASSISTANT_PRIOR_ART_AND_REF2_LOCK_V1.md`](research/45_R2_C3_MULTI_ASSISTANT_PRIOR_ART_AND_REF2_LOCK_V1.md) — stops auxiliary-free magnetizing-current ZVS as an R2 novelty path and locks Ryan et al. 1998 as `R2-REF2`, a mandatory extreme-LV/high-current IEEE comparator near the 12 V / 2 kW boundary.
 - [`research/46_A0_REF1_REF2_MATCHED_THEORETICAL_SCALING_SCREEN_V1.md`](research/46_A0_REF1_REF2_MATCHED_THEORETICAL_SCALING_SCREEN_V1.md) — matched 12-V/2-kW scaling screen; finds no first-order 235→325–400-V copper-window/reactive-energy wall for the Ryan-type reference.
-- [`research/47_R2_REF2_MODERN_MATCHED_LOSS_CONTRACT_AND_CROSSOVER_V1.md`](research/47_R2_REF2_MODERN_MATCHED_LOSS_CONTRACT_AND_CROSSOVER_V1.md) — normalizes A0/REF1/REF2 to modern matched silicon and quantifies the loss-location crossover; promotes R2-REF2 to first simulation priority.
+- [`research/47_R2_REF2_MODERN_MATCHED_LOSS_CONTRACT_AND_CROSSOVER_V1.md`](research/47_R2_REF2_MODERN_MATCHED_LOSS_CONTRACT_AND_CROSSOVER_V1.md) — normalizes A0/REF1/REF2 to modern matched silicon and quantifies the loss-location crossover; retained as comparator analysis, not the current topology-synthesis mainline.
+- [`research/48_R2_REF2_REDUCED_ORDER_SURROGATE_SIMULATION_V1.md`](research/48_R2_REF2_REDUCED_ORDER_SURROGATE_SIMULATION_V1.md) — reduced-order pre-PSIM Ryan/REF2 surrogate; useful comparator evidence only after the mainline restoration.
+- [`research/49_MAINLINE_RESTORE_R7_R8_MULTI_ASSISTANT_GATE_A_V1.md`](research/49_MAINLINE_RESTORE_R7_R8_MULTI_ASSISTANT_GATE_A_V1.md) — restores the original topology-synthesis intent, pauses Ryan deep-dive, runs multi-assistant Gate A on R7/R8, selects post-magnetic `R7` graph synthesis as the immediate NEXT, and deprioritizes R8 because its boost path remains in the ~175-A source domain.
 
 These documents are working research state, not final novelty claims. Candidate gaps remain provisional until closest-prior-art closure is complete. The current publication workflow treats IEEE Xplore as the primary prior-art corpus for research-effort control; an IEEE-only search pass is not a universal proof of novelty. Formal IEEE Gate completion additionally requires the multi-assistant protocol in File 43.
 
