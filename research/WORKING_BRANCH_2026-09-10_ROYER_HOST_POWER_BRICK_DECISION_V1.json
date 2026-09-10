@@ -1,0 +1,44 @@
+{
+  "status": "WORKING_BRANCH / ANALYTICAL_SCREEN / PSIM_NOT_EXECUTED / HARDWARE_NOT_EXECUTED",
+  "governance": {
+    "authoritative_mainline_override": "research/CURRENT_MAINLINE_OVERRIDE_2026-08-20.md",
+    "supersedes_mainline": false,
+    "candidate_10": "HOLD / NOT_ASSIGNED",
+    "novelty": "NOT_ESTABLISHED"
+  },
+  "boundary": {
+    "Vin_V": 12.0,
+    "Pout_W": 2000.0,
+    "eta_target": 0.95,
+    "Pin_W": 2105.3,
+    "Iin_A": 175.44,
+    "HV_screening_anchor_V": 336.0,
+    "HV_current_A": 5.95
+  },
+  "research_correction": {
+    "Royer_physical_role": "Retain as a self-oscillating push-pull host power cell: main MOS + center-tapped primary + HFT + magnetic feedback/self-oscillation.",
+    "Royer_submechanism_role": "Magnetic-state self-oscillation remains separately falsifiable as a timing/commutation mechanism.",
+    "method": "Add power/magnetic/energy-transfer bricks around the Royer host and compute P/V/I/RMS/gain/loss before detailed switching-state design."
+  },
+  "screening_candidates": {
+    "RH0": "single Royer Host reference",
+    "RH1": "3-cell Royer host, low-voltage input-parallel, secondary-series contribution; KEEP",
+    "RH2": "RH1 + resonant brick; KEEP_CONDITIONAL",
+    "RH3": "RH1 + current-fed brick; KEEP_CONDITIONAL",
+    "RH4": "RH1 + capacitive gain directly at 12 V; HOLD_HIGH_CURRENT_RISK",
+    "RH5": "RH1 + current-fed + resonant + magnetic sharing; PRIMARY_POWER_BRICK_COMBINATION_TO_SCREEN",
+    "RH6": "RH1 + resonant + capacitive gain after partial magnetic step-up; SECONDARY_POWER_BRICK_COMBINATION_TO_SCREEN"
+  },
+  "clarification": {
+    "three_transformers_parallel": false,
+    "RH1_assumption": "The 12-V inputs of the three Royer cells are fed in parallel from the same source, while the high-voltage secondary contributions are series-added for the first-order screen."
+  },
+  "key_numbers_RH1_N3": {
+    "Iin_per_cell_A": 58.48,
+    "Pin_per_cell_W": 701.8,
+    "Pout_per_cell_W": 666.7,
+    "secondary_voltage_contribution_per_cell_V": 112.0,
+    "effective_ratio_per_cell": 9.33
+  },
+  "next_gate": "Build one matched power/loss ledger for RH1 vs RH5 vs RH6; only the survivor may proceed to exact switching-state design and PSIM."
+}
