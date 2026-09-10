@@ -1,0 +1,25 @@
+{
+  "status": "FIRST-ORDER POWER SCREEN / PSIM NOT EXECUTED / NOVELTY NOT ESTABLISHED",
+  "governance": "Working-branch analysis only; does not override main File64 physical-measurement mainline.",
+  "host": "Royer self-oscillating push-pull power cell is retained as the physical host, not removed.",
+  "boundary": {
+    "Vin_V": 12.0,
+    "Pout_W": 2000.0,
+    "eta_target": 0.95,
+    "Pin_W": 2105.263157894737,
+    "Iin_A": 175.43859649122808,
+    "HV_anchor_V": 336.0,
+    "HV_current_A": 5.9523809523809526
+  },
+  "primary_survivors": ["RH1", "RH5", "RH6"],
+  "hold": ["RH4 at the 12-V node"],
+  "key_results": [
+    "With 3 equal Royer cells and series secondary contribution, each cell handles about 58.48 A input, 701.75 W input, and 666.67 W output.",
+    "The per-cell nominal voltage contribution is 112 V, reducing first-order effective magnetic ratio from about 28 to about 9.33 before other gain bricks.",
+    "A current-fed choke is a full-current series power brick; its DCR/core/ripple/clamp penalties must be charged explicitly.",
+    "A resonant brick must beat its k^2 RMS conduction penalty with switching-loss savings.",
+    "A capacitive gain brick placed directly at 12 V still faces hundred-ampere charge-transfer current; higher-voltage placement is more plausible."
+  ],
+  "next_gate": "Matched power/loss ledger for RH1 vs RH5 vs RH6; no detailed commutation analysis until that ledger selects a survivor.",
+  "candidate_10": "HOLD / NOT_ASSIGNED"
+}
