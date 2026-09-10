@@ -4,6 +4,12 @@ Evidence-oriented academic paper collection core for power-conversion research.
 
 Collector Core v0.1 is intentionally small. It establishes the data pipeline that later powers the Research Explorer, full-text evidence extraction, and RAG layers.
 
+## 2026-09-10 Royer/X1 exploratory working branch
+
+The latest conversation reconciliation is [Royer/X1 context, corrections and working mainline](research/WORKING_BRANCH_2026-09-10_ROYER_X1_CONTEXT_AND_MAINLINE_RECONCILIATION_V1.md). Read it with the existing [power-brick screen](research/WORKING_BRANCH_2026-09-10_ROYER_HOST_POWER_BRICK_SCREEN_V1.md) and [decision record](research/WORKING_BRANCH_2026-09-10_ROYER_HOST_POWER_BRICK_DECISION_V1.json).
+
+The exploratory focus retains Royer as a physical host power cell and compares RH1/RH5/RH6 using matched power and total-loss ledgers. Three cells means parallel low-voltage inputs with series-added secondary contributions at the screening level; exact secondary/rectifier connection, phase coordination and RMS remain open. This branch does **not** supersede the formal A0 measurement mainline below or satisfy its evidence gates. Novelty: `NOT_ESTABLISHED`; PSIM: `NOT_EXECUTED`; Candidate #10: `HOLD / NOT_ASSIGNED`.
+
 ## Research state
 
 The historical research state for the low-voltage high-current DC↔AC study is maintained in:

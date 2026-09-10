@@ -4,6 +4,12 @@
 > Novelty：`NOT_ESTABLISHED`  
 > Current phase：`Physical Gap Validation`
 
+## 2026-09-10 導讀補充：Royer/X1 探索工作主線
+
+最新對話脈絡與修正見 [Royer/X1 context and mainline reconciliation](WORKING_BRANCH_2026-09-10_ROYER_X1_CONTEXT_AND_MAINLINE_RECONCILIATION_V1.md)，搭配既有 [Royer Host power-brick screen](WORKING_BRANCH_2026-09-10_ROYER_HOST_POWER_BRICK_SCREEN_V1.md) 與 [decision JSON](WORKING_BRANCH_2026-09-10_ROYER_HOST_POWER_BRICK_DECISION_V1.json)。探索焦點為 Royer 實體 Host + RH1/RH5/RH6 同邊界功率／總損耗帳本；精確副邊連接、相位、均流與 RMS 尚未閉合。
+
+此導讀不取代 [2026-08-20 authoritative override](CURRENT_MAINLINE_OVERRIDE_2026-08-20.md) 的正式 A0 M1–M4 量測主線，也不改寫下方 2026-08-19 歷史狀態。Novelty `NOT_ESTABLISHED`、PSIM `NOT_EXECUTED`、Candidate #10 `HOLD / NOT_ASSIGNED`。File65 仍留給有效量測後的 A0 loss-ledger closure。
+
 ## 1. Research envelope
 
 ```text
