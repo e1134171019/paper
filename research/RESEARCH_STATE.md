@@ -4,6 +4,10 @@
 > Novelty：`NOT_ESTABLISHED`  
 > Current phase：`Physical Gap Validation`
 
+## 2026-09-14 歷史補正：共磁芯原構想與審讀進度
+
+[原始構想與對話審讀進度](WORKING_BRANCH_2026-09-14_ROYER_ORIGINAL_INTENT_AND_AUDIT_PROGRESS_V1.md) 補回「同磁芯、多功率初級、共同回授與輸出」起點，並與後期 RH1 獨立 Host screen 分開。已取得 22 頁、214 個 turn，不代表全文與附件審讀完成；目前仍為 **INCOMPLETE**。Novelty `NOT_ESTABLISHED`、PSIM `NOT_EXECUTED`、Candidate #10 `HOLD / NOT_ASSIGNED`；正式 A0 M1–M4 主線與 File65 保留條件不變。
+
 ## 2026-09-10 導讀補充：Royer/X1 探索工作主線
 
 最新對話脈絡與修正見 [Royer/X1 context and mainline reconciliation](WORKING_BRANCH_2026-09-10_ROYER_X1_CONTEXT_AND_MAINLINE_RECONCILIATION_V1.md)，搭配既有 [Royer Host power-brick screen](WORKING_BRANCH_2026-09-10_ROYER_HOST_POWER_BRICK_SCREEN_V1.md) 與 [decision JSON](WORKING_BRANCH_2026-09-10_ROYER_HOST_POWER_BRICK_DECISION_V1.json)。探索焦點為 Royer 實體 Host + RH1/RH5/RH6 同邊界功率／總損耗帳本；精確副邊連接、相位、均流與 RMS 尚未閉合。
@@ -1058,3 +1062,4 @@ Detailed records:
 33_COMBINATION_LOSS_AUDIT_GATE.md
 34_H1_H2_H3_H4_EVIDENCE_ACQUISITION_WORKSHEET.md
 ```
+

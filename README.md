@@ -4,6 +4,10 @@ Evidence-oriented academic paper collection core for power-conversion research.
 
 Collector Core v0.1 is intentionally small. It establishes the data pipeline that later powers the Research Explorer, full-text evidence extraction, and RAG layers.
 
+## 2026-09-14 Royer original-intent addendum
+
+[Original shared-core intent and conversation-review progress](research/WORKING_BRANCH_2026-09-14_ROYER_ORIGINAL_INTENT_AND_AUDIT_PROGRESS_V1.md) distinguishes the early shared-core multi-primary Royer concept from the later independent-host RH1 screen. Retrieval reached 214 turns across 22 pages, but full text and attachment review remain **INCOMPLETE**. Novelty: `NOT_ESTABLISHED`; PSIM: `NOT_EXECUTED`; Candidate #10: `HOLD / NOT_ASSIGNED`. The formal A0 measurement mainline remains in force.
+
 ## 2026-09-10 Royer/X1 exploratory working branch
 
 The latest conversation reconciliation is [Royer/X1 context, corrections and working mainline](research/WORKING_BRANCH_2026-09-10_ROYER_X1_CONTEXT_AND_MAINLINE_RECONCILIATION_V1.md). Read it with the existing [power-brick screen](research/WORKING_BRANCH_2026-09-10_ROYER_HOST_POWER_BRICK_SCREEN_V1.md) and [decision record](research/WORKING_BRANCH_2026-09-10_ROYER_HOST_POWER_BRICK_DECISION_V1.json).
@@ -187,3 +191,4 @@ python -m compileall -q src
 ```
 
 See `docs/superpowers/specs/2026-08-12-collector-core-v0.1-design.md` for the approved design and `docs/superpowers/plans/2026-08-12-collector-core-v0.1.md` for the implementation plan.
+
