@@ -4,6 +4,10 @@ Evidence-oriented academic paper collection core for power-conversion research.
 
 Collector Core v0.1 is intentionally small. It establishes the data pipeline that later powers the Research Explorer, full-text evidence extraction, and RAG layers.
 
+## 2026-09-15 magnetic/polyphase synthesis reset
+
+[Magnetic / polyphase synthesis reset](research/WORKING_BRANCH_2026-09-15_MAGNETIC_POLYPHASE_SYNTHESIS_RESET_V1.md) corrects the exploration method: first expand the magnetic/electrical design space, then falsify concrete state graphs. Self-oscillation is no longer predefined as a two-MOS Royer implementation. The synthesis basis now includes winding reconfiguration, state-dependent multiport roles, intentional `Lm/Llk` commutation energy, and internal phase/polyphase coordination including the `0°/120°/240°` role-rotation hypothesis `(T,T,K) -> (T,K,T) -> (K,T,T)`. This is a mechanism-synthesis branch only; single-phase `2ω` energy remains open. Novelty: `NOT_ESTABLISHED`; PSIM: `NOT_EXECUTED`; Candidate #10: `HOLD / NOT_ASSIGNED`.
+
 ## 2026-09-14 Royer original-intent addendum
 
 [Original shared-core intent and conversation-review progress](research/WORKING_BRANCH_2026-09-14_ROYER_ORIGINAL_INTENT_AND_AUDIT_PROGRESS_V1.md) distinguishes the early shared-core multi-primary Royer concept from the later independent-host RH1 screen. Retrieval reached 214 turns across 22 pages, but full text and attachment review remain **INCOMPLETE**. Novelty: `NOT_ESTABLISHED`; PSIM: `NOT_EXECUTED`; Candidate #10: `HOLD / NOT_ASSIGNED`. The formal A0 measurement mainline remains in force.
