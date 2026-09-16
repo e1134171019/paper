@@ -1,0 +1,32 @@
+{
+  "date": "2026-09-16",
+  "role": "BROAD_SYNTHESIS_REGISTRY",
+  "candidate_10": "HOLD / NOT_ASSIGNED",
+  "novelty": "NOT_ESTABLISHED",
+  "psim": "NOT_EXECUTED",
+  "hardware": "NOT_EXECUTED",
+  "pruning_allowed": false,
+  "note": "C01-C20 are generated mechanism/state hypotheses, not ranked topology candidates.",
+  "candidates": [
+    {"id":"C01","name":"three-branch rotating commutation role","dofs":["D5","D6","D8","D11"],"state_sketch":"(T,T,K)->(T,K,T)->(K,T,T)","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C02","name":"N-phase generalized role rotation","dofs":["D5","D6","D8","D11"],"state_sketch":"phi_k=2*pi*k/N; rotating K role","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C03","name":"polyphase tap-state rotation","dofs":["D2","D4","D8"],"state_sketch":"phase-displaced branches with discrete Neff states","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C04","name":"state-dependent leakage reconfiguration","dofs":["D4","D6"],"state_sketch":"q->{Neff,Zref,Lcomm}","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C05","name":"sense-to-actuator transient winding","dofs":["D5","D6"],"state_sketch":"T:sense -> K:actuate -> T:sense","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C06","name":"rotating sense-to-actuator port","dofs":["D5","D6","D8"],"state_sketch":"auxiliary role rotates between symmetric branches","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C07","name":"common-power / differential-commutation modes","dofs":["D1","D6"],"state_sketch":"Phi_m=transfer; Phi_delta=commutation","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C08","name":"three-limb common/differential/zero-sequence scheduling","dofs":["D1","D7","D8"],"state_sketch":"multi-limb modal scheduling","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C09","name":"matrix transformer role-rotating cells","dofs":["D5","D7","D8"],"state_sketch":"matrix cells with scheduled role rotation","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C10","name":"polyphase series-primary / parallel-secondary state matrix","dofs":["D4","D7","D8"],"state_sketch":"series/parallel section state + phase staggering","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C11","name":"fractional-turn / vector-secondary state combiner","dofs":["D2","D3","D4","D11"],"state_sketch":"fractional/sectioned secondary voltage-state set","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C12","name":"polyphase secondary vector synthesis","dofs":["D3","D8","D11"],"state_sketch":"vo_state=qa*va+qb*vb+qc*vc","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C13","name":"reconfigurable vector stacking with phase scheduling","dofs":["D2","D3","D4","D8"],"state_sketch":"scheduled Neff+polarity+connection+phase state","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C14","name":"polyphase flyback-like temporary storage branch","dofs":["D5","D6","D8"],"state_sketch":"K branch store/release while others transfer","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C15","name":"local magnetic release with global polyphase coordination","dofs":["D5","D8"],"state_sketch":"local release proposal + global admission/delay","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C16","name":"polyphase gain-state smoothing","dofs":["D2","D8"],"state_sketch":"staggered discrete Neff transitions","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C17","name":"conductive/magnetic partial-power polyphase branch","dofs":["D8","D10"],"state_sketch":"direct path + isolated magnetic correction path","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C18","name":"polyphase transfer with explicit high-voltage 2omega storage port","dofs":["D5","D8","D11"],"state_sketch":"polyphase transfer + explicit HV storage port","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C19","name":"bias-assisted transient commutation mode","dofs":["D1","D6","D9"],"state_sketch":"bias active only during K","status":"GENERATED_NOT_FALSIFIED"},
+    {"id":"C20","name":"bias + polyphase role rotation","dofs":["D5","D8","D9"],"state_sketch":"bias/support duty rotates with phase","status":"GENERATED_NOT_FALSIFIED"}
+  ]
+}
