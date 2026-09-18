@@ -4,6 +4,15 @@
 > Novelty：`NOT_ESTABLISHED`  
 > Current phase：`Physical Gap Validation`
 
+## 2026-09-18 探索支線收斂：整合範圍與第一版電路驗證計畫
+
+[整合範圍收斂與第一版電路驗證計畫](WORKING_BRANCH_2026-09-18_INTEGRATION_SCOPE_CONVERGENCE_AND_FIRST_CIRCUIT_PLAN_V1.md) 固定目前探索支線，避免因新機制出現而反覆更換核心。研究宿主先固定為 center-tapped self-oscillating push-pull / Royer-derived family，但不宣稱最佳。核心問題收斂為：主功率級既有的開關、繞組與磁性電流，能否兼任換相、復位與能量回收，在公平資源下減少額外 full-power 支路與附加 RMS。
+
+目前採 selective / partial integration：第一版保留主 HF 傳功、自激/磁性回授、Lm/Llk/Coss 互動、合法 transfer→commutation→transfer 路徑；小型 Lcomm、Cr、clamp/reset 與外部修正可在證明必要時外置。可重組 Neff/Zref、副邊疊壓、Flying-Cap、SST multi-cell、direct-HF-link AC 與 active 2ω decoupling 延後到第二層。
+
+下一個探索產物不是再做廣泛拓撲演化搜尋，而是建立有實際節點的 First Circuit v1，至少閉合 qT1→qK12→qT2→qK21，並在 PSIM 放置 VGS1/VDS1/IQ1、VGS2/VDS2/IQ2、磁化/原邊電流、漏感/換相電流、次級電流、磁通與 VHV 波形。Novelty `NOT_ESTABLISHED`、PSIM `NOT_EXECUTED`、Hardware `NOT_EXECUTED`、Candidate #10 `HOLD / NOT_ASSIGNED`。
+
+本段只更新探索支線，不取代 [2026-08-20 authoritative override](CURRENT_MAINLINE_OVERRIDE_2026-08-20.md) 的正式 A0 M1–M4 量測主線。
 ## 2026-09-14 歷史補正：共磁芯原構想與審讀進度
 
 [原始構想與對話審讀進度](WORKING_BRANCH_2026-09-14_ROYER_ORIGINAL_INTENT_AND_AUDIT_PROGRESS_V1.md) 補回「同磁芯、多功率初級、共同回授與輸出」起點，並與後期 RH1 獨立 Host screen 分開。已取得 22 頁、214 個 turn，不代表全文與附件審讀完成；目前仍為 **INCOMPLETE**。Novelty `NOT_ESTABLISHED`、PSIM `NOT_EXECUTED`、Candidate #10 `HOLD / NOT_ASSIGNED`；正式 A0 M1–M4 主線與 File65 保留條件不變。
