@@ -4,6 +4,12 @@ Evidence-oriented academic paper collection core for power-conversion research.
 
 Collector Core v0.1 is intentionally small. It establishes the data pipeline that later powers the Research Explorer, full-text evidence extraction, and RAG layers.
 
+## 2026-10-10 primary-side function reuse and LC hypotheses
+
+[Primary-side function reuse and LC hypotheses](research/WORKING_BRANCH_2026-10-10_PRIMARY_POWER_FUNCTION_REUSE_AND_LC_HYPOTHESES_V1.md) records the latest visible conversation corrections under the 12 Vdc / 2 kW / 220 Vac single-phase boundary. Current-sharing hardware remains a comparator rather than the preferred research direction: the exploratory question is how the same power structure can perform transfer, commutation, reset and recovery with lower total added loss.
+
+The node-defined hypotheses are `PSH-1` (center-tapped push-pull with one shared clamp capacitor), `PSH-1L` (an additional shared commutation-inductor variant), and `PSH-2` (a full-bridge host with a window-connected auxiliary winding and capacitor). `PSH-2` explicitly adds a short commutation-current pulse; none establishes self-starting, periodic closure, ZVS range or a loss advantage. Existing leakage inductance already participates with clamp/device capacitances; adding an inductor is a separate power-graph hypothesis, not proof of resonance benefit. These records do not rehabilitate the permanently connected passive LC Sketch A or supersede the formal A0 M1–M4 measurement mainline. Novelty `NOT_ESTABLISHED`; PSIM/HW `NOT_EXECUTED`; Candidate #10 `HOLD / NOT_ASSIGNED`.
+
 ## 2026-09-26 S2 reference first-circuit contract
 
 [S2 reference first-circuit contract](research/WORKING_BRANCH_2026-09-26_S2_REFERENCE_FIRST_CIRCUIT_CONTRACT_V1.md) converts the partially externalized commutation class into a bounded node/element and four-state audit contract. `S2_FIRST` is restricted to the first easily falsifiable reference drawing; it does not rank S2 above S1. The selected host is a resonant/magnetic-feedback center-tapped self-oscillating push-pull cell. A differential `ND1-Lcomm_ext-Cr_ext-ND2` sketch is retained only as the first closure target, while an auxiliary-commutation-winding sketch remains parked until its coupling and recovery network are defined. Both remain design hypotheses: Novelty `NOT_ESTABLISHED`; PSIM/HW `NOT_EXECUTED`; Candidate #10 `HOLD / NOT_ASSIGNED`.

@@ -4,6 +4,14 @@
 > Novelty：`NOT_ESTABLISHED`  
 > Current phase：`Physical Gap Validation`
 
+## 2026-10-10 探索更新：一次側功能共用與 LC 功率假設
+
+[一次側功能共用與 LC 功率假設](WORKING_BRANCH_2026-10-10_PRIMARY_POWER_FUNCTION_REUSE_AND_LC_HYPOTHESES_V1.md) 整理本輪可見聊天與既有研究脈絡。共同邊界維持 12 Vdc、2 kW、220 Vac 單相 50 Hz；95% 僅作電流／損耗尺度，並非候選效率。多條功率一次側加耦合平衡支路退回分流比較候選，撤回尚無淨收益證據的主要方向排序。研究重點仍為同一功率結構跨狀態共用傳功、換相、復位與回收功能，並核算所有新增損耗；不是最少元件的硬約束。
+
+新增 `PSH-1` 共用鉗位電容中心抽頭推挽、`PSH-1L` 共用外加換相電感變體與 `PSH-2` 全橋／同磁芯換相繞組窗口接入假設。`PSH-*` 不等同既有 H1–H4 量測工作表。PSH-1 的換相方向、電容電荷與磁通平衡尚未證明；PSH-1L 可能延遲鉗位並增加過壓；PSH-2 會建立額外短脈衝電流，其啟動、電容初值與週期映射仍待證。自激、驅動、元件值與完整輸出級尚未閉合，尚不能排名效率。
+
+此紀錄不撤銷 2026-09-26 永久被動 LC Sketch A 的反證，也不取代 [2026-08-20 authoritative override](CURRENT_MAINLINE_OVERRIDE_2026-08-20.md) 的 A0 M1–M4 正式量測主線與 File65 留用條件。Novelty `NOT_ESTABLISHED`、PSIM `NOT_EXECUTED`、Hardware `NOT_EXECUTED`、Candidate #10 `HOLD / NOT_ASSIGNED`；歷史全文與附件審讀仍不得宣稱完成。原有歷史狀態日期保留原意。
+
 ## 2026-09-18 探索支線收斂：整合範圍與第一版電路驗證計畫
 
 [整合範圍收斂與第一版電路驗證計畫](WORKING_BRANCH_2026-09-18_INTEGRATION_SCOPE_CONVERGENCE_AND_FIRST_CIRCUIT_PLAN_V1.md) 固定目前探索支線，避免因新機制出現而反覆更換核心。研究宿主先固定為 center-tapped self-oscillating push-pull / Royer-derived family，但不宣稱最佳。核心問題收斂為：主功率級既有的開關、繞組與磁性電流，能否兼任換相、復位與能量回收，在公平資源下減少額外 full-power 支路與附加 RMS。
