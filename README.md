@@ -4,6 +4,12 @@ Evidence-oriented academic paper collection core for power-conversion research.
 
 Collector Core v0.1 is intentionally small. It establishes the data pipeline that later powers the Research Explorer, full-text evidence extraction, and RAG layers.
 
+## 2026-10-16 primary-side periodicity and commutation falsification
+
+[Periodicity and commutation audit](research/WORKING_BRANCH_2026-10-16_PRIMARY_PERIODICITY_AND_COMMUTATION_FALSIFICATION_V1.md) derives the main-plus-auxiliary Qoss admission condition for PSH-1 and the K0/current-continuity obligations for PSH-1L. For PSH-2, an externally forced, ideal winding LC branch has a conditional periodic fixed point; a counterexample shows that current returning to zero does not guarantee capacitor-voltage closure. Closed forms are checked against eight normalized RK4 cases in the linked numerical record. These are bounded mathematical checks, not a main-bridge, self-oscillation, PSIM or 2 kW validation.
+
+All three candidates remain hypotheses without an efficiency ranking. The next evidence task is to specify the PSH-2 main-bridge Coss and reflected-secondary interface; this is an audit order, not a topology preference. The A0 M1–M4 mainline, File65 gate and passive Sketch A counterexample remain unchanged. Novelty `NOT_ESTABLISHED`; PSIM/HW `NOT_EXECUTED`; Candidate #10 `HOLD / NOT_ASSIGNED`.
+
 ## 2026-10-10 primary-side function reuse and LC hypotheses
 
 [Primary-side function reuse and LC hypotheses](research/WORKING_BRANCH_2026-10-10_PRIMARY_POWER_FUNCTION_REUSE_AND_LC_HYPOTHESES_V1.md) records the latest visible conversation corrections under the 12 Vdc / 2 kW / 220 Vac single-phase boundary. Current-sharing hardware remains a comparator rather than the preferred research direction: the exploratory question is how the same power structure can perform transfer, commutation, reset and recovery with lower total added loss.

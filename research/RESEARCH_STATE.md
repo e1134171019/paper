@@ -4,6 +4,14 @@
 > Novelty：`NOT_ESTABLISHED`  
 > Current phase：`Physical Gap Validation`
 
+## 2026-10-16 探索查核：週期閉合與換相反證
+
+[一次側週期與換相查核](WORKING_BRANCH_2026-10-16_PRIMARY_PERIODICITY_AND_COMMUTATION_FALSIFICATION_V1.md) 推導 PSH-1 主／aux 兩份 Qoss 的電荷準入式，以及 PSH-1L 的 K0 電壓與 Lr 電流連續性。PSH-1 未發現有限漏感下的普遍接線矛盾，但全週期仍未證明；PSH-1L 雙 aux OFF 的風險只限另定死區、啟動或故障情境，不是正常序列必然失效。
+
+PSH-2 在外部指定 ±Vk、忽略 R/Coss/浮動 J 的降階支路中，得到條件固定點與 α=π/2 偏壓漂移反例：電流回零不代表電容回到週期初態。八組歸一化 RK4 驗算與解析式吻合，但不證明主橋 ZVS、自激、完整非理想週期或 2 kW 效率。三假設均不排名；下一項採證先定義 PSH-2 主橋 Coss／副邊反射的事件介面，並非選定最佳拓撲。
+
+共同邊界仍為 12 Vdc／2 kW／220 Vac 單相 50 Hz；A0 M1–M4、File65 與永久被動 Sketch A 的反證均保留。Novelty `NOT_ESTABLISHED`、PSIM `NOT_EXECUTED`、Hardware `NOT_EXECUTED`、Candidate #10 `HOLD / NOT_ASSIGNED`。
+
 ## 2026-10-10 探索更新：一次側功能共用與 LC 功率假設
 
 [一次側功能共用與 LC 功率假設](WORKING_BRANCH_2026-10-10_PRIMARY_POWER_FUNCTION_REUSE_AND_LC_HYPOTHESES_V1.md) 整理本輪可見聊天與既有研究脈絡。共同邊界維持 12 Vdc、2 kW、220 Vac 單相 50 Hz；95% 僅作電流／損耗尺度，並非候選效率。多條功率一次側加耦合平衡支路退回分流比較候選，撤回尚無淨收益證據的主要方向排序。研究重點仍為同一功率結構跨狀態共用傳功、換相、復位與回收功能，並核算所有新增損耗；不是最少元件的硬約束。

@@ -1,0 +1,143 @@
+{
+  "scope": "Normalized forced ideal Wk LC branch only; RK4 is numerical calculation, not PSIM, not main-bridge or 2kW validation",
+  "equations": "di/dt=e-v, dv/dt=i; V=L=C=1",
+  "rk4_step": 0.0005,
+  "rk4_cases": [
+    {
+      "alpha": 0.3,
+      "start_v": 0.0,
+      "analytic_v": 0.0856583456583273,
+      "rk4_v": 0.08565831420780705,
+      "error": 3.145052025754769e-08
+    },
+    {
+      "alpha": 0.3,
+      "start_v": -1.0,
+      "analytic_v": -0.4022474701056028,
+      "rk4_v": -0.40224748814392924,
+      "error": 1.803832644364789e-08
+    },
+    {
+      "alpha": 1.0471975511965976,
+      "start_v": 0.0,
+      "analytic_v": 0.7320508075688772,
+      "rk4_v": 0.7320507732473287,
+      "error": 3.4321548492144416e-08
+    },
+    {
+      "alpha": 1.0471975511965976,
+      "start_v": -1.0,
+      "analytic_v": 0.9999999999999998,
+      "rk4_v": 0.9999999402509847,
+      "error": 5.974901506888841e-08
+    },
+    {
+      "alpha": 1.5,
+      "start_v": 0.0,
+      "analytic_v": 1.1718773430673264,
+      "rk4_v": 1.171877280221286,
+      "error": 6.284604037176678e-08
+    },
+    {
+      "alpha": 1.5,
+      "start_v": -1.0,
+      "analytic_v": 1.7265550400933365,
+      "rk4_v": 1.7265549578144819,
+      "error": 8.227885461842277e-08
+    },
+    {
+      "alpha": 1.5707963267948966,
+      "start_v": 0.0,
+      "analytic_v": 1.2360679774997898,
+      "rk4_v": 1.236067919344148,
+      "error": 5.8155641857737805e-08
+    },
+    {
+      "alpha": 1.5707963267948966,
+      "start_v": -1.0,
+      "analytic_v": 1.8284271247461898,
+      "rk4_v": 1.8284270674033825,
+      "error": 5.734280739133624e-08
+    }
+  ],
+  "fixed_points": [
+    {
+      "alpha": 0.3,
+      "d_fixed": 1.0467516015380856,
+      "bias_amplitude": 0.04675160153808555,
+      "i_peak_normalized": 0.30933624960962325,
+      "cycle_multiplier": 0.6811788772383368,
+      "finite_difference_multiplier": 0.6811788770821892,
+      "d_after_200_halves_from_zero_bias": 1.0467516015380853
+    },
+    {
+      "alpha": 1.0471975511965976,
+      "d_fixed": 1.9999999999999996,
+      "bias_amplitude": 0.9999999999999996,
+      "i_peak_normalized": 1.7320508075688767,
+      "cycle_multiplier": 0.24999999999999978,
+      "finite_difference_multiplier": 0.2499999998128999,
+      "d_after_200_halves_from_zero_bias": 1.9999999999999993
+    },
+    {
+      "alpha": 1.5,
+      "d_fixed": 14.136832902969903,
+      "bias_amplitude": 13.136832902969903,
+      "i_peak_normalized": 14.101419947171719,
+      "cycle_multiplier": 0.9800851433251829,
+      "finite_difference_multiplier": 0.9800851419328183,
+      "d_after_200_halves_from_zero_bias": 13.409620536965054
+    }
+  ],
+  "alpha_pi_over_2_counterexample": [
+    {
+      "n_half": 0,
+      "d": 2.0,
+      "end_bias_magnitude": 1.0
+    },
+    {
+      "n_half": 1,
+      "d": 2.82842712474619,
+      "end_bias_magnitude": 1.8284271247461898
+    },
+    {
+      "n_half": 2,
+      "d": 3.4641016151377544,
+      "end_bias_magnitude": 2.4641016151377544
+    },
+    {
+      "n_half": 3,
+      "d": 3.9999999999999996,
+      "end_bias_magnitude": 2.9999999999999996
+    },
+    {
+      "n_half": 4,
+      "d": 4.472135954999579,
+      "end_bias_magnitude": 3.4721359549995787
+    },
+    {
+      "n_half": 5,
+      "d": 4.898979485566356,
+      "end_bias_magnitude": 3.8989794855663558
+    },
+    {
+      "n_half": 6,
+      "d": 5.2915026221291805,
+      "end_bias_magnitude": 4.2915026221291805
+    },
+    {
+      "n_half": 7,
+      "d": 5.65685424949238,
+      "end_bias_magnitude": 4.65685424949238
+    },
+    {
+      "n_half": 8,
+      "d": 5.999999999999999,
+      "end_bias_magnitude": 4.999999999999999
+    }
+  ],
+  "Novelty": "NOT_ESTABLISHED",
+  "PSIM": "NOT_EXECUTED",
+  "Hardware": "NOT_EXECUTED",
+  "Candidate_10": "HOLD / NOT_ASSIGNED"
+}
