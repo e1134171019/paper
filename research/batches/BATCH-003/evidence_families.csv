@@ -1,0 +1,7 @@
+candidate_id,evidence_family,author_group_relation,count_as_independent_l5_family,reason
+PC-CAND-0024,FOROUZESH_QUASI_RESONANT,distinct,yes,"Existing L5; different author group and quasi-resonant coupled-inductor/switched-capacitor topology."
+PC-CAND-0027,SEPAHVANDI_CISC,distinct,yes,"Existing L5; different author group and hard-switched CISC topology."
+PC-CAND-0028,HASANPOUR_TRANSINVERSE,distinct_from_existing_l5,yes,"New L5; trans-inverse soft-switched topology."
+PC-CAND-0029,HASANPOUR_NOURI_QZS,overlaps_0028_family,no,"Strong L4 context, but overlapping Hasanpour research family; also prototype fs not independently text-locked in this pass."
+PC-CAND-0030,MOLAVI_SOFTSWITCH,distinct,yes,"New L5; separate author/evidence family with active-clamp ZVS topology."
+PC-CAND-0031,HEIDARI_BENI_VMC,distinct,no,"Distinct family but held at L4 because exact full-load efficiency scalar was not text-locked."
